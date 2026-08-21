@@ -1,0 +1,833 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Maths Answer Checker — Pages 51–56</title>
+<style>
+  :root {
+    color-scheme: light;
+    --ink: #17324d;
+    --muted: #5e7184;
+    --line: #c9d6e2;
+    --surface: #ffffff;
+    --page: #f4f8fb;
+    --accent: #0b74b8;
+    --accent-dark: #075c93;
+    --good-bg: #e7f7eb;
+    --good-line: #2f8f46;
+    --good-text: #216b34;
+    --bad-bg: #fdecec;
+    --bad-line: #c43b3b;
+    --bad-text: #9d2626;
+    --focus: #ffbf47;
+    --shadow: 0 8px 24px rgba(22, 52, 77, .08);
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--page); }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: var(--ink);
+    background: var(--page);
+    line-height: 1.45;
+  }
+  .wrap {
+    width: min(980px, calc(100% - 28px));
+    margin: 0 auto;
+    padding: 22px 0 44px;
+  }
+  .topbar {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+  h1 {
+    margin: 0;
+    font-size: clamp(1.35rem, 2.5vw, 2rem);
+    letter-spacing: -0.02em;
+  }
+  button {
+    border: 0;
+    border-radius: 12px;
+    padding: 12px 18px;
+    min-height: 48px;
+    font: inherit;
+    font-weight: 750;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+  button:focus-visible,
+  input:focus-visible {
+    outline: 4px solid var(--focus);
+    outline-offset: 2px;
+  }
+  .reset {
+    background: #e9f1f7;
+    color: var(--ink);
+  }
+  .reset:hover { background: #dce9f2; }
+  .submit {
+    width: 100%;
+    margin-top: 22px;
+    background: var(--accent);
+    color: white;
+    font-size: 1.05rem;
+  }
+  .submit:hover { background: var(--accent-dark); }
+  .page-card {
+    background: var(--surface);
+    border: 1px solid #dbe5ed;
+    border-radius: 18px;
+    padding: clamp(18px, 3vw, 28px);
+    margin: 18px 0;
+    box-shadow: var(--shadow);
+  }
+  .page-card h2 {
+    margin: 0 0 18px;
+    font-size: 1.3rem;
+    color: var(--accent-dark);
+  }
+  .answer-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .answer-row {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px;
+    background: #fff;
+    transition: background .15s ease, border-color .15s ease;
+  }
+  .answer-row > label {
+    display: block;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+  .control-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .answer-input {
+    width: 9rem;
+    max-width: 100%;
+    min-height: 46px;
+    border: 2px solid #9fb2c3;
+    border-radius: 10px;
+    padding: 8px 10px;
+    font: inherit;
+    font-size: 1.05rem;
+    color: var(--ink);
+    background: #fff;
+  }
+  .unit {
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .status {
+    min-height: 1.4em;
+    font-weight: 800;
+    font-size: .95rem;
+  }
+  .answer-row.correct {
+    border-color: var(--good-line);
+    background: var(--good-bg);
+  }
+  .answer-row.correct .answer-input {
+    border-color: var(--good-line);
+    background: var(--good-bg);
+  }
+  .answer-row.correct .status { color: var(--good-text); }
+  .answer-row.wrong {
+    border-color: var(--bad-line);
+    background: var(--bad-bg);
+  }
+  .answer-row.wrong .answer-input {
+    border-color: var(--bad-line);
+    background: var(--bad-bg);
+  }
+  .answer-row.wrong .status { color: var(--bad-text); }
+  .summary {
+    margin-top: 16px;
+    min-height: 1.8em;
+    text-align: center;
+    font-weight: 850;
+    font-size: 1.08rem;
+  }
+  .summary.success { color: var(--good-text); }
+  .summary.try { color: var(--ink); }
+  @media (max-width: 680px) {
+    .answer-grid { grid-template-columns: 1fr; }
+    .wrap { width: min(100% - 20px, 980px); padding-top: 14px; }
+    .topbar { align-items: stretch; }
+    .reset { width: 100%; }
+    .answer-input { width: min(11rem, 100%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { scroll-behavior: auto !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="topbar">
+    <h1>Checking answers for pages 51–56</h1>
+    <button type="button" class="reset" id="resetAll">Reset all</button>
+  </div>
+
+  
+    <section class="page-card" aria-labelledby="page-51">
+      <h2 id="page-51">Page 51</h2>
+      <div class="answer-grid">
+        
+        <div class="answer-row" data-item="a1">
+          <label for="a1">1(a)(i)</label>
+          <div class="control-line">
+            <input id="a1" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 1(a)(i)"
+                   aria-describedby="a1-status">
+            
+            <span id="a1-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a2">
+          <label for="a2">1(a)(ii)</label>
+          <div class="control-line">
+            <input id="a2" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 1(a)(ii)"
+                   aria-describedby="a2-status">
+            
+            <span id="a2-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a3">
+          <label for="a3">1(a)(iii)</label>
+          <div class="control-line">
+            <input id="a3" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 1(a)(iii)"
+                   aria-describedby="a3-status">
+            
+            <span id="a3-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a4">
+          <label for="a4">1(b)(i)</label>
+          <div class="control-line">
+            <input id="a4" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 1(b)(i)"
+                   aria-describedby="a4-status">
+            
+            <span id="a4-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a5">
+          <label for="a5">1(b)(ii)</label>
+          <div class="control-line">
+            <input id="a5" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 1(b)(ii)"
+                   aria-describedby="a5-status">
+            
+            <span id="a5-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a6">
+          <label for="a6">1(b)(iii)</label>
+          <div class="control-line">
+            <input id="a6" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 1(b)(iii)"
+                   aria-describedby="a6-status">
+            
+            <span id="a6-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a7">
+          <label for="a7">1(c)(i)</label>
+          <div class="control-line">
+            <input id="a7" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 1(c)(i)"
+                   aria-describedby="a7-status">
+            
+            <span id="a7-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a8">
+          <label for="a8">1(c)(ii)</label>
+          <div class="control-line">
+            <input id="a8" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 1(c)(ii)"
+                   aria-describedby="a8-status">
+            
+            <span id="a8-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a9">
+          <label for="a9">1(c)(iii)</label>
+          <div class="control-line">
+            <input id="a9" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 1(c)(iii)"
+                   aria-describedby="a9-status">
+            
+            <span id="a9-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a10">
+          <label for="a10">1(d)(i)</label>
+          <div class="control-line">
+            <input id="a10" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 1(d)(i)"
+                   aria-describedby="a10-status">
+            
+            <span id="a10-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a11">
+          <label for="a11">1(d)(ii)</label>
+          <div class="control-line">
+            <input id="a11" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 1(d)(ii)"
+                   aria-describedby="a11-status">
+            
+            <span id="a11-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a12">
+          <label for="a12">1(d)(iii)</label>
+          <div class="control-line">
+            <input id="a12" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 1(d)(iii)"
+                   aria-describedby="a12-status">
+            
+            <span id="a12-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+
+    <section class="page-card" aria-labelledby="page-52">
+      <h2 id="page-52">Page 52</h2>
+      <div class="answer-grid">
+        
+        <div class="answer-row" data-item="a13">
+          <label for="a13">2(a)(i)</label>
+          <div class="control-line">
+            <input id="a13" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 2(a)(i) tenths"
+                   aria-describedby="a13-status">
+            <span class="unit" aria-hidden="true">tenths</span>
+            <span id="a13-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a14">
+          <label for="a14">2(a)(ii)</label>
+          <div class="control-line">
+            <input id="a14" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 2(a)(ii)"
+                   aria-describedby="a14-status">
+            
+            <span id="a14-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a15">
+          <label for="a15">2(b)(i)</label>
+          <div class="control-line">
+            <input id="a15" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 2(b)(i) tenths"
+                   aria-describedby="a15-status">
+            <span class="unit" aria-hidden="true">tenths</span>
+            <span id="a15-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a16">
+          <label for="a16">2(b)(ii)</label>
+          <div class="control-line">
+            <input id="a16" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 2(b)(ii)"
+                   aria-describedby="a16-status">
+            
+            <span id="a16-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a17">
+          <label for="a17">2(c)(i)</label>
+          <div class="control-line">
+            <input id="a17" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 2(c)(i) hundredths"
+                   aria-describedby="a17-status">
+            <span class="unit" aria-hidden="true">hundredths</span>
+            <span id="a17-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a18">
+          <label for="a18">2(c)(ii)</label>
+          <div class="control-line">
+            <input id="a18" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 2(c)(ii)"
+                   aria-describedby="a18-status">
+            
+            <span id="a18-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a19">
+          <label for="a19">2(d)(i)</label>
+          <div class="control-line">
+            <input id="a19" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 2(d)(i) hundredths"
+                   aria-describedby="a19-status">
+            <span class="unit" aria-hidden="true">hundredths</span>
+            <span id="a19-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a20">
+          <label for="a20">2(d)(ii)</label>
+          <div class="control-line">
+            <input id="a20" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 2(d)(ii)"
+                   aria-describedby="a20-status">
+            
+            <span id="a20-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a21">
+          <label for="a21">2(e)(i)</label>
+          <div class="control-line">
+            <input id="a21" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 2(e)(i) hundredths"
+                   aria-describedby="a21-status">
+            <span class="unit" aria-hidden="true">hundredths</span>
+            <span id="a21-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a22">
+          <label for="a22">2(e)(ii)</label>
+          <div class="control-line">
+            <input id="a22" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 2(e)(ii)"
+                   aria-describedby="a22-status">
+            
+            <span id="a22-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+
+    <section class="page-card" aria-labelledby="page-53">
+      <h2 id="page-53">Page 53</h2>
+      <div class="answer-grid">
+        
+        <div class="answer-row" data-item="a23">
+          <label for="a23">3(a)</label>
+          <div class="control-line">
+            <input id="a23" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 3(a)"
+                   aria-describedby="a23-status">
+            
+            <span id="a23-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a24">
+          <label for="a24">3(b)</label>
+          <div class="control-line">
+            <input id="a24" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 3(b)"
+                   aria-describedby="a24-status">
+            
+            <span id="a24-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a25">
+          <label for="a25">3(c)</label>
+          <div class="control-line">
+            <input id="a25" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 3(c)"
+                   aria-describedby="a25-status">
+            
+            <span id="a25-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a26">
+          <label for="a26">3(d)</label>
+          <div class="control-line">
+            <input id="a26" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 3(d)"
+                   aria-describedby="a26-status">
+            
+            <span id="a26-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+
+    <section class="page-card" aria-labelledby="page-54">
+      <h2 id="page-54">Page 54</h2>
+      <div class="answer-grid">
+        
+        <div class="answer-row" data-item="a27">
+          <label for="a27">3(e)</label>
+          <div class="control-line">
+            <input id="a27" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 3(e)"
+                   aria-describedby="a27-status">
+            
+            <span id="a27-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a28">
+          <label for="a28">3(f)</label>
+          <div class="control-line">
+            <input id="a28" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 3(f)"
+                   aria-describedby="a28-status">
+            
+            <span id="a28-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a29">
+          <label for="a29">3(g)</label>
+          <div class="control-line">
+            <input id="a29" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 3(g)"
+                   aria-describedby="a29-status">
+            
+            <span id="a29-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a30">
+          <label for="a30">3(h)</label>
+          <div class="control-line">
+            <input id="a30" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 3(h)"
+                   aria-describedby="a30-status">
+            
+            <span id="a30-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+
+    <section class="page-card" aria-labelledby="page-55">
+      <h2 id="page-55">Page 55</h2>
+      <div class="answer-grid">
+        
+        <div class="answer-row" data-item="a31">
+          <label for="a31">4(a)</label>
+          <div class="control-line">
+            <input id="a31" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 4(a)"
+                   aria-describedby="a31-status">
+            
+            <span id="a31-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a32">
+          <label for="a32">4(b)</label>
+          <div class="control-line">
+            <input id="a32" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 4(b)"
+                   aria-describedby="a32-status">
+            
+            <span id="a32-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a33">
+          <label for="a33">4(c)</label>
+          <div class="control-line">
+            <input id="a33" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 4(c)"
+                   aria-describedby="a33-status">
+            
+            <span id="a33-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a34">
+          <label for="a34">4(d)</label>
+          <div class="control-line">
+            <input id="a34" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 4(d)"
+                   aria-describedby="a34-status">
+            
+            <span id="a34-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+
+    <section class="page-card" aria-labelledby="page-56">
+      <h2 id="page-56">Page 56</h2>
+      <div class="answer-grid">
+        
+        <div class="answer-row" data-item="a35">
+          <label for="a35">4(e)</label>
+          <div class="control-line">
+            <input id="a35" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 4(e)"
+                   aria-describedby="a35-status">
+            
+            <span id="a35-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a36">
+          <label for="a36">4(f)</label>
+          <div class="control-line">
+            <input id="a36" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 4(f)"
+                   aria-describedby="a36-status">
+            
+            <span id="a36-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a37">
+          <label for="a37">4(g)</label>
+          <div class="control-line">
+            <input id="a37" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 4(g)"
+                   aria-describedby="a37-status">
+            
+            <span id="a37-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="answer-row" data-item="a38">
+          <label for="a38">4(h)</label>
+          <div class="control-line">
+            <input id="a38" class="answer-input" type="text" inputmode="decimal"
+                   autocomplete="off" spellcheck="false" required
+                   aria-label="Answer for 4(h)"
+                   aria-describedby="a38-status">
+            
+            <span id="a38-status" class="status" aria-live="polite"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+
+  <button type="button" class="submit" id="submitAll">Submit all</button>
+  <div id="summary" class="summary" role="status" aria-live="polite"></div>
+</main>
+
+<script>
+"use strict";
+
+const KEY_B64 = "W3siaWQiOiJhMSIsImFuc3dlciI6IjIifSx7ImlkIjoiYTIiLCJhbnN3ZXIiOiIwLjIifSx7ImlkIjoiYTMiLCJhbnN3ZXIiOiIwLjAyIn0seyJpZCI6ImE0IiwiYW5zd2VyIjoiMiJ9LHsiaWQiOiJhNSIsImFuc3dlciI6IjAuMiJ9LHsiaWQiOiJhNiIsImFuc3dlciI6IjAuMDIifSx7ImlkIjoiYTciLCJhbnN3ZXIiOiIxIn0seyJpZCI6ImE4IiwiYW5zd2VyIjoiMC4xIn0seyJpZCI6ImE5IiwiYW5zd2VyIjoiMC4wMSJ9LHsiaWQiOiJhMTAiLCJhbnN3ZXIiOiIzIn0seyJpZCI6ImExMSIsImFuc3dlciI6IjAuMyJ9LHsiaWQiOiJhMTIiLCJhbnN3ZXIiOiIwLjAzIn0seyJpZCI6ImExMyIsImFuc3dlciI6IjIifSx7ImlkIjoiYTE0IiwiYW5zd2VyIjoiMC4yIn0seyJpZCI6ImExNSIsImFuc3dlciI6IjQifSx7ImlkIjoiYTE2IiwiYW5zd2VyIjoiMC40In0seyJpZCI6ImExNyIsImFuc3dlciI6IjIifSx7ImlkIjoiYTE4IiwiYW5zd2VyIjoiMC4wMiJ9LHsiaWQiOiJhMTkiLCJhbnN3ZXIiOiIzIn0seyJpZCI6ImEyMCIsImFuc3dlciI6IjAuMDMifSx7ImlkIjoiYTIxIiwiYW5zd2VyIjoiNiJ9LHsiaWQiOiJhMjIiLCJhbnN3ZXIiOiIwLjA2In0seyJpZCI6ImEyMyIsImFuc3dlciI6IjEuNCJ9LHsiaWQiOiJhMjQiLCJhbnN3ZXIiOiIyLjMxIn0seyJpZCI6ImEyNSIsImFuc3dlciI6IjEyLjEifSx7ImlkIjoiYTI2IiwiYW5zd2VyIjoiNDIuMSJ9LHsiaWQiOiJhMjciLCJhbnN3ZXIiOiIxLjg3In0seyJpZCI6ImEyOCIsImFuc3dlciI6IjEuMjgifSx7ImlkIjoiYTI5IiwiYW5zd2VyIjoiMC4yNCJ9LHsiaWQiOiJhMzAiLCJhbnN3ZXIiOiI0LjYifSx7ImlkIjoiYTMxIiwiYW5zd2VyIjoiMTAxLjEifSx7ImlkIjoiYTMyIiwiYW5zd2VyIjoiMTAyLjEifSx7ImlkIjoiYTMzIiwiYW5zd2VyIjoiNi45MiJ9LHsiaWQiOiJhMzQiLCJhbnN3ZXIiOiI1LjEyIn0seyJpZCI6ImEzNSIsImFuc3dlciI6IjkuNzQifSx7ImlkIjoiYTM2IiwiYW5zd2VyIjoiMTQ1LjMifSx7ImlkIjoiYTM3IiwiYW5zd2VyIjoiMTUuOTEifSx7ImlkIjoiYTM4IiwiYW5zd2VyIjoiMTMuOTUifV0=";
+
+function decodeKey(encoded) {
+  const text = atob(encoded);
+  return JSON.parse(text);
+}
+
+function normaliseNumber(raw) {
+  const text = String(raw).trim();
+  if (!/^[+-]?(?:\d+(?:\.\d+)?|\.\d+)$/.test(text)) return null;
+
+  let sign = "";
+  let body = text;
+  if (body[0] === "+" || body[0] === "-") {
+    sign = body[0];
+    body = body.slice(1);
+  }
+
+  let [whole, frac = ""] = body.split(".");
+  if (whole === "") whole = "0";
+  whole = whole.replace(/^0+(?=\d)/, "");
+  frac = frac.replace(/0+$/, "");
+
+  if (whole === "") whole = "0";
+  const isZero = whole === "0" && frac === "";
+  if (isZero) sign = "";
+  const core = frac ? whole + "." + frac : whole;
+  return sign === "-" ? "-" + core : core;
+}
+
+function isCorrectValue(raw, expected) {
+  const a = normaliseNumber(raw);
+  const b = normaliseNumber(expected);
+  return a !== null && b !== null && a === b;
+}
+
+function deriveStatus(raw, expected, finalCheck) {
+  const trimmed = String(raw).trim();
+  if (trimmed === "") return finalCheck ? "wrong" : "idle";
+  return isCorrectValue(trimmed, expected) ? "correct" : "wrong";
+}
+
+function statusAfterEdit() {
+  return "idle";
+}
+
+function resetModel(count) {
+  return Array.from({ length: count }, () => ({ value: "", status: "idle" }));
+}
+
+function allCorrect(values, answers) {
+  return values.length === answers.length &&
+    values.every((value, i) => deriveStatus(value, answers[i], true) === "correct");
+}
+
+function applyStatus(row, input, statusNode, status) {
+  row.classList.remove("correct", "wrong");
+  input.removeAttribute("aria-invalid");
+
+  if (status === "correct") {
+    row.classList.add("correct");
+    statusNode.textContent = "Correct!";
+  } else if (status === "wrong") {
+    row.classList.add("wrong");
+    input.setAttribute("aria-invalid", "true");
+    statusNode.textContent = "Not quite. Try again.";
+  } else {
+    statusNode.textContent = "";
+  }
+}
+
+function init() {
+  const key = decodeKey(KEY_B64);
+  const keyMap = new Map(key.map(item => [item.id, item.answer]));
+  const summary = document.getElementById("summary");
+  const inputs = Array.from(document.querySelectorAll(".answer-input"));
+
+  function clearSummary() {
+    summary.textContent = "";
+    summary.className = "summary";
+  }
+
+  function checkInput(input, finalCheck) {
+    const row = input.closest(".answer-row");
+    const statusNode = document.getElementById(input.id + "-status");
+    const expected = keyMap.get(input.id);
+    const status = deriveStatus(input.value, expected, finalCheck);
+    applyStatus(row, input, statusNode, status);
+    return status;
+  }
+
+  inputs.forEach(input => {
+    input.addEventListener("input", () => {
+      const row = input.closest(".answer-row");
+      const statusNode = document.getElementById(input.id + "-status");
+      applyStatus(row, input, statusNode, statusAfterEdit());
+      clearSummary();
+    });
+
+    input.addEventListener("blur", () => {
+      checkInput(input, false);
+    });
+  });
+
+  document.getElementById("resetAll").addEventListener("click", () => {
+    inputs.forEach(input => {
+      input.value = "";
+      const row = input.closest(".answer-row");
+      const statusNode = document.getElementById(input.id + "-status");
+      applyStatus(row, input, statusNode, "idle");
+    });
+    clearSummary();
+    if (inputs[0]) inputs[0].focus();
+  });
+
+  document.getElementById("submitAll").addEventListener("click", () => {
+    let ok = true;
+    let firstProblem = null;
+
+    inputs.forEach(input => {
+      const status = checkInput(input, true);
+      if (status !== "correct") {
+        ok = false;
+        if (!firstProblem) firstProblem = input;
+      }
+    });
+
+    if (ok) {
+      summary.textContent = "You got it all correct! Good job!";
+      summary.className = "summary success";
+    } else {
+      summary.textContent = "Keep going — check the red answers and try again.";
+      summary.className = "summary try";
+      if (firstProblem) firstProblem.focus();
+    }
+  });
+}
+
+if (typeof document !== "undefined") {
+  init();
+}
+</script>
+</body>
+</html>
