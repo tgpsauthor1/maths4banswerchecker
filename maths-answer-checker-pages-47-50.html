@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maths Answer Checker — Pages 47–50</title>
+<style>
+:root{
+  --blue:#0878b9;
+  --blue-dark:#075f93;
+  --bg:#f5fbff;
+  --panel:#ffffff;
+  --text:#17212b;
+  --muted:#5f6b76;
+  --border:#c9d7e3;
+  --good-bg:#e8f7ec;
+  --good-border:#2f8f46;
+  --bad-bg:#fdecec;
+  --bad-border:#c63e3e;
+  --focus:#7bc7f4;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.45;
+}
+header{
+  background:var(--blue);
+  color:white;
+  padding:1rem;
+  position:sticky;
+  top:0;
+  z-index:2;
+  box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+.header-inner{
+  max-width:920px;
+  margin:0 auto;
+  display:flex;
+  gap:1rem;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+}
+h1{
+  font-size:1.25rem;
+  margin:0;
+}
+button{
+  font:inherit;
+  border:0;
+  border-radius:.75rem;
+  padding:.78rem 1rem;
+  cursor:pointer;
+  font-weight:700;
+}
+#resetAll{
+  background:white;
+  color:var(--blue-dark);
+}
+main{
+  max-width:920px;
+  margin:0 auto;
+  padding:1rem;
+}
+.intro{
+  margin:1rem 0;
+  color:var(--muted);
+}
+.page-section{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:1rem;
+  padding:1rem;
+  margin:1rem 0;
+  box-shadow:0 2px 10px rgba(10,72,105,.05);
+}
+.page-section h2{
+  margin:.1rem 0 1rem;
+  color:var(--blue-dark);
+  font-size:1.15rem;
+}
+.question-group{
+  border:1px solid #dde7ef;
+  border-radius:.9rem;
+  padding:.9rem;
+  margin:.8rem 0;
+}
+.question-group:focus-within{
+  outline:3px solid rgba(123,199,244,.35);
+  outline-offset:1px;
+}
+.question-title{
+  margin:0 0 .7rem;
+  font-weight:800;
+}
+.answer-row{
+  display:flex;
+  gap:.65rem;
+  align-items:center;
+  flex-wrap:wrap;
+  margin:.55rem 0;
+}
+.answer-row label{
+  min-width:7.5rem;
+  font-weight:700;
+}
+input[type="text"]{
+  width:9rem;
+  max-width:100%;
+  font:inherit;
+  font-size:1.05rem;
+  border:2px solid var(--border);
+  border-radius:.65rem;
+  padding:.62rem .7rem;
+  background:white;
+  color:var(--text);
+}
+input[type="text"]:focus{
+  outline:3px solid var(--focus);
+  outline-offset:2px;
+}
+input.correct{
+  background:var(--good-bg);
+  border-color:var(--good-border);
+}
+input.incorrect{
+  background:var(--bad-bg);
+  border-color:var(--bad-border);
+}
+.status{
+  min-height:1.35rem;
+  font-weight:800;
+}
+.status.correct{color:#1f7834}
+.status.incorrect{color:#a32929}
+.actions{
+  display:flex;
+  justify-content:center;
+  margin:1.4rem 0 2rem;
+}
+#submitAll{
+  background:var(--blue);
+  color:white;
+  padding:.9rem 1.35rem;
+  min-width:12rem;
+}
+#submitAll:hover,#submitAll:focus-visible{background:var(--blue-dark)}
+#message{
+  max-width:920px;
+  margin:0 auto 1.2rem;
+  padding:0 1rem;
+  font-weight:800;
+  text-align:center;
+  min-height:1.5rem;
+}
+@media (max-width:560px){
+  .answer-row{align-items:flex-start;flex-direction:column}
+  .answer-row label{min-width:0}
+  input[type="text"]{width:100%}
+  header{position:static}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <h1>Checking answers for pages 47–50</h1>
+    <button type="button" id="resetAll">Reset all</button>
+  </div>
+</header>
+
+<main>
+  <p class="intro">Enter each answer. Completed answers are checked when you leave the box.</p>
+
+  <section class="page-section" aria-labelledby="page47">
+    <h2 id="page47">Page 47</h2>
+
+    <div class="question-group" data-group="47-1a">
+      <p class="question-title">1(a)</p>
+      <div class="answer-row"><label for="p47-1a-1">1(a)(i)</label><input id="p47-1a-1" type="text" inputmode="decimal" autocomplete="off"><span class="status" aria-live="polite"></span></div>
+      <div class="answer-row"><label for="p47-1a-2">1(a)(ii)</label><input id="p47-1a-2" type="text" inputmode="decimal" autocomplete="off"><span class="status" aria-live="polite"></span></div>
+      <div class="answer-row"><label for="p47-1a-3">1(a)(iii)</label><input id="p47-1a-3" type="text" inputmode="decimal" autocomplete="off"><span class="status" aria-live="polite"></span></div>
+    </div>
+
+    <div class="question-group" data-group="47-1b">
+      <p class="question-title">1(b)</p>
+      <div class="answer-row"><label for="p47-1b-1">1(b)(i)</label><input id="p47-1b-1" type="text" inputmode="decimal" autocomplete="off"><span class="status" aria-live="polite"></span></div>
+      <div class="answer-row"><label for="p47-1b-2">1(b)(ii)</label><input id="p47-1b-2" type="text" inputmode="decimal" autocomplete="off"><span class="status" aria-live="polite"></span></div>
+      <div class="answer-row"><label for="p47-1b-3">1(b)(iii)</label><input id="p47-1b-3" type="text" inputmode="decimal" autocomplete="off"><span class="status" aria-live="polite"></span></div>
+    </div>
+
+    <div class="question-group" data-group="47-1c">
+      <p class="question-title">1(c)</p>
+      <div class="answer-row"><label for="p47-1c-1">1(c)(i)</label><input id="p47-1c-1" type="text" inputmode="decimal" autocomplete="off"><span class="status" aria-live="polite"></span></div>
+      <div class="answer-row"><label for="p47-1c-2">1(c)(ii)</label><input id="p47-1c-2" type="text" inputmode="decimal" autocomplete="off"><span class="status" aria-live="polite"></span></div>
+      <div class="answer-row"><label for="p47-1c-3">1(c)(iii)</label><input id="p47-1c-3" type="text" inputmode="decimal" autocomplete="off"><span class="status" aria-live="polite"></span></div>
+    </div>
+
+    <div class="question-group" data-group="47-1d">
+      <p class="question-title">1(d)</p>
+      <div class="answer-row"><label for="p47-1d-1">1(d)(i)</label><input id="p47-1d-1" type="text" inputmode="decimal" autocomplete="off"><span class="status" aria-live="polite"></span></div>
+      <div class="answer-row"><label for="p47-1d-2">1(d)(ii)</label><input id="p47-1d-2" type="text" inputmode="decimal" autocomplete="off"><span class="status" aria-live="polite"></span></div>
+      <div class="answer-row"><label for="p47-1d-3">1(d)(iii)</label><input id="p47-1d-3" type="text" inputmode="decimal" autocomplete="off"><span class="status" aria-live="polite"></span></div>
+    </div>
+  </section>
+
+  <section class="page-section" aria-labelledby="page48">
+    <h2 id="page48">Page 48</h2>
+
+    <div class="question-group" data-group="48-2a">
+      <p class="question-title">2(a)</p>
+      <div class="answer-row"><label for="p48-2a-1">2(a)(i)</label><input id="p48-2a-1" type="text" inputmode="decimal" autocomplete="off"><span class="status" aria-live="polite"></span></div>
+      <div class="answer-row"><label for="p48-2a-2">2(a)(ii)</label><input id="p48-2a-2" type="text" inputmode="decimal" autocomplete="off"><span class="status" aria-live="polite"></span></div>
+    </div>
+
+    <div class="question-group" data-group="48-2b">
+      <p class="question-title">2(b)</p>
+      <div class="answer-row"><label for="p48-2b-1">2(b)(i)</label><input id="p48-2b-1" type="text" inputmode="decimal" autocomplete="off"><span class="status" aria-live="polite"></span></div>
+      <div class="answer-row"><label for="p48-2b-2">2(b)(ii)</label><input id="p48-2b-2" type="text" inputmode="decimal" autocomplete="off"><span class="status" aria-live="polite"></span></div>
+    </div>
+
+    <div class="question-group" data-group="48-2c">
+      <p class="question-title">2(c)</p>
+      <div class="answer-row"><label for="p48-2c-1">2(c)(i)</label><input id="p48-2c-1" type="text" inputmode="decimal" autocomplete="off"><span class="status" aria-live="polite"></span></div>
+      <div class="answer-row"><label for="p48-2c-2">2(c)(ii)</label><input id="p48-2c-2" type="text" inputmode="decimal" autocomplete="off"><span class="status" aria-live="polite"></span></div>
+    </div>
+
+    <div class="question-group" data-group="48-2d">
+      <p class="question-title">2(d)</p>
+      <div class="answer-row"><label for="p48-2d-1">2(d)(i)</label><input id="p48-2d-1" type="text" inputmode="decimal" autocomplete="off"><span class="status" aria-live="polite"></span></div>
+      <div class="answer-row"><label for="p48-2d-2">2(d)(ii)</label><input id="p48-2d-2" type="text" inputmode="decimal" autocomplete="off"><span class="status" aria-live="polite"></span></div>
+    </div>
+
+    <div class="question-group" data-group="48-2e">
+      <p class="question-title">2(e)</p>
+      <div class="answer-row"><label for="p48-2e-1">2(e)(i)</label><input id="p48-2e-1" type="text" inputmode="decimal" autocomplete="off"><span class="status" aria-live="polite"></span></div>
+      <div class="answer-row"><label for="p48-2e-2">2(e)(ii)</label><input id="p48-2e-2" type="text" inputmode="decimal" autocomplete="off"><span class="status" aria-live="polite"></span></div>
+    </div>
+  </section>
+
+  <section class="page-section" aria-labelledby="page49">
+    <h2 id="page49">Page 49</h2>
+    <div id="page49-groups"></div>
+  </section>
+
+  <section class="page-section" aria-labelledby="page50">
+    <h2 id="page50">Page 50</h2>
+    <div id="page50-groups"></div>
+  </section>
+
+  <div class="actions">
+    <button type="button" id="submitAll">Submit all</button>
+  </div>
+</main>
+
+<div id="message" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  "use strict";
+
+  const answers = {
+    "p47-1a-1":"6","p47-1a-2":"0.6","p47-1a-3":"0.06",
+    "p47-1b-1":"9","p47-1b-2":"0.9","p47-1b-3":"0.09",
+    "p47-1c-1":"4","p47-1c-2":"0.4","p47-1c-3":"0.04",
+    "p47-1d-1":"4","p47-1d-2":"0.4","p47-1d-3":"0.04",
+    "p48-2a-1":"6","p48-2a-2":"0.6",
+    "p48-2b-1":"10","p48-2b-2":"1",
+    "p48-2c-1":"24","p48-2c-2":"0.24",
+    "p48-2d-1":"35","p48-2d-2":"0.35",
+    "p48-2e-1":"40","p48-2e-2":"0.4",
+    "p49-3a":"0.8","p49-3b":"8.6","p49-3c":"42.06","p49-3d":"37.8",
+    "p49-3e":"11.84","p49-3f":"241.57","p49-3g":"720.9","p49-3h":"2730.5",
+    "p50-4a":"0.68","p50-4b":"83","p50-4c":"3.38","p50-4d":"82.62",
+    "p50-4e":"534.4","p50-4f":"2937.6"
+  };
+
+  const finalItems = {
+    page49:["3(a)","3(b)","3(c)","3(d)","3(e)","3(f)","3(g)","3(h)"],
+    page50:["4(a)","4(b)","4(c)","4(d)","4(e)","4(f)"]
+  };
+
+  function slug(label){
+    return label.replace(/[()]/g,"").replace(/\s+/g,"").toLowerCase();
+  }
+
+  function makeFinalGroups(containerId, pagePrefix, labels){
+    const container = document.getElementById(containerId);
+    labels.forEach(label => {
+      const id = `${pagePrefix}-${slug(label)}`;
+      const group = document.createElement("div");
+      group.className = "question-group";
+      group.dataset.group = id;
+      group.innerHTML =
+        `<p class="question-title">${label}</p>` +
+        `<div class="answer-row">` +
+        `<label for="${id}">${label}</label>` +
+        `<input id="${id}" type="text" inputmode="decimal" autocomplete="off">` +
+        `<span class="status" aria-live="polite"></span>` +
+        `</div>`;
+      container.appendChild(group);
+    });
+  }
+
+  makeFinalGroups("page49-groups","p49",finalItems.page49);
+  makeFinalGroups("page50-groups","p50",finalItems.page50);
+
+  function normalizeDecimal(text){
+    const s = text.trim();
+    if (!/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$/.test(s)) return null;
+    const sign = s.startsWith("-") ? "-" : "";
+    const unsigned = s.replace(/^[+-]/,"");
+    const parts = unsigned.split(".");
+    let whole = parts[0] || "0";
+    let frac = parts[1] || "";
+    whole = whole.replace(/^0+(?=\d)/,"");
+    frac = frac.replace(/0+$/,"");
+    const body = frac ? `${whole}.${frac}` : whole;
+    const zero = /^0(?:\.0*)?$/.test(body);
+    return zero ? "0" : sign + body;
+  }
+
+  function isCorrect(id, value){
+    const given = normalizeDecimal(value);
+    const expected = normalizeDecimal(answers[id]);
+    return given !== null && given === expected;
+  }
+
+  function setState(input, state){
+    const status = input.parentElement.querySelector(".status");
+    input.classList.remove("correct","incorrect");
+    status.classList.remove("correct","incorrect");
+    status.textContent = "";
+    input.removeAttribute("aria-invalid");
+
+    if (state === "correct"){
+      input.classList.add("correct");
+      status.classList.add("correct");
+      status.textContent = "Correct!";
+      input.setAttribute("aria-invalid","false");
+    } else if (state === "incorrect"){
+      input.classList.add("incorrect");
+      status.classList.add("incorrect");
+      status.textContent = "Not quite. Try again.";
+      input.setAttribute("aria-invalid","true");
+    }
+  }
+
+  function checkOne(input, forceBlank){
+    const value = input.value.trim();
+    if (value === ""){
+      if (forceBlank) setState(input,"incorrect");
+      else setState(input,"clear");
+      return false;
+    }
+    const ok = isCorrect(input.id, value);
+    setState(input, ok ? "correct" : "incorrect");
+    return ok;
+  }
+
+  function allInputs(){
+    return [...document.querySelectorAll('input[type="text"]')];
+  }
+
+  function wireInputs(){
+    allInputs().forEach(input => {
+      input.addEventListener("input", () => {
+        if (input.classList.contains("correct") || input.classList.contains("incorrect")){
+          setState(input,"clear");
+        }
+        document.getElementById("message").textContent = "";
+      });
+      input.addEventListener("blur", () => {
+        if (input.value.trim() !== "") checkOne(input,false);
+      });
+      input.addEventListener("change", () => {
+        if (input.value.trim() !== "") checkOne(input,false);
+      });
+    });
+  }
+
+  wireInputs();
+
+  document.getElementById("submitAll").addEventListener("click", () => {
+    let allCorrect = true;
+    allInputs().forEach(input => {
+      if (!checkOne(input,true)) allCorrect = false;
+    });
+    const msg = document.getElementById("message");
+    msg.textContent = allCorrect
+      ? "You got it all correct! Good job!"
+      : "Keep going — check the boxes marked “Not quite. Try again.”";
+    if (!allCorrect){
+      const firstBad = document.querySelector("input.incorrect");
+      if (firstBad) firstBad.focus();
+    }
+  });
+
+  document.getElementById("resetAll").addEventListener("click", () => {
+    allInputs().forEach(input => {
+      input.value = "";
+      setState(input,"clear");
+    });
+    document.getElementById("message").textContent = "";
+    const first = allInputs()[0];
+    if (first) first.focus();
+  });
+})();
+</script>
+</body>
+</html>
