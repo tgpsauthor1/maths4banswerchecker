@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maths Answer Checker — Pages 57–58</title>
+<style>
+  :root {
+    --ink: #18212b;
+    --muted: #5b6875;
+    --blue: #0b78bf;
+    --blue-soft: #eaf6ff;
+    --border: #cbd5df;
+    --ok-bg: #eaf8ef;
+    --ok-border: #2c8a4b;
+    --bad-bg: #fff0f0;
+    --bad-border: #c63c3c;
+    --white: #ffffff;
+    --shadow: 0 8px 24px rgba(22, 44, 66, 0.08);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: var(--ink);
+    background: #f6f9fc;
+    line-height: 1.45;
+  }
+
+  .wrap {
+    width: min(920px, calc(100% - 28px));
+    margin: 0 auto;
+    padding: 24px 0 40px;
+  }
+
+  header {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+  }
+
+  h1 {
+    font-size: clamp(1.45rem, 4vw, 2rem);
+    margin: 0;
+  }
+
+  button {
+    border: 0;
+    border-radius: 12px;
+    padding: 12px 18px;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    min-height: 46px;
+  }
+
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible {
+    outline: 3px solid rgba(11, 120, 191, 0.28);
+    outline-offset: 2px;
+  }
+
+  .reset {
+    color: #0b5d91;
+    background: var(--blue-soft);
+    border: 1px solid #a9d8f5;
+  }
+
+  .submit {
+    width: 100%;
+    color: white;
+    background: var(--blue);
+    margin-top: 8px;
+  }
+
+  .page {
+    background: var(--white);
+    border: 1px solid #dde6ee;
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    padding: 20px;
+    margin: 18px 0;
+  }
+
+  .page h2 {
+    margin: 0 0 16px;
+    font-size: 1.15rem;
+    color: #0b5d91;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .item {
+    border: 2px solid #dde5ec;
+    background: white;
+    border-radius: 16px;
+    padding: 16px;
+    transition: background .15s ease, border-color .15s ease;
+  }
+
+  .item.correct {
+    background: var(--ok-bg);
+    border-color: var(--ok-border);
+  }
+
+  .item.incorrect {
+    background: var(--bad-bg);
+    border-color: var(--bad-border);
+  }
+
+  .item-title {
+    font-weight: 800;
+    margin-bottom: 12px;
+  }
+
+  .controls {
+    display: grid;
+    gap: 10px;
+  }
+
+  .combined {
+    grid-template-columns: minmax(120px, 1fr) minmax(190px, 1.2fr);
+    align-items: end;
+  }
+
+  label {
+    display: grid;
+    gap: 6px;
+    font-weight: 650;
+    color: var(--muted);
+  }
+
+  input,
+  select {
+    width: 100%;
+    min-height: 48px;
+    border: 2px solid var(--border);
+    border-radius: 11px;
+    background: white;
+    color: var(--ink);
+    font: inherit;
+    font-size: 1.05rem;
+    padding: 10px 12px;
+  }
+
+  .item.correct input,
+  .item.correct select {
+    border-color: var(--ok-border);
+    background: #f8fff9;
+  }
+
+  .item.incorrect input,
+  .item.incorrect select {
+    border-color: var(--bad-border);
+    background: #fffafa;
+  }
+
+  .status {
+    min-height: 24px;
+    margin-top: 10px;
+    font-weight: 800;
+  }
+
+  .correct .status { color: #216d3b; }
+  .incorrect .status { color: #a12727; }
+
+  #overall {
+    min-height: 28px;
+    text-align: center;
+    font-weight: 800;
+    font-size: 1.05rem;
+    margin: 16px 0 4px;
+  }
+
+  @media (max-width: 680px) {
+    .grid { grid-template-columns: 1fr; }
+    .combined { grid-template-columns: 1fr; }
+    .page { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>Checking answers for pages 57–58</h1>
+    <button id="resetAll" class="reset" type="button">Reset all</button>
+  </header>
+
+  <section class="page" aria-labelledby="page57">
+    <h2 id="page57">Page 57</h2>
+    <div class="grid">
+      <div class="item" data-item="q5a">
+        <div class="item-title">5(a)</div>
+        <div class="controls">
+          <label>Answer
+            <input inputmode="decimal" autocomplete="off" aria-label="Answer for 5(a)">
+          </label>
+        </div>
+        <div class="status" aria-live="polite"></div>
+      </div>
+
+      <div class="item" data-item="q5b">
+        <div class="item-title">5(b)</div>
+        <div class="controls">
+          <label>Answer
+            <input inputmode="decimal" autocomplete="off" aria-label="Answer for 5(b)">
+          </label>
+        </div>
+        <div class="status" aria-live="polite"></div>
+      </div>
+
+      <div class="item" data-item="q5c">
+        <div class="item-title">5(c)</div>
+        <div class="controls">
+          <label>Answer
+            <input inputmode="decimal" autocomplete="off" aria-label="Answer for 5(c)">
+          </label>
+        </div>
+        <div class="status" aria-live="polite"></div>
+      </div>
+
+      <div class="item" data-item="q5d">
+        <div class="item-title">5(d)</div>
+        <div class="controls">
+          <label>Answer
+            <input inputmode="decimal" autocomplete="off" aria-label="Answer for 5(d)">
+          </label>
+        </div>
+        <div class="status" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" aria-labelledby="page58">
+    <h2 id="page58">Page 58</h2>
+    <div class="grid">
+      <div class="item" data-item="q6a">
+        <div class="item-title">6(a)</div>
+        <div class="controls combined">
+          <label>Answer
+            <input inputmode="decimal" autocomplete="off" aria-label="Answer for 6(a)">
+          </label>
+          <label>Rounding
+            <select aria-label="Rounding for 6(a)">
+              <option value=""></option>
+              <option value="1dp">to 1 decimal place</option>
+              <option value="2dp">to 2 decimal places</option>
+            </select>
+          </label>
+        </div>
+        <div class="status" aria-live="polite"></div>
+      </div>
+
+      <div class="item" data-item="q6b">
+        <div class="item-title">6(b)</div>
+        <div class="controls combined">
+          <label>Answer
+            <input inputmode="decimal" autocomplete="off" aria-label="Answer for 6(b)">
+          </label>
+          <label>Rounding
+            <select aria-label="Rounding for 6(b)">
+              <option value=""></option>
+              <option value="1dp">to 1 decimal place</option>
+              <option value="2dp">to 2 decimal places</option>
+            </select>
+          </label>
+        </div>
+        <div class="status" aria-live="polite"></div>
+      </div>
+
+      <div class="item" data-item="q7a">
+        <div class="item-title">7(a)</div>
+        <div class="controls combined">
+          <label>Answer
+            <input inputmode="decimal" autocomplete="off" aria-label="Answer for 7(a)">
+          </label>
+          <label>Rounding
+            <select aria-label="Rounding for 7(a)">
+              <option value=""></option>
+              <option value="1dp">to 1 decimal place</option>
+              <option value="2dp">to 2 decimal places</option>
+            </select>
+          </label>
+        </div>
+        <div class="status" aria-live="polite"></div>
+      </div>
+
+      <div class="item" data-item="q7b">
+        <div class="item-title">7(b)</div>
+        <div class="controls combined">
+          <label>Answer
+            <input inputmode="decimal" autocomplete="off" aria-label="Answer for 7(b)">
+          </label>
+          <label>Rounding
+            <select aria-label="Rounding for 7(b)">
+              <option value=""></option>
+              <option value="1dp">to 1 decimal place</option>
+              <option value="2dp">to 2 decimal places</option>
+            </select>
+          </label>
+        </div>
+        <div class="status" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <div id="overall" aria-live="polite"></div>
+  <button id="submitAll" class="submit" type="button">Submit all</button>
+</main>
+
+<script>
+(() => {
+  "use strict";
+
+  const ITEMS = {
+    q5a: { kind: "number", canonical: "3.5" },
+    q5b: { kind: "number", canonical: "3.5" },
+    q5c: { kind: "number", canonical: "0.6" },
+    q5d: { kind: "number", canonical: "2.5" },
+    q6a: { kind: "rounded", canonical: "0.8", places: 1, format: "1dp" },
+    q6b: { kind: "rounded", canonical: "5.9", places: 1, format: "1dp" },
+    q7a: { kind: "rounded", canonical: "2.33", places: 2, format: "2dp" },
+    q7b: { kind: "rounded", canonical: "11.57", places: 2, format: "2dp" }
+  };
+
+  function trim(value) {
+    return String(value ?? "").trim();
+  }
+
+  function parsePlainDecimal(raw) {
+    const s = trim(raw);
+    if (!/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$/.test(s)) return null;
+    const n = Number(s);
+    return Number.isFinite(n) ? n : null;
+  }
+
+  function numericEquivalent(raw, canonical) {
+    const a = parsePlainDecimal(raw);
+    const b = parsePlainDecimal(canonical);
+    return a !== null && b !== null && a === b;
+  }
+
+  function exactDecimalPlaces(raw, places) {
+    const s = trim(raw);
+    const re = places === 0
+      ? /^[+-]?\d+$/
+      : new RegExp("^[+-]?\\d+\\.\\d{" + places + "}$");
+    return re.test(s);
+  }
+
+  function evaluateItem(item, rawValue, formatValue, finalSubmit = false) {
+    const raw = trim(rawValue);
+
+    if (item.kind === "number") {
+      if (raw === "") return finalSubmit ? "incorrect" : "blank";
+      return numericEquivalent(raw, item.canonical) ? "correct" : "incorrect";
+    }
+
+    const fmt = trim(formatValue);
+    if (raw === "" || fmt === "") {
+      return finalSubmit ? "incorrect" : "blank";
+    }
+
+    const numberOK =
+      exactDecimalPlaces(raw, item.places) &&
+      numericEquivalent(raw, item.canonical);
+    const formatOK = fmt === item.format;
+
+    return numberOK && formatOK ? "correct" : "incorrect";
+  }
+
+  function neutralAfterEdit() {
+    return "neutral";
+  }
+
+  function resetStates(count) {
+    return Array.from({ length: count }, () => "neutral");
+  }
+
+  function allCorrect(statuses) {
+    return statuses.length > 0 && statuses.every(s => s === "correct");
+  }
+
+  // Expose only pure helpers for local automated QA when no browser UI is present.
+  if (typeof globalThis !== "undefined") {
+    globalThis.__checkerQA = {
+      ITEMS,
+      evaluateItem,
+      neutralAfterEdit,
+      resetStates,
+      allCorrect
+    };
+  }
+
+  if (typeof document === "undefined") return;
+
+  const panels = Array.from(document.querySelectorAll(".item"));
+  const overall = document.getElementById("overall");
+
+  function setNeutral(panel) {
+    panel.classList.remove("correct", "incorrect");
+    panel.querySelector(".status").textContent = "";
+  }
+
+  function showResult(panel, status) {
+    setNeutral(panel);
+    const statusEl = panel.querySelector(".status");
+
+    if (status === "correct") {
+      panel.classList.add("correct");
+      statusEl.textContent = "Correct!";
+    } else if (status === "incorrect") {
+      panel.classList.add("incorrect");
+      statusEl.textContent = "Not quite. Try again.";
+    }
+  }
+
+  function valuesFor(panel) {
+    const input = panel.querySelector("input");
+    const select = panel.querySelector("select");
+    return {
+      raw: input ? input.value : "",
+      format: select ? select.value : ""
+    };
+  }
+
+  function checkPanel(panel, finalSubmit = false) {
+    const key = panel.dataset.item;
+    const vals = valuesFor(panel);
+    const result = evaluateItem(ITEMS[key], vals.raw, vals.format, finalSubmit);
+
+    if (result === "blank" && !finalSubmit) {
+      setNeutral(panel);
+      return result;
+    }
+
+    showResult(panel, result);
+    return result;
+  }
+
+  function clearOverall() {
+    overall.textContent = "";
+  }
+
+  panels.forEach(panel => {
+    const input = panel.querySelector("input");
+    const select = panel.querySelector("select");
+
+    if (input) {
+      input.addEventListener("input", () => {
+        setNeutral(panel);
+        clearOverall();
+      });
+
+      input.addEventListener("blur", () => {
+        checkPanel(panel, false);
+      });
+    }
+
+    if (select) {
+      select.addEventListener("change", () => {
+        setNeutral(panel);
+        clearOverall();
+        checkPanel(panel, false);
+      });
+    }
+  });
+
+  document.getElementById("resetAll").addEventListener("click", () => {
+    panels.forEach(panel => {
+      const input = panel.querySelector("input");
+      const select = panel.querySelector("select");
+      if (input) input.value = "";
+      if (select) select.value = "";
+      setNeutral(panel);
+    });
+    overall.textContent = "";
+  });
+
+  document.getElementById("submitAll").addEventListener("click", () => {
+    const results = panels.map(panel => checkPanel(panel, true));
+    if (allCorrect(results)) {
+      overall.textContent = "You got it all correct! Good job!";
+    } else {
+      overall.textContent = "Keep going — check the red items and try again.";
+    }
+  });
+})();
+</script>
+</body>
+</html>
