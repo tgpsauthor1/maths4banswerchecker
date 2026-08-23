@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Maths Answer Checker — Pages 59–64</title>
+  <style>
+    :root {
+      --blue: #0b76b8;
+      --blue-dark: #075d92;
+      --ink: #1d2a33;
+      --muted: #5f6b73;
+      --line: #dce4e8;
+      --soft: #f5f9fb;
+      --correct-bg: #e8f7ee;
+      --correct-border: #2d8a57;
+      --wrong-bg: #fdecec;
+      --wrong-border: #c43f3f;
+      --focus: #1f6feb;
+      --white: #ffffff;
+      --shadow: 0 8px 24px rgba(20, 61, 83, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { color-scheme: light; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(180deg, #eef7fb 0, #ffffff 180px);
+      color: var(--ink);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+
+    button, input, select { font: inherit; }
+
+    button, input, select {
+      min-height: 46px;
+      border-radius: 12px;
+    }
+
+    button {
+      cursor: pointer;
+      border: 2px solid var(--blue);
+      background: var(--blue);
+      color: white;
+      font-weight: 800;
+      padding: 0.72rem 1rem;
+      touch-action: manipulation;
+    }
+
+    button:hover { background: var(--blue-dark); border-color: var(--blue-dark); }
+
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible {
+      outline: 3px solid rgba(31, 111, 235, 0.28);
+      outline-offset: 2px;
+    }
+
+    .secondary {
+      background: white;
+      color: var(--blue-dark);
+    }
+
+    .secondary:hover {
+      background: #edf7fc;
+      color: var(--blue-dark);
+    }
+
+    .app {
+      width: min(900px, calc(100% - 24px));
+      margin: 0 auto;
+      padding: 24px 0 48px;
+    }
+
+    .topbar {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.5rem, 4vw, 2.1rem);
+      color: var(--blue-dark);
+    }
+
+    .page-card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      margin: 18px 0;
+      overflow: hidden;
+    }
+
+    .page-heading {
+      margin: 0;
+      padding: 13px 18px;
+      background: var(--blue);
+      color: white;
+      font-size: 1.06rem;
+      letter-spacing: 0.01em;
+    }
+
+    .questions {
+      display: grid;
+      gap: 12px;
+      padding: 16px;
+    }
+
+    .item {
+      border: 2px solid var(--line);
+      background: white;
+      border-radius: 16px;
+      padding: 14px;
+      transition: background-color 120ms ease, border-color 120ms ease;
+    }
+
+    .item.correct {
+      background: var(--correct-bg);
+      border-color: var(--correct-border);
+    }
+
+    .item.wrong {
+      background: var(--wrong-bg);
+      border-color: var(--wrong-border);
+    }
+
+    .item-title {
+      margin: 0 0 10px;
+      font-weight: 850;
+      font-size: 1.05rem;
+    }
+
+    .control-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .answer-input {
+      width: min(260px, 100%);
+      padding: 0 12px;
+      border: 2px solid #aebbc3;
+      background: white;
+      color: var(--ink);
+    }
+
+    .answer-input.short {
+      width: min(190px, 65%);
+    }
+
+    select {
+      min-width: 88px;
+      padding: 0 34px 0 12px;
+      border: 2px solid #aebbc3;
+      background: white;
+      color: var(--ink);
+    }
+
+    .control-note {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin: 8px 0 0;
+    }
+
+    .feedback {
+      min-height: 1.45em;
+      margin: 9px 0 0;
+      font-weight: 850;
+    }
+
+    .feedback.correct { color: #17663d; }
+    .feedback.wrong { color: #9b2929; }
+
+    .bottom-actions {
+      display: grid;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    #summary {
+      min-height: 1.6em;
+      margin: 0;
+      text-align: center;
+      font-weight: 900;
+      font-size: 1.05rem;
+    }
+
+    #summary.success { color: #17663d; }
+    #summary.keep-going { color: #7b4b00; }
+
+
+    .sr-only {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+
+    @media (max-width: 520px) {
+      .app { width: min(100% - 16px, 900px); }
+      .topbar { align-items: stretch; }
+      .topbar button { width: 100%; }
+      .questions { padding: 12px; }
+      .answer-input, .answer-input.short, select { width: 100%; }
+      select { min-width: 0; }
+      .control-row { align-items: stretch; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { scroll-behavior: auto !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <div class="topbar">
+      <h1>Checking answers for pages 59–64</h1>
+      <button id="resetAll" class="secondary" type="button">Reset all</button>
+    </div>
+
+    <section class="page-card" aria-labelledby="page59">
+      <h2 class="page-heading" id="page59">Page 59</h2>
+      <div class="questions">
+        <div class="item" data-item="q1">
+          <p class="item-title">Question 1</p>
+          <div class="control-row">
+            <label class="sr-only" for="q1">Question 1 answer</label>
+            <input class="answer-input" id="q1" autocomplete="off" inputmode="decimal" aria-describedby="q1-note q1-feedback">
+          </div>
+          <p class="control-note" id="q1-note">Enter $ and exactly 2 decimal places.</p>
+          <p class="feedback" id="q1-feedback" aria-live="polite"></p>
+        </div>
+
+        <div class="item" data-item="q2">
+          <p class="item-title">Question 2</p>
+          <div class="control-row">
+            <label class="sr-only" for="q2">Question 2 answer</label>
+            <input class="answer-input" id="q2" autocomplete="off" aria-describedby="q2-note q2-feedback">
+          </div>
+          <p class="control-note" id="q2-note">Enter the value with the required unit.</p>
+          <p class="feedback" id="q2-feedback" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-card" aria-labelledby="page60">
+      <h2 class="page-heading" id="page60">Page 60</h2>
+      <div class="questions">
+        <div class="item" data-item="q3a">
+          <p class="item-title">Question 3(a)</p>
+          <div class="control-row">
+            <label class="sr-only" for="q3a">Question 3(a) answer</label>
+            <input class="answer-input" id="q3a" autocomplete="off" inputmode="decimal" aria-describedby="q3a-note q3a-feedback">
+          </div>
+          <p class="control-note" id="q3a-note">Enter $ and exactly 2 decimal places.</p>
+          <p class="feedback" id="q3a-feedback" aria-live="polite"></p>
+        </div>
+
+        <div class="item" data-item="q3b">
+          <p class="item-title">Question 3(b)</p>
+          <div class="control-row">
+            <label class="sr-only" for="q3b">Question 3(b) answer</label>
+            <input class="answer-input" id="q3b" autocomplete="off" inputmode="decimal" aria-describedby="q3b-note q3b-feedback">
+          </div>
+          <p class="control-note" id="q3b-note">Enter $ and exactly 2 decimal places.</p>
+          <p class="feedback" id="q3b-feedback" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-card" aria-labelledby="page61">
+      <h2 class="page-heading" id="page61">Page 61</h2>
+      <div class="questions">
+        <div class="item" data-item="q4a">
+          <p class="item-title">Question 4(a)</p>
+          <div class="control-row">
+            <label class="sr-only" for="q4a">Question 4(a) answer</label>
+            <input class="answer-input" id="q4a" autocomplete="off" aria-describedby="q4a-note q4a-feedback">
+          </div>
+          <p class="control-note" id="q4a-note">Enter the value with the required unit.</p>
+          <p class="feedback" id="q4a-feedback" aria-live="polite"></p>
+        </div>
+
+        <div class="item" data-item="q4b">
+          <p class="item-title">Question 4(b)</p>
+          <div class="control-row">
+            <label class="sr-only" for="q4b">Question 4(b) answer</label>
+            <input class="answer-input" id="q4b" autocomplete="off" aria-describedby="q4b-note q4b-feedback">
+          </div>
+          <p class="control-note" id="q4b-note">Enter the value with the required unit.</p>
+          <p class="feedback" id="q4b-feedback" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-card" aria-labelledby="page62">
+      <h2 class="page-heading" id="page62">Page 62</h2>
+      <div class="questions">
+        <div class="item" data-item="q5i">
+          <p class="item-title">Question 5(i) — Total punch</p>
+          <div class="control-row">
+            <label class="sr-only" for="q5i">Question 5(i) numeric answer</label>
+            <input class="answer-input short" id="q5i" autocomplete="off" inputmode="decimal" aria-describedby="q5i-feedback">
+            <label class="sr-only" for="q5i-unit">Question 5(i) unit</label>
+            <select id="q5i-unit" aria-label="Question 5(i) unit">
+              <option value=""></option>
+              <option value="L">ℓ</option>
+            </select>
+          </div>
+          <p class="feedback" id="q5i-feedback" aria-live="polite"></p>
+        </div>
+
+        <div class="item" data-item="q5ii">
+          <p class="item-title">Question 5(ii) — Per bottle</p>
+          <div class="control-row">
+            <label class="sr-only" for="q5ii">Question 5(ii) numeric answer</label>
+            <input class="answer-input short" id="q5ii" autocomplete="off" inputmode="decimal" aria-describedby="q5ii-feedback">
+            <label class="sr-only" for="q5ii-unit">Question 5(ii) unit</label>
+            <select id="q5ii-unit" aria-label="Question 5(ii) unit">
+              <option value=""></option>
+              <option value="L">ℓ</option>
+            </select>
+          </div>
+          <p class="feedback" id="q5ii-feedback" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-card" aria-labelledby="page63">
+      <h2 class="page-heading" id="page63">Page 63</h2>
+      <div class="questions">
+        <div class="item" data-item="q6i">
+          <p class="item-title">Question 6(i) — One equal unit</p>
+          <div class="control-row">
+            <label class="sr-only" for="q6i">Question 6(i) answer</label>
+            <input class="answer-input" id="q6i" autocomplete="off" aria-describedby="q6i-note q6i-feedback">
+          </div>
+          <p class="control-note" id="q6i-note">Enter the value with the required unit.</p>
+          <p class="feedback" id="q6i-feedback" aria-live="polite"></p>
+        </div>
+
+        <div class="item" data-item="q6ii">
+          <p class="item-title">Question 6(ii) — Longer piece</p>
+          <div class="control-row">
+            <label class="sr-only" for="q6ii">Question 6(ii) answer</label>
+            <input class="answer-input" id="q6ii" autocomplete="off" aria-describedby="q6ii-note q6ii-feedback">
+          </div>
+          <p class="control-note" id="q6ii-note">Enter the value with the required unit.</p>
+          <p class="feedback" id="q6ii-feedback" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-card" aria-labelledby="page64">
+      <h2 class="page-heading" id="page64">Page 64</h2>
+      <div class="questions">
+        <div class="item" data-item="q7i">
+          <p class="item-title">Question 7(i) — Peter's amount</p>
+          <div class="control-row">
+            <label class="sr-only" for="q7i">Question 7(i) numeric answer</label>
+            <input class="answer-input short" id="q7i" autocomplete="off" inputmode="decimal" aria-describedby="q7i-feedback">
+            <label class="sr-only" for="q7i-unit">Question 7(i) unit</label>
+            <select id="q7i-unit" aria-label="Question 7(i) unit">
+              <option value=""></option>
+              <option value="L">ℓ</option>
+            </select>
+          </div>
+          <p class="feedback" id="q7i-feedback" aria-live="polite"></p>
+        </div>
+
+        <div class="item" data-item="q7ii">
+          <p class="item-title">Question 7(ii) — Mark's amount</p>
+          <div class="control-row">
+            <label class="sr-only" for="q7ii">Question 7(ii) numeric answer</label>
+            <input class="answer-input short" id="q7ii" autocomplete="off" inputmode="decimal" aria-describedby="q7ii-feedback">
+            <label class="sr-only" for="q7ii-unit">Question 7(ii) unit</label>
+            <select id="q7ii-unit" aria-label="Question 7(ii) unit">
+              <option value=""></option>
+              <option value="L">ℓ</option>
+            </select>
+          </div>
+          <p class="feedback" id="q7ii-feedback" aria-live="polite"></p>
+        </div>
+
+        <div class="item" data-item="q7iii">
+          <p class="item-title">Question 7(iii) — Total amount</p>
+          <div class="control-row">
+            <label class="sr-only" for="q7iii">Question 7(iii) numeric answer</label>
+            <input class="answer-input short" id="q7iii" autocomplete="off" inputmode="decimal" aria-describedby="q7iii-feedback">
+            <label class="sr-only" for="q7iii-unit">Question 7(iii) unit</label>
+            <select id="q7iii-unit" aria-label="Question 7(iii) unit">
+              <option value=""></option>
+              <option value="L">ℓ</option>
+            </select>
+          </div>
+          <p class="feedback" id="q7iii-feedback" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <div class="bottom-actions">
+      <button id="submitAll" type="button">Submit all</button>
+      <p id="summary" aria-live="polite"></p>
+    </div>
+  </main>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const answerSpec = {
+        q1:   { type: "money", cents: 840 },
+        q2:   { type: "typedUnit", value: "0.71", unit: "m" },
+        q3a:  { type: "money", cents: 5560 },
+        q3b:  { type: "money", cents: 2780 },
+        q4a:  { type: "typedUnit", value: "16.8", unit: "kg" },
+        q4b:  { type: "typedUnit", value: "22.4", unit: "kg" },
+        q5i:  { type: "numberSelectUnit", value: "5.25", unit: "L", unitId: "q5i-unit" },
+        q5ii: { type: "numberSelectUnit", value: "1.05", unit: "L", unitId: "q5ii-unit" },
+        q6i:  { type: "typedUnit", value: "2.6", unit: "m" },
+        q6ii: { type: "typedUnit", value: "7.8", unit: "m" },
+        q7i:  { type: "numberSelectUnit", value: "1.4", unit: "L", unitId: "q7i-unit" },
+        q7ii: { type: "numberSelectUnit", value: "0.7", unit: "L", unitId: "q7ii-unit" },
+        q7iii:{ type: "numberSelectUnit", value: "6.3", unit: "L", unitId: "q7iii-unit" }
+      };
+
+      const itemIds = Object.keys(answerSpec);
+      const summary = document.getElementById("summary");
+
+      function canonicalDecimal(text) {
+        const s = text.trim();
+        if (!/^\d+(?:\.\d+)?$/.test(s)) return null;
+        let [whole, frac = ""] = s.split(".");
+        whole = whole.replace(/^0+(?=\d)/, "");
+        frac = frac.replace(/0+$/, "");
+        return frac ? `${whole}.${frac}` : whole;
+      }
+
+      function parseMoneyCents(text) {
+        const s = text.trim();
+        const match = /^\$\s*(\d+)\.(\d{2})$/.exec(s);
+        if (!match) return null;
+        return (Number(match[1]) * 100) + Number(match[2]);
+      }
+
+      function parseTypedUnit(text) {
+        const s = text.trim().toLowerCase();
+        const match = /^(\d+(?:\.\d+)?)\s*(kg|m)$/.exec(s);
+        if (!match) return null;
+        return { value: canonicalDecimal(match[1]), unit: match[2] };
+      }
+
+      function isComplete(id) {
+        const spec = answerSpec[id];
+        const input = document.getElementById(id);
+        if (spec.type === "numberSelectUnit") {
+          const unit = document.getElementById(spec.unitId);
+          return input.value.trim() !== "" && unit.value !== "";
+        }
+        return input.value.trim() !== "";
+      }
+
+      function isCorrect(id) {
+        const spec = answerSpec[id];
+        const input = document.getElementById(id);
+
+        if (spec.type === "money") {
+          return parseMoneyCents(input.value) === spec.cents;
+        }
+
+        if (spec.type === "typedUnit") {
+          const parsed = parseTypedUnit(input.value);
+          return !!parsed &&
+            parsed.value === canonicalDecimal(spec.value) &&
+            parsed.unit === spec.unit;
+        }
+
+        if (spec.type === "numberSelectUnit") {
+          const parsed = canonicalDecimal(input.value);
+          const unit = document.getElementById(spec.unitId).value;
+          return parsed !== null &&
+            parsed === canonicalDecimal(spec.value) &&
+            unit === spec.unit;
+        }
+
+        return false;
+      }
+
+      function setState(id, state) {
+        const item = document.querySelector(`[data-item="${id}"]`);
+        const feedback = document.getElementById(`${id}-feedback`);
+        item.classList.remove("correct", "wrong");
+        feedback.classList.remove("correct", "wrong");
+
+        if (state === "correct") {
+          item.classList.add("correct");
+          feedback.classList.add("correct");
+          feedback.textContent = "Correct!";
+        } else if (state === "wrong") {
+          item.classList.add("wrong");
+          feedback.classList.add("wrong");
+          feedback.textContent = "Not quite. Try again.";
+        } else {
+          feedback.textContent = "";
+        }
+      }
+
+      function clearSummary() {
+        summary.textContent = "";
+        summary.className = "";
+      }
+
+      function markWhite(id) {
+        setState(id, "white");
+        clearSummary();
+      }
+
+      function checkItem(id, finalCheck = false) {
+        const complete = isComplete(id);
+        if (!complete && !finalCheck) {
+          setState(id, "white");
+          return null;
+        }
+        const correct = complete && isCorrect(id);
+        setState(id, correct ? "correct" : "wrong");
+        return correct;
+      }
+
+      function attachEvents(id) {
+        const spec = answerSpec[id];
+        const input = document.getElementById(id);
+
+        input.addEventListener("input", () => markWhite(id));
+        input.addEventListener("blur", () => checkItem(id, false));
+
+        if (spec.type === "numberSelectUnit") {
+          const unit = document.getElementById(spec.unitId);
+          unit.addEventListener("input", () => markWhite(id));
+          unit.addEventListener("change", () => {
+            markWhite(id);
+            checkItem(id, false);
+          });
+        }
+      }
+
+      itemIds.forEach(attachEvents);
+
+      document.getElementById("submitAll").addEventListener("click", () => {
+        const results = itemIds.map(id => checkItem(id, true));
+        const allCorrect = results.every(Boolean);
+        summary.className = allCorrect ? "success" : "keep-going";
+        summary.textContent = allCorrect
+          ? "You got it all correct! Good job!"
+          : "Keep going — check the red answers and try again.";
+      });
+
+      document.getElementById("resetAll").addEventListener("click", () => {
+        itemIds.forEach(id => {
+          document.getElementById(id).value = "";
+          const spec = answerSpec[id];
+          if (spec.type === "numberSelectUnit") {
+            document.getElementById(spec.unitId).value = "";
+          }
+          setState(id, "white");
+        });
+        clearSummary();
+        document.getElementById("q1").focus();
+      });
+    })();
+  </script>
+
+</body>
+</html>
