@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maths Answer Checker — Pages 77–84</title>
+<style>
+  :root{
+    --blue:#0b72b9;
+    --blue-dark:#07558a;
+    --ink:#1f2937;
+    --muted:#64748b;
+    --border:#cbd5e1;
+    --correct:#dcfce7;
+    --correct-border:#16a34a;
+    --wrong:#fee2e2;
+    --wrong-border:#dc2626;
+    --focus:#f59e0b;
+    --white:#ffffff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    background:#eef6fb;
+    color:var(--ink);
+    line-height:1.45;
+  }
+  .app{width:min(960px, calc(100% - 24px));margin:20px auto 40px}
+  header{
+    background:var(--blue);color:white;border-radius:22px;padding:22px;
+    box-shadow:0 10px 30px rgba(15,23,42,.12);
+  }
+  h1{font-size:clamp(1.5rem,4vw,2.2rem);margin:0 0 16px}
+  .top-actions{display:flex;gap:12px;flex-wrap:wrap}
+  button{
+    min-height:46px;border-radius:12px;border:2px solid transparent;
+    padding:10px 16px;font:inherit;font-weight:700;cursor:pointer;
+  }
+  button:focus-visible,input:focus-visible,select:focus-visible{
+    outline:4px solid rgba(245,158,11,.38);outline-offset:2px;
+  }
+  .secondary{background:white;color:var(--blue-dark)}
+  .primary{background:var(--blue-dark);color:white}
+  .page{
+    margin-top:20px;background:white;border-radius:20px;padding:20px;
+    box-shadow:0 8px 24px rgba(15,23,42,.08);
+  }
+  .page h2{margin:0 0 14px;font-size:1.25rem;color:var(--blue-dark)}
+  .question{
+    border:2px solid var(--border);border-radius:16px;padding:16px;margin:12px 0;
+    background:var(--white);transition:.15s ease;
+  }
+  .question.correct{border-color:var(--correct-border);background:var(--correct)}
+  .question.wrong{border-color:var(--wrong-border);background:var(--wrong)}
+  .qhead{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;
+  }
+  .qlabel{font-weight:800;font-size:1.05rem}
+  .status{min-height:1.5em;font-weight:800}
+  .question.correct .status{color:#166534}
+  .question.wrong .status{color:#991b1b}
+  .controls{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end}
+  .control{display:flex;flex-direction:column;gap:6px;min-width:150px}
+  .control>label{font-weight:700;color:#334155}
+  input[type="text"],select{
+    min-height:46px;border:2px solid var(--border);border-radius:10px;
+    padding:8px 10px;font:inherit;background:white;color:var(--ink);min-width:120px;
+  }
+  select{min-width:130px}
+  .fraction{
+    display:inline-grid;grid-template-rows:auto 2px auto;gap:5px;width:92px;align-items:center;
+  }
+  .fraction input{
+    width:92px;min-width:0;min-height:44px;text-align:center;border:2px solid var(--border);
+    border-radius:10px;padding:6px;font:inherit;background:white;
+  }
+  .fraction-bar{height:2px;background:#334155;width:100%}
+  .pair{display:flex;gap:14px;flex-wrap:wrap}
+  .final{
+    margin-top:20px;background:white;border-radius:20px;padding:20px;
+    box-shadow:0 8px 24px rgba(15,23,42,.08);
+  }
+  .final button{width:100%;font-size:1.05rem}
+  #overall{min-height:1.6em;margin:14px 0 0;text-align:center;font-weight:800;font-size:1.05rem}
+  @media (max-width:600px){
+    .app{width:min(100% - 14px,960px);margin-top:8px}
+    header,.page,.final{border-radius:14px;padding:14px}
+    .question{padding:14px}
+    .control{min-width:100%}
+    input[type="text"],select{width:100%}
+    .fraction{width:100%}
+    .fraction input{width:100%}
+  }
+</style>
+</head>
+<body>
+<main class="app">
+  <header>
+    <h1>Checking answers for pages 77–84</h1>
+    <div class="top-actions">
+      <button type="button" id="resetAll" class="secondary">Reset all</button>
+    </div>
+  </header>
+
+  <section class="page" aria-labelledby="p77">
+    <h2 id="p77">Page 77</h2>
+    <div class="question" data-item="p77q1">
+      <div class="qhead"><div class="qlabel">1</div><div class="status" aria-live="polite"></div></div>
+      <div class="control">
+        <label for="p77q1">Answer</label>
+        <select id="p77q1" data-field="choice"><option value=""></option><option>A</option><option>B</option><option>C</option><option>D</option></select>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" aria-labelledby="p78">
+    <h2 id="p78">Page 78</h2>
+    <div class="question" data-item="p78q2ai">
+      <div class="qhead"><div class="qlabel">2(a)(i)</div><div class="status" aria-live="polite"></div></div>
+      <div class="fraction"><input type="text" inputmode="numeric" aria-label="Numerator for 2(a)(i)" data-field="num"><div class="fraction-bar"></div><input type="text" inputmode="numeric" aria-label="Denominator for 2(a)(i)" data-field="den"></div>
+    </div>
+    <div class="question" data-item="p78q2aii">
+      <div class="qhead"><div class="qlabel">2(a)(ii)</div><div class="status" aria-live="polite"></div></div>
+      <div class="fraction"><input type="text" inputmode="numeric" aria-label="Numerator for 2(a)(ii)" data-field="num"><div class="fraction-bar"></div><input type="text" inputmode="numeric" aria-label="Denominator for 2(a)(ii)" data-field="den"></div>
+    </div>
+    <div class="question" data-item="p78q2aiii">
+      <div class="qhead"><div class="qlabel">2(a)(iii)</div><div class="status" aria-live="polite"></div></div>
+      <div class="fraction"><input type="text" inputmode="numeric" aria-label="Numerator for 2(a)(iii)" data-field="num"><div class="fraction-bar"></div><input type="text" inputmode="numeric" aria-label="Denominator for 2(a)(iii)" data-field="den"></div>
+    </div>
+    <div class="question" data-item="p78q2aiv">
+      <div class="qhead"><div class="qlabel">2(a)(iv)</div><div class="status" aria-live="polite"></div></div>
+      <div class="fraction"><input type="text" inputmode="numeric" aria-label="Numerator for 2(a)(iv)" data-field="num"><div class="fraction-bar"></div><input type="text" inputmode="numeric" aria-label="Denominator for 2(a)(iv)" data-field="den"></div>
+    </div>
+    <div class="question" data-item="p78q2b">
+      <div class="qhead"><div class="qlabel">2(b)</div><div class="status" aria-live="polite"></div></div>
+      <div class="control"><label for="p78q2b">Answer</label><select id="p78q2b" data-field="choice"><option value=""></option><option>A</option><option>B</option><option>C</option><option>D</option></select></div>
+    </div>
+  </section>
+
+  <section class="page" aria-labelledby="p79">
+    <h2 id="p79">Page 79</h2>
+    <div class="question" data-item="p79q3ai">
+      <div class="qhead"><div class="qlabel">3(a)(i)</div><div class="status" aria-live="polite"></div></div>
+      <div class="fraction"><input type="text" inputmode="numeric" aria-label="Numerator for 3(a)(i)" data-field="num"><div class="fraction-bar"></div><input type="text" inputmode="numeric" aria-label="Denominator for 3(a)(i)" data-field="den"></div>
+    </div>
+    <div class="question" data-item="p79q3aii">
+      <div class="qhead"><div class="qlabel">3(a)(ii)</div><div class="status" aria-live="polite"></div></div>
+      <div class="fraction"><input type="text" inputmode="numeric" aria-label="Numerator for 3(a)(ii)" data-field="num"><div class="fraction-bar"></div><input type="text" inputmode="numeric" aria-label="Denominator for 3(a)(ii)" data-field="den"></div>
+    </div>
+    <div class="question" data-item="p79q3aiii">
+      <div class="qhead"><div class="qlabel">3(a)(iii)</div><div class="status" aria-live="polite"></div></div>
+      <div class="fraction"><input type="text" inputmode="numeric" aria-label="Numerator for 3(a)(iii)" data-field="num"><div class="fraction-bar"></div><input type="text" inputmode="numeric" aria-label="Denominator for 3(a)(iii)" data-field="den"></div>
+    </div>
+    <div class="question" data-item="p79q3aiv">
+      <div class="qhead"><div class="qlabel">3(a)(iv)</div><div class="status" aria-live="polite"></div></div>
+      <div class="fraction"><input type="text" inputmode="numeric" aria-label="Numerator for 3(a)(iv)" data-field="num"><div class="fraction-bar"></div><input type="text" inputmode="numeric" aria-label="Denominator for 3(a)(iv)" data-field="den"></div>
+    </div>
+
+    <div class="question" data-item="p79q3bi">
+      <div class="qhead"><div class="qlabel">3(b)(i)</div><div class="status" aria-live="polite"></div></div>
+      <div class="control"><label for="p79q3bi">Answer</label><input id="p79q3bi" type="text" autocomplete="off" data-field="text"></div>
+    </div>
+    <div class="question" data-item="p79q3bii">
+      <div class="qhead"><div class="qlabel">3(b)(ii)</div><div class="status" aria-live="polite"></div></div>
+      <div class="fraction"><input type="text" inputmode="numeric" aria-label="Numerator for 3(b)(ii)" data-field="num"><div class="fraction-bar"></div><input type="text" inputmode="numeric" aria-label="Denominator for 3(b)(ii)" data-field="den"></div>
+    </div>
+    <div class="question" data-item="p79q3biii">
+      <div class="qhead"><div class="qlabel">3(b)(iii)</div><div class="status" aria-live="polite"></div></div>
+      <div class="control"><label for="p79q3biii">Answer</label><input id="p79q3biii" type="text" autocomplete="off" data-field="text"></div>
+    </div>
+    <div class="question" data-item="p79q3biv">
+      <div class="qhead"><div class="qlabel">3(b)(iv)</div><div class="status" aria-live="polite"></div></div>
+      <div class="fraction"><input type="text" inputmode="numeric" aria-label="Numerator for 3(b)(iv)" data-field="num"><div class="fraction-bar"></div><input type="text" inputmode="numeric" aria-label="Denominator for 3(b)(iv)" data-field="den"></div>
+    </div>
+
+    <div class="question" data-item="p79q3c">
+      <div class="qhead"><div class="qlabel">3(c)</div><div class="status" aria-live="polite"></div></div>
+      <div class="fraction"><input type="text" inputmode="numeric" aria-label="Numerator for 3(c)" data-field="num"><div class="fraction-bar"></div><input type="text" inputmode="numeric" aria-label="Denominator for 3(c)" data-field="den"></div>
+    </div>
+    <div class="question" data-item="p79q3d">
+      <div class="qhead"><div class="qlabel">3(d)</div><div class="status" aria-live="polite"></div></div>
+      <div class="control"><label for="p79q3d">Answer</label><input id="p79q3d" type="text" autocomplete="off" data-field="text"></div>
+    </div>
+    <div class="question" data-item="p79q3e">
+      <div class="qhead"><div class="qlabel">3(e)</div><div class="status" aria-live="polite"></div></div>
+      <div class="control"><label for="p79q3e">Answer</label><input id="p79q3e" type="text" autocomplete="off" data-field="text"></div>
+    </div>
+  </section>
+
+  <section class="page" aria-labelledby="p80">
+    <h2 id="p80">Page 80</h2>
+    <div class="question" data-item="p80q4a">
+      <div class="qhead"><div class="qlabel">4(a)</div><div class="status" aria-live="polite"></div></div>
+      <div class="control"><label for="p80q4a">Answer</label><input id="p80q4a" type="text" autocomplete="off" data-field="text"></div>
+    </div>
+    <div class="question" data-item="p80q4b">
+      <div class="qhead"><div class="qlabel">4(b)</div><div class="status" aria-live="polite"></div></div>
+      <div class="control"><label for="p80q4b">Answer</label><input id="p80q4b" type="text" autocomplete="off" data-field="text"></div>
+    </div>
+    <div class="question" data-item="p80q4c">
+      <div class="qhead"><div class="qlabel">4(c)</div><div class="status" aria-live="polite"></div></div>
+      <div class="pair">
+        <div class="control"><label for="p80q4ci">4(c)(i)</label><input id="p80q4ci" type="text" autocomplete="off" data-field="first"></div>
+        <div class="control"><label for="p80q4cii">4(c)(ii)</label><input id="p80q4cii" type="text" autocomplete="off" data-field="second"></div>
+      </div>
+    </div>
+    <div class="question" data-item="p80q4d">
+      <div class="qhead"><div class="qlabel">4(d)</div><div class="status" aria-live="polite"></div></div>
+      <div class="pair">
+        <div class="control"><label for="p80q4di">4(d)(i)</label><input id="p80q4di" type="text" autocomplete="off" data-field="first"></div>
+        <div class="control"><label for="p80q4dii">4(d)(ii)</label><input id="p80q4dii" type="text" autocomplete="off" data-field="second"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" aria-labelledby="p81">
+    <h2 id="p81">Page 81</h2>
+    <div class="question" data-item="p81q5a">
+      <div class="qhead"><div class="qlabel">5(a)</div><div class="status" aria-live="polite"></div></div>
+      <div class="control"><label for="p81q5a">Answer</label><input id="p81q5a" type="text" autocomplete="off" data-field="text"></div>
+    </div>
+    <div class="question" data-item="p81q5b">
+      <div class="qhead"><div class="qlabel">5(b)</div><div class="status" aria-live="polite"></div></div>
+      <div class="control"><label for="p81q5b">Answer</label><input id="p81q5b" type="text" inputmode="decimal" data-field="number"></div>
+    </div>
+    <div class="question" data-item="p81q5c">
+      <div class="qhead"><div class="qlabel">5(c)</div><div class="status" aria-live="polite"></div></div>
+      <div class="control"><label for="p81q5c">Answer</label><input id="p81q5c" type="text" inputmode="decimal" data-field="number"></div>
+    </div>
+    <div class="question" data-item="p81q5d">
+      <div class="qhead"><div class="qlabel">5(d)</div><div class="status" aria-live="polite"></div></div>
+      <div class="fraction"><input type="text" inputmode="numeric" aria-label="Numerator for 5(d)" data-field="num"><div class="fraction-bar"></div><input type="text" inputmode="numeric" aria-label="Denominator for 5(d)" data-field="den"></div>
+    </div>
+  </section>
+
+  <section class="page" aria-labelledby="p82">
+    <h2 id="p82">Page 82</h2>
+    <div class="question" data-item="p82q6a">
+      <div class="qhead"><div class="qlabel">6(a)</div><div class="status" aria-live="polite"></div></div>
+      <div class="fraction"><input type="text" inputmode="numeric" aria-label="Numerator for 6(a)" data-field="num"><div class="fraction-bar"></div><input type="text" inputmode="numeric" aria-label="Denominator for 6(a)" data-field="den"></div>
+    </div>
+    <div class="question" data-item="p82q6b">
+      <div class="qhead"><div class="qlabel">6(b)</div><div class="status" aria-live="polite"></div></div>
+      <div class="control"><label for="p82q6b">Answer</label><input id="p82q6b" type="text" inputmode="decimal" data-field="number"></div>
+    </div>
+    <div class="question" data-item="p82q6c">
+      <div class="qhead"><div class="qlabel">6(c)</div><div class="status" aria-live="polite"></div></div>
+      <div class="control"><label for="p82q6c">Answer</label><input id="p82q6c" type="text" inputmode="decimal" data-field="number"></div>
+    </div>
+    <div class="question" data-item="p82q6d">
+      <div class="qhead"><div class="qlabel">6(d)</div><div class="status" aria-live="polite"></div></div>
+      <div class="fraction"><input type="text" inputmode="numeric" aria-label="Numerator for 6(d)" data-field="num"><div class="fraction-bar"></div><input type="text" inputmode="numeric" aria-label="Denominator for 6(d)" data-field="den"></div>
+    </div>
+    <div class="question" data-item="p82q6e">
+      <div class="qhead"><div class="qlabel">6(e)</div><div class="status" aria-live="polite"></div></div>
+      <div class="fraction"><input type="text" inputmode="numeric" aria-label="Numerator for 6(e)" data-field="num"><div class="fraction-bar"></div><input type="text" inputmode="numeric" aria-label="Denominator for 6(e)" data-field="den"></div>
+    </div>
+    <div class="question" data-item="p82q6f">
+      <div class="qhead"><div class="qlabel">6(f)</div><div class="status" aria-live="polite"></div></div>
+      <div class="control"><label for="p82q6f">Answer</label><input id="p82q6f" type="text" inputmode="decimal" data-field="number"></div>
+    </div>
+  </section>
+
+  <section class="page" aria-labelledby="p83">
+    <h2 id="p83">Page 83</h2>
+    <div class="question" data-item="p83q7a">
+      <div class="qhead"><div class="qlabel">7(a)</div><div class="status" aria-live="polite"></div></div>
+      <div class="pair">
+        <div class="control"><label for="p83q7ai">7(a)(i)</label><input id="p83q7ai" type="text" autocomplete="off" data-field="first"></div>
+        <div class="control"><label for="p83q7aii">7(a)(ii)</label><input id="p83q7aii" type="text" autocomplete="off" data-field="second"></div>
+      </div>
+    </div>
+    <div class="question" data-item="p83q7b">
+      <div class="qhead"><div class="qlabel">7(b)</div><div class="status" aria-live="polite"></div></div>
+      <div class="control"><label for="p83q7b">Answer</label><input id="p83q7b" type="text" inputmode="decimal" data-field="number"></div>
+    </div>
+    <div class="question" data-item="p83q7c">
+      <div class="qhead"><div class="qlabel">7(c)</div><div class="status" aria-live="polite"></div></div>
+      <div class="control"><label for="p83q7c">Answer</label><input id="p83q7c" type="text" inputmode="decimal" data-field="number"></div>
+    </div>
+    <div class="question" data-item="p83q7d">
+      <div class="qhead"><div class="qlabel">7(d)</div><div class="status" aria-live="polite"></div></div>
+      <div class="control"><label for="p83q7d">Answer</label><input id="p83q7d" type="text" inputmode="decimal" data-field="number"></div>
+    </div>
+    <div class="question" data-item="p83q7e">
+      <div class="qhead"><div class="qlabel">7(e)</div><div class="status" aria-live="polite"></div></div>
+      <div class="control"><label for="p83q7e">Answer</label><input id="p83q7e" type="text" inputmode="decimal" data-field="number"></div>
+    </div>
+  </section>
+
+  <section class="page" aria-labelledby="p84">
+    <h2 id="p84">Page 84</h2>
+    <div class="question" data-item="p84q8a">
+      <div class="qhead"><div class="qlabel">8(a)</div><div class="status" aria-live="polite"></div></div>
+      <div class="fraction"><input type="text" inputmode="numeric" aria-label="Numerator for 8(a)" data-field="num"><div class="fraction-bar"></div><input type="text" inputmode="numeric" aria-label="Denominator for 8(a)" data-field="den"></div>
+    </div>
+    <div class="question" data-item="p84q8b">
+      <div class="qhead"><div class="qlabel">8(b)</div><div class="status" aria-live="polite"></div></div>
+      <div class="control"><label for="p84q8b">Answer</label><input id="p84q8b" type="text" inputmode="decimal" data-field="number"></div>
+    </div>
+    <div class="question" data-item="p84q8c">
+      <div class="qhead"><div class="qlabel">8(c)</div><div class="status" aria-live="polite"></div></div>
+      <div class="control"><label for="p84q8c">Answer</label><input id="p84q8c" type="text" inputmode="decimal" data-field="number"></div>
+    </div>
+    <div class="question" data-item="p84q8d">
+      <div class="qhead"><div class="qlabel">8(d)</div><div class="status" aria-live="polite"></div></div>
+      <div class="fraction"><input type="text" inputmode="numeric" aria-label="Numerator for 8(d)" data-field="num"><div class="fraction-bar"></div><input type="text" inputmode="numeric" aria-label="Denominator for 8(d)" data-field="den"></div>
+    </div>
+    <div class="question" data-item="p84q8e">
+      <div class="qhead"><div class="qlabel">8(e)</div><div class="status" aria-live="polite"></div></div>
+      <div class="fraction"><input type="text" inputmode="numeric" aria-label="Numerator for 8(e)" data-field="num"><div class="fraction-bar"></div><input type="text" inputmode="numeric" aria-label="Denominator for 8(e)" data-field="den"></div>
+    </div>
+  </section>
+
+  <section class="final">
+    <button type="button" id="submitAll" class="primary">Submit all</button>
+    <div id="overall" aria-live="polite"></div>
+  </section>
+</main>
+
+<script>
+(() => {
+  "use strict";
+
+  const ITEMS = {
+    p77q1:{type:"choice",value:"C"},
+    p78q2ai:{type:"fractionExact",num:9,den:30},
+    p78q2aii:{type:"fractionExact",num:12,den:30},
+    p78q2aiii:{type:"fractionExact",num:3,den:30},
+    p78q2aiv:{type:"fractionExact",num:6,den:30},
+    p78q2b:{type:"choice",value:"D"},
+
+    p79q3ai:{type:"fractionExact",num:40,den:100},
+    p79q3aii:{type:"fractionExact",num:10,den:100},
+    p79q3aiii:{type:"fractionExact",num:30,den:100},
+    p79q3aiv:{type:"fractionExact",num:100,den:100},
+    p79q3bi:{type:"text",value:"Dancing"},
+    p79q3bii:{type:"fractionExact",num:30,den:100},
+    p79q3biii:{type:"text",value:"Painting"},
+    p79q3biv:{type:"fractionExact",num:10,den:100},
+    p79q3c:{type:"fractionEquivalent",num:40,den:100},
+    p79q3d:{type:"text",value:"Cycling"},
+    p79q3e:{type:"text",value:"Painting"},
+
+    p80q4a:{type:"text",value:"Horror"},
+    p80q4b:{type:"text",value:"Fantasy"},
+    p80q4c:{type:"unorderedPair",values:["Mystery","Adventure"]},
+    p80q4d:{type:"orderedPairSet",values:[
+      ["Fantasy","Horror"],["Fantasy","Mystery"],["Fantasy","Adventure"],
+      ["Mystery","Horror"],["Adventure","Horror"]
+    ]},
+
+    p81q5a:{type:"text",value:"MRT train"},
+    p81q5b:{type:"number",value:"14"},
+    p81q5c:{type:"number",value:"4"},
+    p81q5d:{type:"fractionEquivalent",num:8,den:40},
+
+    p82q6a:{type:"fractionEquivalent",num:1,den:2},
+    p82q6b:{type:"number",value:"80"},
+    p82q6c:{type:"number",value:"20"},
+    p82q6d:{type:"fractionEquivalent",num:24,den:80},
+    p82q6e:{type:"fractionEquivalent",num:16,den:80},
+    p82q6f:{type:"number",value:"14"},
+
+    p83q7a:{type:"unorderedPair",values:["Soccer","Basketball"]},
+    p83q7b:{type:"number",value:"25"},
+    p83q7c:{type:"number",value:"75"},
+    p83q7d:{type:"number",value:"50"},
+    p83q7e:{type:"number",value:"50"},
+
+    p84q8a:{type:"fractionEquivalent",num:1,den:4},
+    p84q8b:{type:"number",value:"25"},
+    p84q8c:{type:"number",value:"60"},
+    p84q8d:{type:"fractionEquivalent",num:2,den:5},
+    p84q8e:{type:"fractionEquivalent",num:3,den:20}
+  };
+
+  const allQuestions=[...document.querySelectorAll(".question")];
+  const overall=document.getElementById("overall");
+
+  function normText(s){return s.trim().replace(/\s+/g," ").toLowerCase()}
+
+  function parseUnsignedInteger(s){
+    const t=s.trim();
+    if(!/^\d+$/.test(t))return null;
+    if(t.length>1&&t.startsWith("0"))return null;
+    return BigInt(t);
+  }
+
+  function parseDecimalStrict(s){
+    const t=s.trim();
+    if(!t)return null;
+    const m=t.match(/^([+-]?)(\d+)(?:\.(\d+))?$/);
+    if(!m)return null;
+    const sign=m[1]==="-"?-1n:1n;
+    const intPart=m[2],fracPart=m[3]||"";
+    if(intPart.length>1&&intPart.startsWith("0"))return null;
+    const digits=(intPart+fracPart).replace(/^0+(?=\d)/,"");
+    return {sign,digits:BigInt(digits||"0"),scale:fracPart.length};
+  }
+
+  function decimalEqualsInteger(input,expectedIntegerString){
+    const p=parseDecimalStrict(input);
+    if(!p)return false;
+    const expected=BigInt(expectedIntegerString);
+    const scaleFactor=10n**BigInt(p.scale);
+    return p.sign*p.digits===expected*scaleFactor;
+  }
+
+  function getFields(q){
+    const obj={};
+    q.querySelectorAll("[data-field]").forEach(el=>obj[el.dataset.field]=el.value);
+    return obj;
+  }
+
+  function isComplete(q){
+    return [...q.querySelectorAll("[data-field]")].every(el=>el.value.trim()!=="");
+  }
+
+  function validate(q){
+    const item=ITEMS[q.dataset.item];
+    const f=getFields(q);
+
+    if(item.type==="choice")return f.choice===item.value;
+    if(item.type==="text")return normText(f.text)===normText(item.value);
+    if(item.type==="number")return decimalEqualsInteger(f.number,item.value);
+
+    if(item.type==="fractionExact"){
+      const n=parseUnsignedInteger(f.num),d=parseUnsignedInteger(f.den);
+      return n!==null&&d!==null&&d!==0n&&n===BigInt(item.num)&&d===BigInt(item.den);
+    }
+
+    if(item.type==="fractionEquivalent"){
+      const n=parseUnsignedInteger(f.num),d=parseUnsignedInteger(f.den);
+      if(n===null||d===null||d===0n)return false;
+      return n*BigInt(item.den)===BigInt(item.num)*d;
+    }
+
+    if(item.type==="unorderedPair"){
+      const a=normText(f.first),b=normText(f.second);
+      const x=normText(item.values[0]),y=normText(item.values[1]);
+      return (a===x&&b===y)||(a===y&&b===x);
+    }
+
+    if(item.type==="orderedPairSet"){
+      const a=normText(f.first),b=normText(f.second);
+      return item.values.some(pair=>a===normText(pair[0])&&b===normText(pair[1]));
+    }
+    return false;
+  }
+
+  function setState(q,state){
+    q.classList.remove("correct","wrong");
+    const status=q.querySelector(".status");
+    if(state==="correct"){
+      q.classList.add("correct");
+      status.textContent="Correct!";
+    }else if(state==="wrong"){
+      q.classList.add("wrong");
+      status.textContent="Not quite. Try again.";
+    }else{
+      status.textContent="";
+    }
+  }
+
+  function ordinaryCheck(q){
+    if(!isComplete(q)){setState(q,"blank");return}
+    setState(q,validate(q)?"correct":"wrong");
+  }
+
+  function finalCheck(q){
+    if(!isComplete(q)){setState(q,"wrong");return false}
+    const ok=validate(q);
+    setState(q,ok?"correct":"wrong");
+    return ok;
+  }
+
+  allQuestions.forEach(q=>{
+    q.querySelectorAll("[data-field]").forEach(el=>{
+      el.addEventListener("input",()=>{
+        if(q.classList.contains("correct")||q.classList.contains("wrong"))setState(q,"blank");
+        overall.textContent="";
+      });
+      if(el.tagName==="SELECT"){
+        el.addEventListener("change",()=>ordinaryCheck(q));
+      }else{
+        el.addEventListener("blur",()=>ordinaryCheck(q));
+      }
+    });
+  });
+
+  document.getElementById("resetAll").addEventListener("click",()=>{
+    document.querySelectorAll("[data-field]").forEach(el=>{el.value=""});
+    allQuestions.forEach(q=>setState(q,"blank"));
+    overall.textContent="";
+    const first=document.querySelector("[data-field]");
+    if(first)first.focus();
+  });
+
+  document.getElementById("submitAll").addEventListener("click",()=>{
+    const results=allQuestions.map(finalCheck);
+    if(results.every(Boolean)){
+      overall.textContent="You got it all correct! Good job!";
+    }else{
+      overall.textContent="Keep going — check the red responses and try again.";
+      const firstWrong=allQuestions.find(q=>q.classList.contains("wrong"));
+      if(firstWrong)firstWrong.scrollIntoView({behavior:"smooth",block:"center"});
+    }
+  });
+})();
+</script>
+</body>
+</html>
