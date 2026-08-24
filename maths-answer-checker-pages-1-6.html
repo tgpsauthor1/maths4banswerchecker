@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maths Answer Checker — Pages 1–6</title>
+<style>
+  :root{
+    --bg:#f5f9ff;
+    --panel:#ffffff;
+    --ink:#16324a;
+    --muted:#5f7387;
+    --brand:#0b74b9;
+    --brand-dark:#075b91;
+    --line:#c9d8e6;
+    --good-bg:#e8f7ec;
+    --good-border:#2f8f4e;
+    --good-text:#1d6c38;
+    --bad-bg:#fdecec;
+    --bad-border:#c93e3e;
+    --bad-text:#9f2525;
+    --focus:#ffb703;
+    --shadow:0 8px 24px rgba(20, 67, 107, .08);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    color:var(--ink);
+    background:var(--bg);
+    line-height:1.45;
+  }
+
+  .app{
+    width:min(100%, 980px);
+    margin:0 auto;
+    padding:20px 16px 44px;
+  }
+
+  .topbar{
+    display:flex;
+    gap:12px;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    margin-bottom:18px;
+  }
+
+  h1{
+    font-size:clamp(1.45rem, 4vw, 2rem);
+    margin:0;
+    color:var(--brand-dark);
+  }
+
+  .btn{
+    appearance:none;
+    border:0;
+    border-radius:14px;
+    min-height:48px;
+    padding:12px 18px;
+    font:inherit;
+    font-weight:800;
+    cursor:pointer;
+    touch-action:manipulation;
+  }
+
+  .btn:focus-visible,
+  input:focus-visible{
+    outline:3px solid var(--focus);
+    outline-offset:2px;
+  }
+
+  .reset-btn{
+    background:#e9f1f8;
+    color:var(--brand-dark);
+    border:2px solid #bdd1e2;
+  }
+
+  .submit-btn{
+    width:100%;
+    margin-top:8px;
+    background:var(--brand);
+    color:white;
+    font-size:1.05rem;
+    box-shadow:var(--shadow);
+  }
+
+  .reset-btn:hover{background:#ddeaf4}
+  .submit-btn:hover{background:var(--brand-dark)}
+
+  .page{
+    background:var(--panel);
+    border:1px solid #dbe6ef;
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:20px;
+    margin:18px 0;
+  }
+
+  .page h2{
+    margin:0 0 14px;
+    color:var(--brand-dark);
+    font-size:1.25rem;
+  }
+
+  .question{
+    border-top:1px solid #e6eef5;
+    padding:16px 0 6px;
+  }
+  .question:first-of-type{border-top:0;padding-top:4px}
+
+  .question-title{
+    margin:0 0 12px;
+    font-size:1.05rem;
+    font-weight:800;
+  }
+
+  .responses{
+    display:grid;
+    gap:10px;
+  }
+
+  .response{
+    display:grid;
+    grid-template-columns:minmax(92px, 132px) minmax(110px, 1fr) minmax(138px, 180px);
+    align-items:center;
+    gap:10px;
+  }
+
+  .response label,
+  .part-label{
+    font-weight:800;
+  }
+
+  .input-wrap{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    min-width:0;
+  }
+
+  input{
+    width:100%;
+    min-width:0;
+    height:48px;
+    border:2px solid var(--line);
+    border-radius:12px;
+    padding:8px 12px;
+    font:inherit;
+    font-size:1.05rem;
+    color:var(--ink);
+    background:white;
+    transition:background .15s ease,border-color .15s ease;
+  }
+
+  .unit{
+    font-weight:800;
+    white-space:nowrap;
+  }
+
+  .status{
+    min-height:1.4em;
+    font-size:.92rem;
+    font-weight:800;
+  }
+
+  .state-correct input,
+  input.state-correct{
+    background:var(--good-bg);
+    border-color:var(--good-border);
+  }
+  .state-correct .status,
+  .status.correct{color:var(--good-text)}
+
+  .state-wrong input,
+  input.state-wrong{
+    background:var(--bad-bg);
+    border-color:var(--bad-border);
+  }
+  .state-wrong .status,
+  .status.wrong{color:var(--bad-text)}
+
+  .combined{
+    border:2px solid transparent;
+    border-radius:16px;
+    padding:10px;
+    margin:0 -10px;
+  }
+  .combined.state-correct{
+    background:var(--good-bg);
+    border-color:var(--good-border);
+  }
+  .combined.state-wrong{
+    background:var(--bad-bg);
+    border-color:var(--bad-border);
+  }
+  .combined.state-correct input,
+  .combined.state-wrong input{
+    background:white;
+  }
+  .combined-status{
+    margin-top:8px;
+    min-height:1.4em;
+    font-size:.92rem;
+    font-weight:800;
+  }
+  .combined.state-correct .combined-status{color:var(--good-text)}
+  .combined.state-wrong .combined-status{color:var(--bad-text)}
+
+  .overall{
+    min-height:1.7em;
+    margin:16px 0 0;
+    text-align:center;
+    font-weight:900;
+    font-size:1.05rem;
+  }
+  .overall.success{color:var(--good-text)}
+  .overall.retry{color:var(--bad-text)}
+
+  @media (max-width:700px){
+    .page{padding:16px}
+    .response{
+      grid-template-columns:1fr;
+      gap:6px;
+      padding:4px 0 10px;
+    }
+    .status{min-height:0}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{scroll-behavior:auto!important;transition:none!important}
+  }
+</style>
+</head>
+<body>
+<main class="app">
+  <div class="topbar">
+    <h1>Checking answers for pages 1–6</h1>
+    <button id="resetAll" class="btn reset-btn" type="button">Reset all</button>
+  </div>
+
+  <section class="page" aria-labelledby="page1">
+    <h2 id="page1">Page 1</h2>
+
+    <div class="question">
+      <h3 class="question-title">Q1(a)</h3>
+      <div class="responses">
+        <div class="response"><label for="p1q1a1">1(a)(i)</label><div class="input-wrap"><input id="p1q1a1" inputmode="numeric" autocomplete="off"></div><span id="s-p1q1a1" class="status" aria-live="polite"></span></div>
+        <div class="response"><label for="p1q1a2">1(a)(ii)</label><div class="input-wrap"><input id="p1q1a2" inputmode="numeric" autocomplete="off"></div><span id="s-p1q1a2" class="status" aria-live="polite"></span></div>
+        <div class="response"><label for="p1q1a3">1(a)(iii)</label><div class="input-wrap"><input id="p1q1a3" inputmode="decimal" autocomplete="off"></div><span id="s-p1q1a3" class="status" aria-live="polite"></span></div>
+        <div class="response"><label for="p1q1a4">1(a)(iv)</label><div class="input-wrap"><input id="p1q1a4" inputmode="numeric" autocomplete="off"></div><span id="s-p1q1a4" class="status" aria-live="polite"></span></div>
+        <div class="response"><label for="p1q1a5">1(a)(v)</label><div class="input-wrap"><input id="p1q1a5" inputmode="decimal" autocomplete="off"></div><span id="s-p1q1a5" class="status" aria-live="polite"></span></div>
+        <div class="response"><label for="p1q1a6">1(a)(vi)</label><div class="input-wrap"><input id="p1q1a6" inputmode="decimal" autocomplete="off"></div><span id="s-p1q1a6" class="status" aria-live="polite"></span></div>
+      </div>
+    </div>
+
+    <div class="question">
+      <h3 class="question-title">Q1(b)</h3>
+      <div class="responses">
+        <div class="response"><label for="p1q1b1">1(b)(i)</label><div class="input-wrap"><input id="p1q1b1" inputmode="numeric" autocomplete="off"></div><span id="s-p1q1b1" class="status" aria-live="polite"></span></div>
+        <div class="response"><label for="p1q1b2">1(b)(ii)</label><div class="input-wrap"><input id="p1q1b2" inputmode="numeric" autocomplete="off"></div><span id="s-p1q1b2" class="status" aria-live="polite"></span></div>
+        <div class="response"><label for="p1q1b3">1(b)(iii)</label><div class="input-wrap"><input id="p1q1b3" inputmode="decimal" autocomplete="off"></div><span id="s-p1q1b3" class="status" aria-live="polite"></span></div>
+        <div class="response"><label for="p1q1b4">1(b)(iv)</label><div class="input-wrap"><input id="p1q1b4" inputmode="numeric" autocomplete="off"></div><span id="s-p1q1b4" class="status" aria-live="polite"></span></div>
+        <div class="response"><label for="p1q1b5">1(b)(v)</label><div class="input-wrap"><input id="p1q1b5" inputmode="decimal" autocomplete="off"></div><span id="s-p1q1b5" class="status" aria-live="polite"></span></div>
+        <div class="response"><label for="p1q1b6">1(b)(vi)</label><div class="input-wrap"><input id="p1q1b6" inputmode="decimal" autocomplete="off"></div><span id="s-p1q1b6" class="status" aria-live="polite"></span></div>
+      </div>
+    </div>
+
+    <div class="question">
+      <h3 class="question-title">Q1(c)</h3>
+      <div class="responses">
+        <div class="response"><label for="p1q1c1">1(c)(i)</label><div class="input-wrap"><input id="p1q1c1" inputmode="numeric" autocomplete="off"></div><span id="s-p1q1c1" class="status" aria-live="polite"></span></div>
+        <div class="response"><label for="p1q1c2">1(c)(ii)</label><div class="input-wrap"><input id="p1q1c2" inputmode="numeric" autocomplete="off"></div><span id="s-p1q1c2" class="status" aria-live="polite"></span></div>
+        <div class="response"><label for="p1q1c3">1(c)(iii)</label><div class="input-wrap"><input id="p1q1c3" inputmode="numeric" autocomplete="off"></div><span id="s-p1q1c3" class="status" aria-live="polite"></span></div>
+        <div class="response"><label for="p1q1c4">1(c)(iv)</label><div class="input-wrap"><input id="p1q1c4" inputmode="decimal" autocomplete="off"></div><span id="s-p1q1c4" class="status" aria-live="polite"></span></div>
+        <div class="response"><label for="p1q1c5">1(c)(v)</label><div class="input-wrap"><input id="p1q1c5" inputmode="numeric" autocomplete="off"></div><span id="s-p1q1c5" class="status" aria-live="polite"></span></div>
+        <div class="response"><label for="p1q1c6">1(c)(vi)</label><div class="input-wrap"><input id="p1q1c6" inputmode="numeric" autocomplete="off"></div><span id="s-p1q1c6" class="status" aria-live="polite"></span></div>
+        <div class="response"><label for="p1q1c7">1(c)(vii)</label><div class="input-wrap"><input id="p1q1c7" inputmode="decimal" autocomplete="off"></div><span id="s-p1q1c7" class="status" aria-live="polite"></span></div>
+        <div class="response"><label for="p1q1c8">1(c)(viii)</label><div class="input-wrap"><input id="p1q1c8" inputmode="decimal" autocomplete="off"></div><span id="s-p1q1c8" class="status" aria-live="polite"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" aria-labelledby="page2">
+    <h2 id="page2">Page 2</h2>
+
+    <div class="question combined" id="g-p2q2a">
+      <h3 class="question-title">Q2(a)</h3>
+      <div class="responses">
+        <div class="response"><label for="p2q2a1">2(a)(i)</label><div class="input-wrap"><input id="p2q2a1" inputmode="numeric" autocomplete="off"></div><span class="status" aria-hidden="true"></span></div>
+        <div class="response"><label for="p2q2a2">2(a)(ii)</label><div class="input-wrap"><input id="p2q2a2" inputmode="numeric" autocomplete="off"></div><span class="status" aria-hidden="true"></span></div>
+      </div>
+      <div class="combined-status" id="gs-p2q2a" aria-live="polite"></div>
+    </div>
+
+    <div class="question combined" id="g-p2q2b">
+      <h3 class="question-title">Q2(b)</h3>
+      <div class="responses">
+        <div class="response"><label for="p2q2b1">2(b)(i)</label><div class="input-wrap"><input id="p2q2b1" inputmode="numeric" autocomplete="off"></div><span class="status" aria-hidden="true"></span></div>
+        <div class="response"><label for="p2q2b2">2(b)(ii)</label><div class="input-wrap"><input id="p2q2b2" inputmode="numeric" autocomplete="off"></div><span class="status" aria-hidden="true"></span></div>
+      </div>
+      <div class="combined-status" id="gs-p2q2b" aria-live="polite"></div>
+    </div>
+
+    <div class="question combined" id="g-p2q2c">
+      <h3 class="question-title">Q2(c)</h3>
+      <div class="responses">
+        <div class="response"><label for="p2q2c1">2(c)(i)</label><div class="input-wrap"><input id="p2q2c1" inputmode="numeric" autocomplete="off"></div><span class="status" aria-hidden="true"></span></div>
+        <div class="response"><label for="p2q2c2">2(c)(ii)</label><div class="input-wrap"><input id="p2q2c2" inputmode="numeric" autocomplete="off"></div><span class="status" aria-hidden="true"></span></div>
+        <div class="response"><label for="p2q2c3">2(c)(iii)</label><div class="input-wrap"><input id="p2q2c3" inputmode="numeric" autocomplete="off"></div><span class="status" aria-hidden="true"></span></div>
+      </div>
+      <div class="combined-status" id="gs-p2q2c" aria-live="polite"></div>
+    </div>
+
+    <div class="question combined" id="g-p2q2d">
+      <h3 class="question-title">Q2(d)</h3>
+      <div class="responses">
+        <div class="response"><label for="p2q2d1">2(d)(i)</label><div class="input-wrap"><input id="p2q2d1" inputmode="numeric" autocomplete="off"></div><span class="status" aria-hidden="true"></span></div>
+        <div class="response"><label for="p2q2d2">2(d)(ii)</label><div class="input-wrap"><input id="p2q2d2" inputmode="numeric" autocomplete="off"></div><span class="status" aria-hidden="true"></span></div>
+        <div class="response"><label for="p2q2d3">2(d)(iii)</label><div class="input-wrap"><input id="p2q2d3" inputmode="numeric" autocomplete="off"></div><span class="status" aria-hidden="true"></span></div>
+      </div>
+      <div class="combined-status" id="gs-p2q2d" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="page" aria-labelledby="page3">
+    <h2 id="page3">Page 3</h2>
+    <div class="question"><h3 class="question-title">Q3(a)</h3><div class="responses">
+      <div class="response"><label for="p3q3a1">3(a)(i)</label><div class="input-wrap"><input id="p3q3a1" autocomplete="off"></div><span id="s-p3q3a1" class="status" aria-live="polite"></span></div>
+      <div class="response"><label for="p3q3a2">3(a)(ii)</label><div class="input-wrap"><input id="p3q3a2" autocomplete="off"></div><span id="s-p3q3a2" class="status" aria-live="polite"></span></div>
+      <div class="response"><label for="p3q3a3">3(a)(iii)</label><div class="input-wrap"><input id="p3q3a3" autocomplete="off"></div><span id="s-p3q3a3" class="status" aria-live="polite"></span></div>
+    </div></div>
+
+    <div class="question"><h3 class="question-title">Q3(b)</h3><div class="responses">
+      <div class="response"><label for="p3q3b1">3(b)(i)</label><div class="input-wrap"><input id="p3q3b1" autocomplete="off"></div><span id="s-p3q3b1" class="status" aria-live="polite"></span></div>
+      <div class="response"><label for="p3q3b2">3(b)(ii)</label><div class="input-wrap"><input id="p3q3b2" autocomplete="off"></div><span id="s-p3q3b2" class="status" aria-live="polite"></span></div>
+      <div class="response"><label for="p3q3b3">3(b)(iii)</label><div class="input-wrap"><input id="p3q3b3" autocomplete="off"></div><span id="s-p3q3b3" class="status" aria-live="polite"></span></div>
+    </div></div>
+
+    <div class="question"><h3 class="question-title">Q3(c)</h3><div class="responses">
+      <div class="response"><label for="p3q3c1">3(c)(i)</label><div class="input-wrap"><input id="p3q3c1" autocomplete="off"></div><span id="s-p3q3c1" class="status" aria-live="polite"></span></div>
+      <div class="response"><label for="p3q3c2">3(c)(ii)</label><div class="input-wrap"><input id="p3q3c2" autocomplete="off"></div><span id="s-p3q3c2" class="status" aria-live="polite"></span></div>
+      <div class="response"><label for="p3q3c3">3(c)(iii)</label><div class="input-wrap"><input id="p3q3c3" autocomplete="off"></div><span id="s-p3q3c3" class="status" aria-live="polite"></span></div>
+    </div></div>
+  </section>
+
+  <section class="page" aria-labelledby="page4">
+    <h2 id="page4">Page 4</h2>
+    <div class="question"><h3 class="question-title">Q4</h3><div class="responses">
+      <div class="response"><label for="p4q4a">4(a)</label><div class="input-wrap"><input id="p4q4a" inputmode="decimal" autocomplete="off"></div><span id="s-p4q4a" class="status" aria-live="polite"></span></div>
+      <div class="response"><label for="p4q4b">4(b)</label><div class="input-wrap"><input id="p4q4b" inputmode="decimal" autocomplete="off"></div><span id="s-p4q4b" class="status" aria-live="polite"></span></div>
+      <div class="response"><label for="p4q4c">4(c)</label><div class="input-wrap"><input id="p4q4c" inputmode="decimal" autocomplete="off"></div><span id="s-p4q4c" class="status" aria-live="polite"></span></div>
+      <div class="response"><label for="p4q4d">4(d)</label><div class="input-wrap"><input id="p4q4d" inputmode="decimal" autocomplete="off"></div><span id="s-p4q4d" class="status" aria-live="polite"></span></div>
+      <div class="response"><label for="p4q4e">4(e)</label><div class="input-wrap"><input id="p4q4e" inputmode="decimal" autocomplete="off"></div><span id="s-p4q4e" class="status" aria-live="polite"></span></div>
+      <div class="response"><label for="p4q4f">4(f)</label><div class="input-wrap"><input id="p4q4f" inputmode="decimal" autocomplete="off"></div><span id="s-p4q4f" class="status" aria-live="polite"></span></div>
+    </div></div>
+
+    <div class="question"><h3 class="question-title">Q5(a)</h3><div class="responses">
+      <div class="response"><label for="p4q5a1">5(a)(i)</label><div class="input-wrap"><input id="p4q5a1" inputmode="decimal" autocomplete="off"></div><span id="s-p4q5a1" class="status" aria-live="polite"></span></div>
+      <div class="response"><label for="p4q5a2">5(a)(ii)</label><div class="input-wrap"><input id="p4q5a2" inputmode="decimal" autocomplete="off"></div><span id="s-p4q5a2" class="status" aria-live="polite"></span></div>
+      <div class="response"><label for="p4q5a3">5(a)(iii)</label><div class="input-wrap"><input id="p4q5a3" inputmode="decimal" autocomplete="off"></div><span id="s-p4q5a3" class="status" aria-live="polite"></span></div>
+    </div></div>
+
+    <div class="question"><h3 class="question-title">Q5(b)</h3><div class="responses">
+      <div class="response"><label for="p4q5b1">5(b)(i)</label><div class="input-wrap"><input id="p4q5b1" inputmode="decimal" autocomplete="off"></div><span id="s-p4q5b1" class="status" aria-live="polite"></span></div>
+      <div class="response"><label for="p4q5b2">5(b)(ii)</label><div class="input-wrap"><input id="p4q5b2" inputmode="decimal" autocomplete="off"></div><span id="s-p4q5b2" class="status" aria-live="polite"></span></div>
+      <div class="response"><label for="p4q5b3">5(b)(iii)</label><div class="input-wrap"><input id="p4q5b3" inputmode="decimal" autocomplete="off"></div><span id="s-p4q5b3" class="status" aria-live="polite"></span></div>
+    </div></div>
+  </section>
+
+  <section class="page" aria-labelledby="page5">
+    <h2 id="page5">Page 5</h2>
+
+    <div class="question"><h3 class="question-title">Q5(c)</h3><div class="responses">
+      <div class="response"><label for="p5q5c1">5(c)(i)</label><div class="input-wrap"><input id="p5q5c1" inputmode="decimal" autocomplete="off"></div><span id="s-p5q5c1" class="status" aria-live="polite"></span></div>
+      <div class="response"><label for="p5q5c2">5(c)(ii)</label><div class="input-wrap"><input id="p5q5c2" inputmode="decimal" autocomplete="off"></div><span id="s-p5q5c2" class="status" aria-live="polite"></span></div>
+      <div class="response"><label for="p5q5c3">5(c)(iii)</label><div class="input-wrap"><input id="p5q5c3" inputmode="decimal" autocomplete="off"></div><span id="s-p5q5c3" class="status" aria-live="polite"></span></div>
+    </div></div>
+
+    <div class="question"><h3 class="question-title">Q5(d)</h3><div class="responses">
+      <div class="response"><label for="p5q5d1">5(d)(i)</label><div class="input-wrap"><input id="p5q5d1" inputmode="decimal" autocomplete="off"></div><span id="s-p5q5d1" class="status" aria-live="polite"></span></div>
+      <div class="response"><label for="p5q5d2">5(d)(ii)</label><div class="input-wrap"><input id="p5q5d2" inputmode="decimal" autocomplete="off"></div><span id="s-p5q5d2" class="status" aria-live="polite"></span></div>
+      <div class="response"><label for="p5q5d3">5(d)(iii)</label><div class="input-wrap"><input id="p5q5d3" inputmode="decimal" autocomplete="off"></div><span id="s-p5q5d3" class="status" aria-live="polite"></span></div>
+    </div></div>
+
+    <div class="question"><h3 class="question-title">Q5(e)</h3><div class="responses">
+      <div class="response"><label for="p5q5e1">5(e)(i)</label><div class="input-wrap"><input id="p5q5e1" inputmode="decimal" autocomplete="off"></div><span id="s-p5q5e1" class="status" aria-live="polite"></span></div>
+      <div class="response"><label for="p5q5e2">5(e)(ii)</label><div class="input-wrap"><input id="p5q5e2" inputmode="decimal" autocomplete="off"></div><span id="s-p5q5e2" class="status" aria-live="polite"></span></div>
+      <div class="response"><label for="p5q5e3">5(e)(iii)</label><div class="input-wrap"><input id="p5q5e3" inputmode="decimal" autocomplete="off"></div><span id="s-p5q5e3" class="status" aria-live="polite"></span></div>
+    </div></div>
+
+    <div class="question"><h3 class="question-title">Q5(f)</h3><div class="responses">
+      <div class="response"><label for="p5q5f1">5(f)(i)</label><div class="input-wrap"><input id="p5q5f1" inputmode="decimal" autocomplete="off"></div><span id="s-p5q5f1" class="status" aria-live="polite"></span></div>
+      <div class="response"><label for="p5q5f2">5(f)(ii)</label><div class="input-wrap"><input id="p5q5f2" inputmode="decimal" autocomplete="off"></div><span id="s-p5q5f2" class="status" aria-live="polite"></span></div>
+    </div></div>
+  </section>
+
+  <section class="page" aria-labelledby="page6">
+    <h2 id="page6">Page 6</h2>
+    <div class="question"><h3 class="question-title">Q6</h3><div class="responses">
+      <div class="response"><label for="p6q6a">6(a)</label><div class="input-wrap"><input id="p6q6a" inputmode="decimal" autocomplete="off"><span class="unit">cm</span></div><span id="s-p6q6a" class="status" aria-live="polite"></span></div>
+      <div class="response"><label for="p6q6b">6(b)</label><div class="input-wrap"><input id="p6q6b" inputmode="decimal" autocomplete="off"><span class="unit">cm</span></div><span id="s-p6q6b" class="status" aria-live="polite"></span></div>
+      <div class="response"><label for="p6q6c">6(c)</label><div class="input-wrap"><input id="p6q6c" inputmode="decimal" autocomplete="off"><span class="unit">cm</span></div><span id="s-p6q6c" class="status" aria-live="polite"></span></div>
+    </div></div>
+  </section>
+
+  <button id="submitAll" class="btn submit-btn" type="button">Submit all</button>
+  <div id="overall" class="overall" aria-live="polite"></div>
+</main>
+
+<script>
+(() => {
+  "use strict";
+
+  const items = {
+    p1q1a1:{kind:"integer", answer:"2"},
+    p1q1a2:{kind:"integer", answer:"5"},
+    p1q1a3:{kind:"oneDecimal", answer:"2.5"},
+    p1q1a4:{kind:"integer", answer:"2"},
+    p1q1a5:{kind:"oneDecimal", answer:"0.5"},
+    p1q1a6:{kind:"oneDecimal", answer:"2.5"},
+
+    p1q1b1:{kind:"integer", answer:"4"},
+    p1q1b2:{kind:"integer", answer:"3"},
+    p1q1b3:{kind:"oneDecimal", answer:"4.3"},
+    p1q1b4:{kind:"integer", answer:"4"},
+    p1q1b5:{kind:"oneDecimal", answer:"0.3"},
+    p1q1b6:{kind:"oneDecimal", answer:"4.3"},
+
+    p1q1c1:{kind:"integer", answer:"1"},
+    p1q1c2:{kind:"integer", answer:"2"},
+    p1q1c3:{kind:"integer", answer:"4"},
+    p1q1c4:{kind:"oneDecimal", answer:"12.4"},
+    p1q1c5:{kind:"integer", answer:"10"},
+    p1q1c6:{kind:"integer", answer:"2"},
+    p1q1c7:{kind:"oneDecimal", answer:"0.4"},
+    p1q1c8:{kind:"oneDecimal", answer:"12.4"},
+
+    p3q3a1:{kind:"text", answers:["tenths"]},
+    p3q3a2:{kind:"text", answers:["ones"]},
+    p3q3a3:{kind:"text", answers:["tens"]},
+    p3q3b1:{kind:"text", answers:["0.1","1 tenth"]},
+    p3q3b2:{kind:"text", answers:["9","9 ones"]},
+    p3q3b3:{kind:"text", answers:["60","6 tens"]},
+    p3q3c1:{kind:"text", answers:["tenths"]},
+    p3q3c2:{kind:"text", answers:["50","5 tens"]},
+    p3q3c3:{kind:"text", answers:["6","6 ones"]},
+
+    p4q4a:{kind:"numeric", answer:"7.8"},
+    p4q4b:{kind:"numeric", answer:"30.6"},
+    p4q4c:{kind:"numeric", answer:"0.9"},
+    p4q4d:{kind:"numeric", answer:"9"},
+    p4q4e:{kind:"numeric", answer:"60"},
+    p4q4f:{kind:"numeric", answer:"5"},
+
+    p4q5a1:{kind:"oneDecimal", answer:"5.3"},
+    p4q5a2:{kind:"oneDecimal", answer:"6.7"},
+    p4q5a3:{kind:"oneDecimal", answer:"7.5"},
+    p4q5b1:{kind:"oneDecimal", answer:"8.1"},
+    p4q5b2:{kind:"oneDecimal", answer:"9.9"},
+    p4q5b3:{kind:"oneDecimal", answer:"10.4"},
+
+    p5q5c1:{kind:"oneDecimal", answer:"0.8"},
+    p5q5c2:{kind:"oneDecimal", answer:"1.4"},
+    p5q5c3:{kind:"oneDecimal", answer:"2.1"},
+    p5q5d1:{kind:"oneDecimal", answer:"11.2"},
+    p5q5d2:{kind:"oneDecimal", answer:"12.5"},
+    p5q5d3:{kind:"oneDecimal", answer:"13.7"},
+    p5q5e1:{kind:"oneDecimal", answer:"18.6"},
+    p5q5e2:{kind:"oneDecimal", answer:"19.9"},
+    p5q5e3:{kind:"oneDecimal", answer:"20.8"},
+    p5q5f1:{kind:"oneDecimal", answer:"25.6"},
+    p5q5f2:{kind:"oneDecimal", answer:"27.2"},
+
+    p6q6a:{kind:"oneDecimal", answer:"3.6"},
+    p6q6b:{kind:"oneDecimal", answer:"1.8"},
+    p6q6c:{kind:"oneDecimal", answer:"10.7"}
+  };
+
+  const groups = {
+    p2q2a:{members:["p2q2a1","p2q2a2"], answers:["0","6"]},
+    p2q2b:{members:["p2q2b1","p2q2b2"], answers:["3","7"]},
+    p2q2c:{members:["p2q2c1","p2q2c2","p2q2c3"], answers:["4","2","3"]},
+    p2q2d:{members:["p2q2d1","p2q2d2","p2q2d3"], answers:["5","0","2"]}
+  };
+
+  const groupByMember = {};
+  Object.entries(groups).forEach(([groupId, group]) => {
+    group.members.forEach(id => { groupByMember[id] = groupId; });
+  });
+
+  function trim(value){
+    return String(value ?? "").trim();
+  }
+
+  function normaliseText(value){
+    return trim(value).toLowerCase().replace(/\s+/g, " ");
+  }
+
+  function canonicalNumber(value){
+    const s = trim(value);
+    const match = s.match(/^([+-]?)(\d+)(?:\.(\d+))?$/);
+    if(!match) return null;
+    const negative = match[1] === "-";
+    let intPart = match[2].replace(/^0+(?=\d)/, "");
+    let fracPart = (match[3] || "").replace(/0+$/, "");
+    if(intPart === "") intPart = "0";
+    let out = fracPart ? intPart + "." + fracPart : intPart;
+    if(negative && out !== "0") out = "-" + out;
+    return out;
+  }
+
+  function validate(value, item){
+    const s = trim(value);
+    if(s === "") return false;
+
+    if(item.kind === "integer"){
+      if(!/^\+?\d+$/.test(s)) return false;
+      return canonicalNumber(s) === canonicalNumber(item.answer);
+    }
+
+    if(item.kind === "oneDecimal"){
+      if(!/^\+?\d+\.\d$/.test(s)) return false;
+      return canonicalNumber(s) === canonicalNumber(item.answer);
+    }
+
+    if(item.kind === "numeric"){
+      const c = canonicalNumber(s);
+      return c !== null && c === canonicalNumber(item.answer);
+    }
+
+    if(item.kind === "text"){
+      const n = normaliseText(s);
+      return item.answers.some(answer => normaliseText(answer) === n);
+    }
+
+    return false;
+  }
+
+  function setItemState(id, state){
+    const input = document.getElementById(id);
+    const row = input.closest(".response");
+    const status = document.getElementById("s-" + id);
+    row.classList.remove("state-correct","state-wrong");
+    status.className = "status";
+    status.textContent = "";
+
+    if(state === "correct"){
+      row.classList.add("state-correct");
+      status.classList.add("correct");
+      status.textContent = "Correct!";
+    } else if(state === "wrong"){
+      row.classList.add("state-wrong");
+      status.classList.add("wrong");
+      status.textContent = "Not quite. Try again.";
+    }
+  }
+
+  function setGroupState(groupId, state){
+    const panel = document.getElementById("g-" + groupId);
+    const status = document.getElementById("gs-" + groupId);
+    panel.classList.remove("state-correct","state-wrong");
+    status.textContent = "";
+
+    if(state === "correct"){
+      panel.classList.add("state-correct");
+      status.textContent = "Correct!";
+    } else if(state === "wrong"){
+      panel.classList.add("state-wrong");
+      status.textContent = "Not quite. Try again.";
+    }
+  }
+
+  function checkItem(id, isSubmit){
+    const input = document.getElementById(id);
+    const value = trim(input.value);
+    if(value === "" && !isSubmit){
+      setItemState(id, "blank");
+      return null;
+    }
+    const ok = value !== "" && validate(value, items[id]);
+    setItemState(id, ok ? "correct" : "wrong");
+    return ok;
+  }
+
+  function checkGroup(groupId, isSubmit){
+    const group = groups[groupId];
+    const values = group.members.map(id => trim(document.getElementById(id).value));
+    const complete = values.every(v => v !== "");
+
+    if(!complete && !isSubmit){
+      setGroupState(groupId, "blank");
+      return null;
+    }
+
+    const ok = complete && values.every((value, i) => /^\d$/.test(value) && value === group.answers[i]);
+    setGroupState(groupId, ok ? "correct" : "wrong");
+    return ok;
+  }
+
+  function clearOverall(){
+    const overall = document.getElementById("overall");
+    overall.textContent = "";
+    overall.className = "overall";
+  }
+
+  Object.keys(items).forEach(id => {
+    const input = document.getElementById(id);
+    input.addEventListener("input", () => {
+      setItemState(id, "blank");
+      clearOverall();
+    });
+    input.addEventListener("blur", () => {
+      checkItem(id, false);
+    });
+  });
+
+  Object.keys(groupByMember).forEach(id => {
+    const input = document.getElementById(id);
+    const groupId = groupByMember[id];
+    input.addEventListener("input", () => {
+      setGroupState(groupId, "blank");
+      clearOverall();
+    });
+    input.addEventListener("blur", () => {
+      checkGroup(groupId, false);
+    });
+  });
+
+  document.getElementById("resetAll").addEventListener("click", () => {
+    document.querySelectorAll("input").forEach(input => { input.value = ""; });
+    Object.keys(items).forEach(id => setItemState(id, "blank"));
+    Object.keys(groups).forEach(groupId => setGroupState(groupId, "blank"));
+    clearOverall();
+    document.querySelector("input")?.focus();
+  });
+
+  document.getElementById("submitAll").addEventListener("click", () => {
+    let allCorrect = true;
+
+    Object.keys(items).forEach(id => {
+      if(checkItem(id, true) !== true) allCorrect = false;
+    });
+
+    Object.keys(groups).forEach(groupId => {
+      if(checkGroup(groupId, true) !== true) allCorrect = false;
+    });
+
+    const overall = document.getElementById("overall");
+    if(allCorrect){
+      overall.textContent = "You got it all correct! Good job!";
+      overall.className = "overall success";
+    } else {
+      overall.textContent = "Keep going! Try the responses marked “Not quite” again.";
+      overall.className = "overall retry";
+    }
+  });
+})();
+</script>
+</body>
+</html>

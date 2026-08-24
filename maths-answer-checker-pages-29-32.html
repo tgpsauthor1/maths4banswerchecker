@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maths Answer Checker — Pages 29–32</title>
+<style>
+  :root{
+    --bg:#f6fbff; --card:#ffffff; --ink:#17324d; --muted:#5b6f82;
+    --line:#c9d7e3; --blue:#0c75b8; --blue2:#e8f5fd;
+    --ok:#dff5e5; --okb:#2f8a49; --bad:#fde5e5; --badb:#b53b3b;
+    --focus:#7fc4eb;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.4;
+  }
+  .wrap{max-width:880px;margin:0 auto;padding:18px}
+  header{
+    background:linear-gradient(135deg,#0c75b8,#2095d1);
+    color:white; border-radius:20px; padding:20px; margin-bottom:18px;
+    box-shadow:0 8px 20px rgba(22,67,97,.12)
+  }
+  header h1{margin:0 0 6px;font-size:clamp(1.5rem,4vw,2.1rem)}
+  header p{margin:0;opacity:.95}
+  .topbar{display:flex;justify-content:flex-end;margin:12px 0 18px}
+  button{
+    border:0;border-radius:12px;padding:12px 16px;font-weight:700;font-size:1rem;
+    cursor:pointer;min-height:46px
+  }
+  button:focus-visible,input:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+  #resetBtn{background:#eef3f7;color:#17324d;border:1px solid #c9d7e3}
+  #submitBtn{background:var(--blue);color:#fff;width:100%;margin-top:18px}
+  .page{
+    background:var(--card);border:1px solid #d9e5ee;border-radius:18px;
+    padding:18px;margin:18px 0;box-shadow:0 6px 14px rgba(32,69,92,.06)
+  }
+  .page h2{margin:0 0 16px;font-size:1.25rem;color:#0d6fae}
+  .group{margin:14px 0 20px}
+  .group h3{margin:0 0 10px;font-size:1.05rem}
+  .items{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+  .item{
+    border:2px solid transparent;border-radius:14px;background:#fbfdff;padding:13px;
+    min-height:96px
+  }
+  .label{font-weight:800;margin-bottom:9px}
+  .answer-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  input{
+    width:112px;max-width:100%;font-size:1.05rem;padding:10px 11px;
+    border:2px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)
+  }
+  input.checked.correct{background:var(--ok);border-color:var(--okb)}
+  input.checked.incorrect{background:var(--bad);border-color:var(--badb)}
+  .fraction{
+    display:inline-grid;grid-template-rows:auto 2px auto;gap:4px;align-items:center;
+    width:88px;vertical-align:middle
+  }
+  .fraction input{width:88px;text-align:center}
+  .bar{height:2px;background:#17324d;width:100%}
+  .mixed{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .mixed .whole{width:82px}
+  .status{font-weight:800;margin-top:8px;min-height:1.35em}
+  .status.ok{color:#23723b}.status.bad{color:#a73030}
+  .summary{
+    margin-top:16px;padding:14px;border-radius:12px;font-weight:800;display:none
+  }
+  .summary.ok{display:block;background:var(--ok);color:#23723b;border:1px solid #a9d8b5}
+  .summary.bad{display:block;background:#fff2d9;color:#735100;border:1px solid #ead09a}
+  .note{font-size:.92rem;color:var(--muted);margin-top:8px}
+  @media (max-width:520px){
+    .wrap{padding:10px}.page{padding:14px}.items{grid-template-columns:1fr}
+    input{min-height:46px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Maths Answer Checker</h1>
+    <p>Checking answers for pages 29–32</p>
+  </header>
+
+  <div class="topbar">
+    <button id="resetBtn" type="button">Reset all</button>
+  </div>
+
+  <main id="checker">
+    <section class="page" aria-labelledby="p29">
+      <h2 id="p29">Checking answers for page 29</h2>
+      <div class="group">
+        <h3>1</h3>
+        <div class="items" id="p29q1"></div>
+      </div>
+      <div class="group">
+        <h3>2</h3>
+        <div class="items" id="p29q2"></div>
+      </div>
+    </section>
+
+    <section class="page" aria-labelledby="p30">
+      <h2 id="p30">Checking answers for page 30</h2>
+      <div class="group">
+        <h3>3</h3>
+        <div class="items" id="p30q3"></div>
+      </div>
+    </section>
+
+    <section class="page" aria-labelledby="p31">
+      <h2 id="p31">Checking answers for page 31</h2>
+      <div class="group">
+        <h3>1</h3>
+        <div class="items" id="p31q1"></div>
+      </div>
+      <div class="group">
+        <h3>2</h3>
+        <div class="items" id="p31q2"></div>
+      </div>
+    </section>
+
+    <section class="page" aria-labelledby="p32">
+      <h2 id="p32">Checking answers for page 32</h2>
+      <div class="group">
+        <h3>3</h3>
+        <div class="items" id="p32q3"></div>
+      </div>
+      <div class="group">
+        <h3>4</h3>
+        <div class="items" id="p32q4"></div>
+      </div>
+    </section>
+  </main>
+
+  <button id="submitBtn" type="button">Submit all</button>
+  <div id="summary" class="summary" role="status" aria-live="polite"></div>
+</div>
+
+<script>
+(() => {
+  "use strict";
+
+  const DATA = [
+    {page:29,q:"1",parts:["a","b","c","d"],type:"decimal",answers:["0.3","0.2","0.16","0.55"]},
+    {page:29,q:"2",parts:["a","b","c","d"],type:"decimal",answers:["1.75","2.5","2.8","1.5"]},
+    {page:30,q:"3",parts:["a","b","c","d","e","f","g","h"],type:"decimal",answers:["1.9","4.89","8.17","6.18","3.28","1.5","2.4","2.75"]},
+    {page:31,q:"1",parts:["a","b","c","d"],type:"fraction",answers:[[7,10],[11,100],[19,100],[21,100]],simplest:false},
+    {page:31,q:"2",parts:["a","b","c","d"],type:"fraction",answers:[[3,5],[1,20],[3,20],[6,25]],simplest:true},
+    {page:32,q:"3",parts:["a","b","c","d"],type:"mixed",answers:[[3,61,100],[4,23,100],[21,87,100],[10,49,100]],simplest:false},
+    {page:32,q:"4",parts:["a","b","c","d"],type:"mixed",answers:[[3,2,5],[4,3,25],[10,2,25],[9,3,4]],simplest:true}
+  ];
+
+  const state = new Map();
+
+  function groupId(page,q){ return `p${page}q${q}`; }
+  function itemId(page,q,part){ return `p${page}q${q}${part}`; }
+
+  function gcd(a,b){
+    a=Math.abs(a); b=Math.abs(b);
+    while(b){ const t=b; b=a%b; a=t; }
+    return a;
+  }
+
+  function parseIntegerStrict(s){
+    s=s.trim();
+    if(!/^-?(0|[1-9]\d*)$/.test(s)) return null;
+    if(/^-?0\d+/.test(s)) return null;
+    const n=Number(s);
+    return Number.isSafeInteger(n)?n:null;
+  }
+
+  function parseDecimalStrict(s){
+    s=s.trim();
+    if(!/^-?(?:0|[1-9]\d*)(?:\.\d+)?$/.test(s)) return null;
+    const body=s.startsWith("-")?s.slice(1):s;
+    const intPart=body.split(".")[0];
+    if(intPart.length>1 && intPart.startsWith("0")) return null;
+    if(body.startsWith(".")) return null;
+    const neg=s.startsWith("-");
+    const [i,f=""]=(neg?s.slice(1):s).split(".");
+    const digits=i+f;
+    if(!/^\d+$/.test(digits)) return null;
+    return {
+      sign:neg?-1n:1n,
+      numerator:BigInt(digits),
+      scale:10n ** BigInt(f.length)
+    };
+  }
+
+  function decimalsEqual(user, expected){
+    const a=parseDecimalStrict(user);
+    const b=parseDecimalStrict(expected);
+    if(!a || !b) return false;
+    return a.sign*a.numerator*b.scale === b.sign*b.numerator*a.scale;
+  }
+
+  function setInputVisual(input, result){
+    input.classList.remove("checked","correct","incorrect");
+    if(result===true){input.classList.add("checked","correct");}
+    if(result===false){input.classList.add("checked","incorrect");}
+  }
+
+  function clearItemStatus(item){
+    const st=item.querySelector(".status");
+    st.textContent="";
+    st.className="status";
+  }
+
+  function setItemStatus(item, ok){
+    const st=item.querySelector(".status");
+    st.textContent=ok?"Correct!":"Not quite. Try again.";
+    st.className="status "+(ok?"ok":"bad");
+  }
+
+  function decimalItem(group, part, expected){
+    const id=itemId(group.page,group.q,part);
+    const item=document.createElement("div");
+    item.className="item";
+    item.dataset.item=id;
+    item.innerHTML=`
+      <div class="label">${group.q}(${part})</div>
+      <div class="answer-row">
+        <input aria-label="${group.q}(${part}) answer" inputmode="decimal" autocomplete="off">
+      </div>
+      <div class="status" aria-live="polite"></div>`;
+    const input=item.querySelector("input");
+
+    const check=(force=false)=>{
+      const v=input.value.trim();
+      if(!v && !force){ setInputVisual(input,null); clearItemStatus(item); return null; }
+      if(!v && force){ setInputVisual(input,false); setItemStatus(item,false); return false; }
+      const ok=decimalsEqual(v,expected);
+      setInputVisual(input,ok); setItemStatus(item,ok); return ok;
+    };
+    input.addEventListener("input",()=>{setInputVisual(input,null);clearItemStatus(item);});
+    input.addEventListener("blur",()=>check(false));
+    state.set(id,{check,reset:()=>{input.value="";setInputVisual(input,null);clearItemStatus(item);}});
+    return item;
+  }
+
+  function fractionItem(group, part, ans){
+    const id=itemId(group.page,group.q,part);
+    const item=document.createElement("div");
+    item.className="item"; item.dataset.item=id;
+    item.innerHTML=`
+      <div class="label">${group.q}(${part})</div>
+      <div class="answer-row">
+        <span class="fraction" aria-label="${group.q}(${part}) fraction">
+          <input aria-label="${group.q}(${part}) numerator" inputmode="numeric" autocomplete="off">
+          <span class="bar" aria-hidden="true"></span>
+          <input aria-label="${group.q}(${part}) denominator" inputmode="numeric" autocomplete="off">
+        </span>
+      </div>
+      <div class="status" aria-live="polite"></div>`;
+    const [num,den]=item.querySelectorAll("input");
+    const [an,ad]=ans;
+
+    const check=(force=false)=>{
+      const ns=num.value.trim(), ds=den.value.trim();
+      if((!ns || !ds) && !force){
+        setInputVisual(num,null);setInputVisual(den,null);clearItemStatus(item);return null;
+      }
+      if(!ns || !ds){
+        setInputVisual(num,false);setInputVisual(den,false);setItemStatus(item,false);return false;
+      }
+      const n=parseIntegerStrict(ns), d=parseIntegerStrict(ds);
+      let ok=n!==null && d!==null && d>0 && n>=0 && n*ad===an*d;
+      if(ok && group.simplest) ok=gcd(n,d)===1;
+      setInputVisual(num,ok);setInputVisual(den,ok);setItemStatus(item,ok);return ok;
+    };
+    [num,den].forEach(inp=>{
+      inp.addEventListener("input",()=>{setInputVisual(num,null);setInputVisual(den,null);clearItemStatus(item);});
+      inp.addEventListener("blur",()=>check(false));
+    });
+    state.set(id,{check,reset:()=>{num.value="";den.value="";setInputVisual(num,null);setInputVisual(den,null);clearItemStatus(item);}});
+    return item;
+  }
+
+  function mixedItem(group,part,ans){
+    const id=itemId(group.page,group.q,part);
+    const item=document.createElement("div");
+    item.className="item"; item.dataset.item=id;
+    item.innerHTML=`
+      <div class="label">${group.q}(${part})</div>
+      <div class="mixed">
+        <input class="whole" aria-label="${group.q}(${part}) whole number" inputmode="numeric" autocomplete="off">
+        <span class="fraction" aria-label="${group.q}(${part}) fractional part">
+          <input aria-label="${group.q}(${part}) numerator" inputmode="numeric" autocomplete="off">
+          <span class="bar" aria-hidden="true"></span>
+          <input aria-label="${group.q}(${part}) denominator" inputmode="numeric" autocomplete="off">
+        </span>
+      </div>
+      <div class="status" aria-live="polite"></div>`;
+    const inputs=item.querySelectorAll("input");
+    const [whole,num,den]=inputs;
+    const [aw,an,ad]=ans;
+
+    const check=(force=false)=>{
+      const ws=whole.value.trim(), ns=num.value.trim(), ds=den.value.trim();
+      if((!ws||!ns||!ds)&&!force){
+        inputs.forEach(x=>setInputVisual(x,null));clearItemStatus(item);return null;
+      }
+      if(!ws||!ns||!ds){
+        inputs.forEach(x=>setInputVisual(x,false));setItemStatus(item,false);return false;
+      }
+      const w=parseIntegerStrict(ws), n=parseIntegerStrict(ns), d=parseIntegerStrict(ds);
+      let ok=w!==null && n!==null && d!==null &&
+        w===aw && d>0 && n>0 && n<d && n*ad===an*d;
+      if(ok && group.simplest) ok=gcd(n,d)===1;
+      inputs.forEach(x=>setInputVisual(x,ok));setItemStatus(item,ok);return ok;
+    };
+    inputs.forEach(inp=>{
+      inp.addEventListener("input",()=>{inputs.forEach(x=>setInputVisual(x,null));clearItemStatus(item);});
+      inp.addEventListener("blur",()=>check(false));
+    });
+    state.set(id,{check,reset:()=>{inputs.forEach(x=>{x.value="";setInputVisual(x,null)});clearItemStatus(item);}});
+    return item;
+  }
+
+  for(const group of DATA){
+    const host=document.getElementById(groupId(group.page,group.q));
+    group.parts.forEach((part,i)=>{
+      group.page=group.page; group.q=group.q;
+      let el;
+      if(group.type==="decimal") el=decimalItem(group,part,group.answers[i]);
+      if(group.type==="fraction") el=fractionItem(group,part,group.answers[i]);
+      if(group.type==="mixed") el=mixedItem(group,part,group.answers[i]);
+      host.appendChild(el);
+    });
+  }
+
+  const summary=document.getElementById("summary");
+  document.getElementById("submitBtn").addEventListener("click",()=>{
+    let all=true;
+    for(const obj of state.values()){
+      const r=obj.check(true);
+      if(r!==true) all=false;
+    }
+    summary.textContent=all?"You got it all correct! Good job!":"Keep going — check the red answers and try again.";
+    summary.className="summary "+(all?"ok":"bad");
+    summary.scrollIntoView({behavior:"smooth",block:"nearest"});
+  });
+
+  document.getElementById("resetBtn").addEventListener("click",()=>{
+    for(const obj of state.values()) obj.reset();
+    summary.textContent="";
+    summary.className="summary";
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
+})();
+</script>
+</body>
+</html>

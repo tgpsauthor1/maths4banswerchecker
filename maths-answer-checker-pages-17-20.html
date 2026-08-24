@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maths Answer Checker — Pages 17–20</title>
+<style>
+  :root {
+    --blue: #0b73b9;
+    --blue-dark: #075b93;
+    --ink: #17202a;
+    --muted: #5f6b76;
+    --border: #b9c6d2;
+    --correct-bg: #e8f7ec;
+    --correct-border: #2e8b57;
+    --wrong-bg: #fdecec;
+    --wrong-border: #c53a3a;
+    --focus: #7ab8e8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #f5f8fb;
+    color: var(--ink);
+    line-height: 1.45;
+  }
+  .app {
+    width: min(900px, calc(100% - 24px));
+    margin: 18px auto 40px;
+  }
+  header {
+    background: white;
+    border: 1px solid #dbe4ec;
+    border-radius: 18px;
+    padding: 18px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.05);
+  }
+  h1 {
+    margin: 0 0 14px;
+    font-size: clamp(1.35rem, 4vw, 2rem);
+    color: var(--blue-dark);
+  }
+  button {
+    min-height: 44px;
+    padding: 10px 16px;
+    border: 0;
+    border-radius: 12px;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+  }
+  #resetAll {
+    background: #eef3f7;
+    color: var(--ink);
+  }
+  #submitAll {
+    display: block;
+    margin: 22px auto 0;
+    background: var(--blue);
+    color: white;
+    min-width: 170px;
+  }
+  #submitAll:hover { background: var(--blue-dark); }
+  .page {
+    margin-top: 20px;
+    background: white;
+    border: 1px solid #dbe4ec;
+    border-radius: 18px;
+    padding: 18px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.04);
+  }
+  .page h2 {
+    margin: 0 0 14px;
+    font-size: 1.15rem;
+    color: var(--blue-dark);
+  }
+  .question {
+    border: 1px solid #d9e2ea;
+    border-radius: 14px;
+    padding: 14px;
+    margin-top: 12px;
+  }
+  .question:first-of-type { margin-top: 0; }
+  .q-title {
+    margin: 0 0 10px;
+    font-weight: 800;
+  }
+  .answer-row,
+  .part-row {
+    display: flex;
+    align-items: end;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .field {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .field-label {
+    font-size: .88rem;
+    font-weight: 700;
+    color: var(--muted);
+  }
+  input, select {
+    min-height: 46px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    background: white;
+    color: var(--ink);
+    font: inherit;
+    padding: 8px 10px;
+    transition: background .12s ease, border-color .12s ease;
+  }
+  input {
+    width: 132px;
+    text-align: center;
+  }
+  select { min-width: 132px; }
+  input.correct, select.correct {
+    background: var(--correct-bg);
+    border-color: var(--correct-border);
+  }
+  input.wrong, select.wrong {
+    background: var(--wrong-bg);
+    border-color: var(--wrong-border);
+  }
+  .relation {
+    min-height: 46px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 1.4rem;
+    font-weight: 800;
+  }
+  .status {
+    min-height: 1.4em;
+    margin-top: 8px;
+    font-weight: 800;
+  }
+  .status.correct-text { color: #206d42; }
+  .status.wrong-text { color: #a72d2d; }
+  .summary {
+    min-height: 1.5em;
+    margin: 18px 0 0;
+    text-align: center;
+    font-weight: 800;
+  }
+  .summary.success { color: #206d42; }
+  .summary.try { color: #7b4d00; }
+  @media (max-width: 560px) {
+    .app { width: min(100% - 14px, 900px); margin-top: 7px; }
+    header, .page { border-radius: 14px; padding: 14px; }
+    .question { padding: 12px; }
+    input { width: 112px; }
+    select { min-width: 112px; max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+<main class="app">
+  <header>
+    <h1>Checking answers for pages 17–20</h1>
+    <button type="button" id="resetAll">Reset all</button>
+  </header>
+
+  <section class="page" aria-labelledby="page17">
+    <h2 id="page17">Page 17</h2>
+
+    <div class="question combined" data-id="q1">
+      <p class="q-title">1</p>
+      <div class="answer-row">
+        <label class="field"><span class="field-label">1(i)</span><input type="text" inputmode="decimal" autocomplete="off" data-index="0" aria-label="Question 1 part i"></label>
+        <span class="relation" aria-hidden="true">&lt;</span>
+        <label class="field"><span class="field-label">1(ii)</span><input type="text" inputmode="decimal" autocomplete="off" data-index="1" aria-label="Question 1 part ii"></label>
+      </div>
+      <div class="status" aria-live="polite"></div>
+    </div>
+
+    <div class="question combined" data-id="q2">
+      <p class="q-title">2</p>
+      <div class="answer-row">
+        <label class="field"><span class="field-label">2(i)</span><input type="text" inputmode="decimal" autocomplete="off" data-index="0" aria-label="Question 2 part i"></label>
+        <span class="relation" aria-hidden="true">&gt;</span>
+        <label class="field"><span class="field-label">2(ii)</span><input type="text" inputmode="decimal" autocomplete="off" data-index="1" aria-label="Question 2 part ii"></label>
+      </div>
+      <div class="status" aria-live="polite"></div>
+    </div>
+
+    <div class="question combined" data-id="q3">
+      <p class="q-title">3</p>
+      <div class="answer-row">
+        <label class="field"><span class="field-label">3(i)</span><input type="text" inputmode="decimal" autocomplete="off" data-index="0" aria-label="Question 3 part i"></label>
+        <span class="relation" aria-hidden="true">&lt;</span>
+        <label class="field"><span class="field-label">3(ii)</span><input type="text" inputmode="decimal" autocomplete="off" data-index="1" aria-label="Question 3 part ii"></label>
+      </div>
+      <div class="status" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="page" aria-labelledby="page18">
+    <h2 id="page18">Page 18</h2>
+
+    <div class="question combined" data-id="q4">
+      <p class="q-title">4</p>
+      <div class="answer-row">
+        <label class="field"><span class="field-label">4(i)</span><input type="text" inputmode="decimal" autocomplete="off" data-index="0" aria-label="Question 4 part i"></label>
+        <span class="relation" aria-hidden="true">&gt;</span>
+        <label class="field"><span class="field-label">4(ii)</span><input type="text" inputmode="decimal" autocomplete="off" data-index="1" aria-label="Question 4 part ii"></label>
+      </div>
+      <div class="status" aria-live="polite"></div>
+    </div>
+
+    <div class="question" data-id="q5">
+      <p class="q-title">5</p>
+      <div class="part-row">
+        <label class="field"><span class="field-label">5(a)</span><select data-part="a" aria-label="Question 5 part a"><option value=""></option><option value="&lt;">&lt;</option><option value="&gt;">&gt;</option></select></label>
+        <label class="field"><span class="field-label">5(b)</span><select data-part="b" aria-label="Question 5 part b"><option value=""></option><option value="&lt;">&lt;</option><option value="&gt;">&gt;</option></select></label>
+        <label class="field"><span class="field-label">5(c)</span><select data-part="c" aria-label="Question 5 part c"><option value=""></option><option value="&lt;">&lt;</option><option value="&gt;">&gt;</option></select></label>
+        <label class="field"><span class="field-label">5(d)</span><select data-part="d" aria-label="Question 5 part d"><option value=""></option><option value="&lt;">&lt;</option><option value="&gt;">&gt;</option></select></label>
+        <label class="field"><span class="field-label">5(e)</span><select data-part="e" aria-label="Question 5 part e"><option value=""></option><option value="&lt;">&lt;</option><option value="&gt;">&gt;</option></select></label>
+        <label class="field"><span class="field-label">5(f)</span><select data-part="f" aria-label="Question 5 part f"><option value=""></option><option value="&lt;">&lt;</option><option value="&gt;">&gt;</option></select></label>
+        <label class="field"><span class="field-label">5(g)</span><select data-part="g" aria-label="Question 5 part g"><option value=""></option><option value="&lt;">&lt;</option><option value="&gt;">&gt;</option></select></label>
+        <label class="field"><span class="field-label">5(h)</span><select data-part="h" aria-label="Question 5 part h"><option value=""></option><option value="&lt;">&lt;</option><option value="&gt;">&gt;</option></select></label>
+      </div>
+      <div class="status" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="page" aria-labelledby="page19">
+    <h2 id="page19">Page 19</h2>
+
+    <div class="question" data-id="q6">
+      <p class="q-title">6</p>
+      <div class="part-row">
+        <label class="field"><span class="field-label">6(a)</span><select data-part="a" aria-label="Question 6 part a"><option value=""></option><option>6.43</option><option>6.34</option><option>6.31</option></select></label>
+        <label class="field"><span class="field-label">6(b)</span><select data-part="b" aria-label="Question 6 part b"><option value=""></option><option>9.25</option><option>9.5</option><option>9.35</option></select></label>
+        <label class="field"><span class="field-label">6(c)</span><select data-part="c" aria-label="Question 6 part c"><option value=""></option><option>3.6</option><option>3.06</option><option>3.63</option></select></label>
+      </div>
+      <div class="status" aria-live="polite"></div>
+    </div>
+
+    <div class="question" data-id="q7">
+      <p class="q-title">7</p>
+      <div class="part-row">
+        <label class="field"><span class="field-label">7(a)</span><select data-part="a" aria-label="Question 7 part a"><option value=""></option><option>3.52</option><option>2.35</option><option>3.25</option></select></label>
+        <label class="field"><span class="field-label">7(b)</span><select data-part="b" aria-label="Question 7 part b"><option value=""></option><option>4.08</option><option>4.083</option><option>4.13</option></select></label>
+        <label class="field"><span class="field-label">7(c)</span><select data-part="c" aria-label="Question 7 part c"><option value=""></option><option>0.18</option><option>1.8</option><option>1.08</option></select></label>
+      </div>
+      <div class="status" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="page" aria-labelledby="page20">
+    <h2 id="page20">Page 20</h2>
+
+    <div class="question combined" data-id="q8a">
+      <p class="q-title">8(a)</p>
+      <div class="answer-row">
+        <label class="field"><span class="field-label">8(a)(i)</span><input type="text" inputmode="decimal" autocomplete="off" data-index="0" aria-label="Question 8 a part i"></label>
+        <label class="field"><span class="field-label">8(a)(ii)</span><input type="text" inputmode="decimal" autocomplete="off" data-index="1" aria-label="Question 8 a part ii"></label>
+        <label class="field"><span class="field-label">8(a)(iii)</span><input type="text" inputmode="decimal" autocomplete="off" data-index="2" aria-label="Question 8 a part iii"></label>
+      </div>
+      <div class="status" aria-live="polite"></div>
+    </div>
+
+    <div class="question combined" data-id="q8b">
+      <p class="q-title">8(b)</p>
+      <div class="answer-row">
+        <label class="field"><span class="field-label">8(b)(i)</span><input type="text" inputmode="decimal" autocomplete="off" data-index="0" aria-label="Question 8 b part i"></label>
+        <label class="field"><span class="field-label">8(b)(ii)</span><input type="text" inputmode="decimal" autocomplete="off" data-index="1" aria-label="Question 8 b part ii"></label>
+        <label class="field"><span class="field-label">8(b)(iii)</span><input type="text" inputmode="decimal" autocomplete="off" data-index="2" aria-label="Question 8 b part iii"></label>
+      </div>
+      <div class="status" aria-live="polite"></div>
+    </div>
+
+    <div class="question combined" data-id="q9a">
+      <p class="q-title">9(a)</p>
+      <div class="answer-row">
+        <label class="field"><span class="field-label">9(a)(i)</span><input type="text" inputmode="decimal" autocomplete="off" data-index="0" aria-label="Question 9 a part i"></label>
+        <label class="field"><span class="field-label">9(a)(ii)</span><input type="text" inputmode="decimal" autocomplete="off" data-index="1" aria-label="Question 9 a part ii"></label>
+        <label class="field"><span class="field-label">9(a)(iii)</span><input type="text" inputmode="decimal" autocomplete="off" data-index="2" aria-label="Question 9 a part iii"></label>
+      </div>
+      <div class="status" aria-live="polite"></div>
+    </div>
+
+    <div class="question combined" data-id="q9b">
+      <p class="q-title">9(b)</p>
+      <div class="answer-row">
+        <label class="field"><span class="field-label">9(b)(i)</span><input type="text" inputmode="decimal" autocomplete="off" data-index="0" aria-label="Question 9 b part i"></label>
+        <label class="field"><span class="field-label">9(b)(ii)</span><input type="text" inputmode="decimal" autocomplete="off" data-index="1" aria-label="Question 9 b part ii"></label>
+        <label class="field"><span class="field-label">9(b)(iii)</span><input type="text" inputmode="decimal" autocomplete="off" data-index="2" aria-label="Question 9 b part iii"></label>
+      </div>
+      <div class="status" aria-live="polite"></div>
+    </div>
+
+    <div class="question combined" data-id="q9c">
+      <p class="q-title">9(c)</p>
+      <div class="answer-row">
+        <label class="field"><span class="field-label">9(c)(i)</span><input type="text" inputmode="decimal" autocomplete="off" data-index="0" aria-label="Question 9 c part i"></label>
+        <label class="field"><span class="field-label">9(c)(ii)</span><input type="text" inputmode="decimal" autocomplete="off" data-index="1" aria-label="Question 9 c part ii"></label>
+        <label class="field"><span class="field-label">9(c)(iii)</span><input type="text" inputmode="decimal" autocomplete="off" data-index="2" aria-label="Question 9 c part iii"></label>
+      </div>
+      <div class="status" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <button type="button" id="submitAll">Submit all</button>
+  <div id="summary" class="summary" aria-live="polite"></div>
+</main>
+
+<script>
+(() => {
+  "use strict";
+
+  const combinedAnswers = {
+    q1: ["2.5", "2.9"],
+    q2: ["6.59", "6.53"],
+    q3: ["4.922", "4.928"],
+    q4: ["62.8", "62.48"],
+    q8a: ["12.347", "12.437", "12.743"],
+    q8b: ["5.028", "5.08", "5.208"],
+    q9a: ["9.94", "9.49", "8.24"],
+    q9b: ["3.825", "2.83", "2.385"],
+    q9c: ["7", "0.7", "0.07"]
+  };
+
+  const choiceAnswers = {
+    q5: { a: ">", b: "<", c: ">", d: "<", e: "<", f: ">", g: "<", h: "<" },
+    q6: { a: "6.31", b: "9.25", c: "3.06" },
+    q7: { a: "3.52", b: "4.13", c: "1.8" }
+  };
+
+  const decimalPattern = /^-?(?:0(?:\.\d+)?|[1-9]\d*(?:\.\d+)?)$/;
+
+  function canonicalDecimal(raw) {
+    const s = String(raw).trim();
+    if (!decimalPattern.test(s)) return null;
+
+    const negative = s.startsWith("-");
+    const unsigned = negative ? s.slice(1) : s;
+    let [whole, fraction = ""] = unsigned.split(".");
+
+    fraction = fraction.replace(/0+$/, "");
+    let digits = (whole + fraction).replace(/^0+/, "");
+    if (digits === "") digits = "0";
+
+    const sign = negative && digits !== "0" ? "-" : "+";
+    return `${sign}:${digits}:${fraction.length}`;
+  }
+
+  function decimalEqual(a, b) {
+    const ca = canonicalDecimal(a);
+    const cb = canonicalDecimal(b);
+    return ca !== null && ca === cb;
+  }
+
+  function setControlState(control, state) {
+    control.classList.remove("correct", "wrong");
+    control.removeAttribute("aria-invalid");
+    if (state === "correct") {
+      control.classList.add("correct");
+    } else if (state === "wrong") {
+      control.classList.add("wrong");
+      control.setAttribute("aria-invalid", "true");
+    }
+  }
+
+  function setStatus(panel, state) {
+    const status = panel.querySelector(".status");
+    status.classList.remove("correct-text", "wrong-text");
+    if (state === "correct") {
+      status.textContent = "Correct!";
+      status.classList.add("correct-text");
+    } else if (state === "wrong") {
+      status.textContent = "Not quite. Try again.";
+      status.classList.add("wrong-text");
+    } else {
+      status.textContent = "";
+    }
+  }
+
+  function clearPanel(panel) {
+    panel.querySelectorAll("input, select").forEach(control => setControlState(control, "clear"));
+    setStatus(panel, "clear");
+    document.getElementById("summary").textContent = "";
+    document.getElementById("summary").className = "summary";
+  }
+
+  function checkCombined(panel, finalSubmit = false) {
+    const id = panel.dataset.id;
+    const expected = combinedAnswers[id];
+    const controls = Array.from(panel.querySelectorAll("input"));
+    const values = controls.map(c => c.value.trim());
+    const complete = values.every(v => v !== "");
+
+    if (!complete && !finalSubmit) return null;
+
+    if (!complete) {
+      controls.forEach(c => setControlState(c, "wrong"));
+      setStatus(panel, "wrong");
+      return false;
+    }
+
+    const correct = values.every((value, i) => decimalEqual(value, expected[i]));
+    controls.forEach(c => setControlState(c, correct ? "correct" : "wrong"));
+    setStatus(panel, correct ? "correct" : "wrong");
+    return correct;
+  }
+
+  function checkChoice(control, finalSubmit = false) {
+    const panel = control.closest(".question");
+    const id = panel.dataset.id;
+    const part = control.dataset.part;
+    const value = control.value;
+
+    if (value === "" && !finalSubmit) return null;
+
+    const correct = value !== "" && value === choiceAnswers[id][part];
+    setControlState(control, correct ? "correct" : "wrong");
+    return correct;
+  }
+
+  function refreshChoicePanelStatus(panel) {
+    const controls = Array.from(panel.querySelectorAll("select"));
+    const anyWrong = controls.some(c => c.classList.contains("wrong"));
+    const allCorrect = controls.length > 0 && controls.every(c => c.classList.contains("correct"));
+
+    if (allCorrect) setStatus(panel, "correct");
+    else if (anyWrong) setStatus(panel, "wrong");
+    else setStatus(panel, "clear");
+  }
+
+  document.querySelectorAll(".combined input").forEach(input => {
+    input.addEventListener("input", () => clearPanel(input.closest(".combined")));
+    input.addEventListener("blur", () => checkCombined(input.closest(".combined"), false));
+  });
+
+  document.querySelectorAll(".question select").forEach(select => {
+    select.addEventListener("change", () => {
+      setControlState(select, "clear");
+      const panel = select.closest(".question");
+      setStatus(panel, "clear");
+      document.getElementById("summary").textContent = "";
+      document.getElementById("summary").className = "summary";
+      checkChoice(select, false);
+      refreshChoicePanelStatus(panel);
+    });
+  });
+
+  document.getElementById("resetAll").addEventListener("click", () => {
+    document.querySelectorAll("input").forEach(input => { input.value = ""; });
+    document.querySelectorAll("select").forEach(select => { select.selectedIndex = 0; });
+    document.querySelectorAll(".question").forEach(clearPanel);
+    const first = document.querySelector("input, select");
+    if (first) first.focus();
+  });
+
+  document.getElementById("submitAll").addEventListener("click", () => {
+    let allCorrect = true;
+
+    document.querySelectorAll(".combined").forEach(panel => {
+      if (checkCombined(panel, true) !== true) allCorrect = false;
+    });
+
+    document.querySelectorAll(".question select").forEach(select => {
+      if (checkChoice(select, true) !== true) allCorrect = false;
+    });
+
+    document.querySelectorAll(".question").forEach(panel => {
+      if (panel.querySelector("select")) refreshChoicePanelStatus(panel);
+    });
+
+    const summary = document.getElementById("summary");
+    if (allCorrect) {
+      summary.textContent = "You got it all correct! Good job!";
+      summary.className = "summary success";
+    } else {
+      summary.textContent = "Keep going—you can try any red answers again.";
+      summary.className = "summary try";
+    }
+  });
+})();
+</script>
+</body>
+</html>

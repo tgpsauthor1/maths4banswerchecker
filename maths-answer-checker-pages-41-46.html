@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maths Answer Checker — Pages 41–46</title>
+<style>
+  :root {
+    --ink: #17324d;
+    --muted: #5f7183;
+    --blue: #0b70b7;
+    --blue-dark: #07568d;
+    --surface: #ffffff;
+    --page: #f4f8fc;
+    --line: #c9d6e2;
+    --correct-bg: #eaf7ed;
+    --correct-line: #2e7d32;
+    --wrong-bg: #fff0f0;
+    --wrong-line: #b3261e;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: var(--ink);
+    background: var(--page);
+    line-height: 1.45;
+  }
+
+  .app {
+    width: min(900px, calc(100% - 24px));
+    margin: 0 auto;
+    padding: 20px 0 40px;
+  }
+
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 0 16px;
+    background: linear-gradient(var(--page) 78%, rgba(244,248,252,0));
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(1.35rem, 4vw, 2rem);
+    color: var(--blue-dark);
+  }
+
+  button {
+    min-height: 48px;
+    border: 0;
+    border-radius: 12px;
+    padding: 0 18px;
+    font: inherit;
+    font-weight: 750;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible {
+    outline: 3px solid #66aee0;
+    outline-offset: 2px;
+  }
+
+  #resetAll {
+    color: var(--blue-dark);
+    background: #e4f1fa;
+    border: 1px solid #a9cde7;
+    white-space: nowrap;
+  }
+
+  .page-section {
+    margin: 16px 0 22px;
+    padding: 18px;
+    border-radius: 18px;
+    background: var(--surface);
+    border: 1px solid #dce6ee;
+    box-shadow: 0 6px 20px rgba(16, 54, 83, 0.06);
+  }
+
+  .page-section h2 {
+    margin: 0 0 14px;
+    font-size: 1.1rem;
+    color: var(--blue);
+  }
+
+  .question {
+    padding: 14px 0;
+    border-top: 1px solid #edf2f6;
+  }
+
+  .question:first-of-type {
+    border-top: 0;
+    padding-top: 2px;
+  }
+
+  .question-head {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+
+  .question-label {
+    display: inline-grid;
+    place-items: center;
+    min-width: 48px;
+    min-height: 36px;
+    padding: 0 10px;
+    border-radius: 999px;
+    background: #e7f2fa;
+    color: var(--blue-dark);
+    font-weight: 800;
+  }
+
+  .prompt {
+    padding-top: 5px;
+    font-weight: 650;
+  }
+
+  .control-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .answer-control {
+    min-height: 50px;
+    border: 2px solid var(--line);
+    border-radius: 12px;
+    background: #fff;
+    color: var(--ink);
+    font: inherit;
+    font-size: 1.08rem;
+    padding: 10px 12px;
+    transition: background-color .15s ease, border-color .15s ease;
+  }
+
+  input.answer-control {
+    width: min(100%, 300px);
+  }
+
+  select.answer-control {
+    width: 90px;
+  }
+
+  .answer-control.state-correct {
+    background: var(--correct-bg);
+    border-color: var(--correct-line);
+  }
+
+  .answer-control.state-wrong {
+    background: var(--wrong-bg);
+    border-color: var(--wrong-line);
+  }
+
+  .feedback {
+    min-height: 1.5em;
+    margin-top: 7px;
+    font-weight: 750;
+  }
+
+  .feedback.correct { color: var(--correct-line); }
+  .feedback.wrong { color: var(--wrong-line); }
+
+  .submit-area {
+    display: grid;
+    gap: 14px;
+    margin-top: 22px;
+  }
+
+  #submitAll {
+    width: 100%;
+    background: var(--blue);
+    color: white;
+    font-size: 1.08rem;
+  }
+
+  #submitAll:hover { background: var(--blue-dark); }
+
+  #result {
+    min-height: 1.6em;
+    text-align: center;
+    font-weight: 800;
+    font-size: 1.05rem;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @media (max-width: 560px) {
+    .app { width: min(100% - 16px, 900px); }
+    .topbar { align-items: flex-start; }
+    .page-section { padding: 15px; border-radius: 14px; }
+    input.answer-control { width: 100%; }
+    .control-row.with-select input.answer-control { width: calc(100% - 100px); min-width: 170px; }
+  }
+</style>
+</head>
+<body>
+<main class="app">
+  <div class="topbar">
+    <h1>Checking answers for pages 41–46</h1>
+    <button id="resetAll" type="button">Reset all</button>
+  </div>
+
+  <div id="pages"></div>
+
+  <div class="submit-area">
+    <button id="submitAll" type="button">Submit all</button>
+    <div id="result" role="status" aria-live="polite"></div>
+  </div>
+</main>
+
+<script>
+"use strict";
+
+const ITEMS = [
+  { id: "q1",   page: 41, label: "1",    kind: "valueUnit", answer: "1.8",   unit: "km" },
+  { id: "q2",   page: 41, label: "2",    kind: "valueUnit", answer: "6.75",  unit: "m" },
+  { id: "q3",   page: 42, label: "3",    kind: "valueSelect", answer: "1.6", unit: "ℓ" },
+  { id: "q4",   page: 42, label: "4",    kind: "money2", answer: "8.30" },
+  { id: "q5a",  page: 43, label: "5(a)", kind: "valueUnit", answer: "8.46",  unit: "kg" },
+  { id: "q5b",  page: 43, label: "5(b)", kind: "valueUnit", answer: "0.94",  unit: "kg" },
+  { id: "q6a",  page: 44, label: "6(a)", kind: "valueSelect", answer: "22.5", unit: "ℓ" },
+  { id: "q6b",  page: 44, label: "6(b)", kind: "valueSelect", answer: "40.5", unit: "ℓ" },
+  { id: "q7",   page: 45, label: "7",    kind: "valueUnit", answer: "8.39",  unit: "kg" },
+  { id: "q8i",  page: 46, label: "8(i)", kind: "money2", answer: "18.65", prompt: "Cost of the shirt" },
+  { id: "q8ii", page: 46, label: "8(ii)",kind: "money2", answer: "28.60" }
+];
+
+const NUMBER_PATTERN = "[+-]?(?:0|[1-9]\\d*)(?:\\.\\d+)?";
+
+function compact(raw) {
+  return raw.trim().replace(/\s+/g, "");
+}
+
+function canonicalNumber(raw) {
+  let s = raw;
+  let negative = false;
+
+  if (s.startsWith("+") || s.startsWith("-")) {
+    negative = s.startsWith("-");
+    s = s.slice(1);
+  }
+
+  let parts = s.split(".");
+  let whole = parts[0];
+  let fraction = parts[1] || "";
+  fraction = fraction.replace(/0+$/, "");
+
+  let normalized = fraction ? whole + "." + fraction : whole;
+  if (normalized === "0") negative = false;
+  return (negative ? "-" : "") + normalized;
+}
+
+function validateDecimal(raw, expected) {
+  const s = compact(raw);
+  const re = new RegExp("^" + NUMBER_PATTERN + "$");
+  if (!re.test(s)) return false;
+  return canonicalNumber(s) === canonicalNumber(expected);
+}
+
+function escapeRegExp(text) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function validateValueWithUnit(raw, expected, unit) {
+  const s = compact(raw);
+  const re = new RegExp("^(" + NUMBER_PATTERN + ")(" + escapeRegExp(unit) + ")$", "i");
+  const match = s.match(re);
+  if (!match) return false;
+  return canonicalNumber(match[1]) === canonicalNumber(expected);
+}
+
+function validateMoney2(raw, expected) {
+  const s = compact(raw);
+  const re = /^\$([+-]?(?:0|[1-9]\d*)\.\d{2})$/;
+  const match = s.match(re);
+  if (!match) return false;
+  return canonicalNumber(match[1]) === canonicalNumber(expected);
+}
+
+function render() {
+  const pages = [...new Set(ITEMS.map(item => item.page))];
+  const host = document.getElementById("pages");
+
+  for (const page of pages) {
+    const section = document.createElement("section");
+    section.className = "page-section";
+    section.setAttribute("aria-labelledby", "page-" + page);
+
+    const heading = document.createElement("h2");
+    heading.id = "page-" + page;
+    heading.textContent = "Page " + page;
+    section.appendChild(heading);
+
+    for (const item of ITEMS.filter(entry => entry.page === page)) {
+      section.appendChild(renderQuestion(item));
+    }
+
+    host.appendChild(section);
+  }
+}
+
+function renderQuestion(item) {
+  const box = document.createElement("div");
+  box.className = "question";
+  box.dataset.itemId = item.id;
+
+  const head = document.createElement("div");
+  head.className = "question-head";
+
+  const label = document.createElement("div");
+  label.className = "question-label";
+  label.textContent = item.label;
+  head.appendChild(label);
+
+  if (item.prompt) {
+    const prompt = document.createElement("div");
+    prompt.className = "prompt";
+    prompt.textContent = item.prompt;
+    head.appendChild(prompt);
+  }
+
+  box.appendChild(head);
+
+  const row = document.createElement("div");
+  row.className = "control-row" + (item.kind === "valueSelect" ? " with-select" : "");
+
+  const input = document.createElement("input");
+  input.type = "text";
+  input.id = item.id + "-input";
+  input.className = "answer-control";
+  input.inputMode = "decimal";
+  input.autocomplete = "off";
+  input.spellcheck = false;
+  input.setAttribute("aria-label", "Question " + item.label + " answer");
+  row.appendChild(input);
+
+  if (item.kind === "valueSelect") {
+    const select = document.createElement("select");
+    select.id = item.id + "-unit";
+    select.className = "answer-control";
+    select.setAttribute("aria-label", "Question " + item.label + " unit");
+
+    const blank = document.createElement("option");
+    blank.value = "";
+    blank.textContent = "";
+    blank.selected = true;
+    select.appendChild(blank);
+
+    const unitOption = document.createElement("option");
+    unitOption.value = item.unit;
+    unitOption.textContent = item.unit;
+    select.appendChild(unitOption);
+
+    row.appendChild(select);
+  }
+
+  box.appendChild(row);
+
+  const feedback = document.createElement("div");
+  feedback.id = item.id + "-feedback";
+  feedback.className = "feedback";
+  feedback.setAttribute("role", "status");
+  feedback.setAttribute("aria-live", "polite");
+  box.appendChild(feedback);
+
+  input.addEventListener("input", () => setState(box, "neutral"));
+  input.addEventListener("blur", () => checkItem(item, false));
+
+  const select = row.querySelector("select");
+  if (select) {
+    select.addEventListener("change", () => {
+      setState(box, "neutral");
+      checkItem(item, false);
+    });
+  }
+
+  return box;
+}
+
+function itemBox(item) {
+  return document.querySelector('[data-item-id="' + item.id + '"]');
+}
+
+function isComplete(item) {
+  const box = itemBox(item);
+  const input = box.querySelector("input");
+  if (!input.value.trim()) return false;
+
+  if (item.kind === "valueSelect") {
+    const select = box.querySelector("select");
+    return select.value !== "";
+  }
+  return true;
+}
+
+function isCorrect(item) {
+  const box = itemBox(item);
+  const input = box.querySelector("input");
+
+  if (item.kind === "valueUnit") {
+    return validateValueWithUnit(input.value, item.answer, item.unit);
+  }
+
+  if (item.kind === "valueSelect") {
+    const select = box.querySelector("select");
+    return select.value === item.unit && validateDecimal(input.value, item.answer);
+  }
+
+  if (item.kind === "money2") {
+    return validateMoney2(input.value, item.answer);
+  }
+
+  return false;
+}
+
+function setState(box, state) {
+  const controls = box.querySelectorAll(".answer-control");
+  const feedback = box.querySelector(".feedback");
+
+  for (const control of controls) {
+    control.classList.remove("state-correct", "state-wrong");
+    control.removeAttribute("aria-invalid");
+
+    if (state === "correct") {
+      control.classList.add("state-correct");
+      control.setAttribute("aria-invalid", "false");
+    } else if (state === "wrong") {
+      control.classList.add("state-wrong");
+      control.setAttribute("aria-invalid", "true");
+    }
+  }
+
+  feedback.className = "feedback";
+  feedback.textContent = "";
+
+  if (state === "correct") {
+    feedback.classList.add("correct");
+    feedback.textContent = "Correct!";
+  } else if (state === "wrong") {
+    feedback.classList.add("wrong");
+    feedback.textContent = "Not quite. Try again.";
+  }
+}
+
+function checkItem(item, finalCheck) {
+  const box = itemBox(item);
+
+  if (!isComplete(item)) {
+    if (finalCheck) setState(box, "wrong");
+    return false;
+  }
+
+  const correct = isCorrect(item);
+  setState(box, correct ? "correct" : "wrong");
+  return correct;
+}
+
+function resetAll() {
+  for (const item of ITEMS) {
+    const box = itemBox(item);
+    box.querySelector("input").value = "";
+    const select = box.querySelector("select");
+    if (select) select.value = "";
+    setState(box, "neutral");
+  }
+  document.getElementById("result").textContent = "";
+}
+
+function submitAll() {
+  const outcomes = ITEMS.map(item => checkItem(item, true));
+  const result = document.getElementById("result");
+
+  if (outcomes.every(Boolean)) {
+    result.textContent = "You got it all correct! Good job!";
+  } else {
+    result.textContent = "Keep going! You can try again.";
+  }
+}
+
+render();
+document.getElementById("resetAll").addEventListener("click", resetAll);
+document.getElementById("submitAll").addEventListener("click", submitAll);
+</script>
+</body>
+</html>

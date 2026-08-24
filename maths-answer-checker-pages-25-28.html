@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maths Answer Checker — Pages 25–28</title>
+<style>
+  :root {
+    --ink: #17324d;
+    --muted: #60758a;
+    --line: #dbe7f0;
+    --panel: #f7fbfe;
+    --accent: #1479b8;
+    --accent-dark: #0b5f94;
+    --ok-bg: #e9f8ec;
+    --ok-border: #2f8f46;
+    --bad-bg: #fff0f0;
+    --bad-border: #c83f49;
+    --focus: #ffbf47;
+    --white: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  html { color-scheme: light; }
+  body {
+    margin: 0;
+    background: #eef6fb;
+    color: var(--ink);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.45;
+  }
+  .app {
+    width: min(980px, calc(100% - 24px));
+    margin: 22px auto 46px;
+  }
+  .topbar {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 8px 28px rgba(24, 74, 112, 0.08);
+  }
+  h1 {
+    margin: 0 0 6px;
+    font-size: clamp(1.55rem, 4vw, 2.25rem);
+    letter-spacing: -0.02em;
+  }
+  .intro {
+    margin: 0 0 16px;
+    color: var(--muted);
+  }
+  button {
+    font: inherit;
+    font-weight: 700;
+    min-height: 46px;
+    padding: 10px 16px;
+    border-radius: 12px;
+    border: 2px solid var(--accent);
+    cursor: pointer;
+    background: var(--accent);
+    color: white;
+    touch-action: manipulation;
+  }
+  button:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
+  button.secondary {
+    background: white;
+    color: var(--accent-dark);
+  }
+  button.secondary:hover { background: #eef7fc; }
+  button:focus-visible, input:focus-visible, select:focus-visible {
+    outline: 4px solid var(--focus);
+    outline-offset: 2px;
+  }
+  .page {
+    margin-top: 22px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 28px rgba(24, 74, 112, 0.06);
+  }
+  .page > h2 {
+    margin: 0;
+    padding: 14px 20px;
+    color: white;
+    background: var(--accent);
+    font-size: 1.25rem;
+  }
+  .questions {
+    padding: 18px;
+    display: grid;
+    gap: 14px;
+  }
+  .question {
+    border: 1px solid var(--line);
+    background: var(--panel);
+    border-radius: 16px;
+    padding: 16px;
+  }
+  .question-title {
+    margin: 0 0 12px;
+    font-size: 1.08rem;
+    font-weight: 800;
+  }
+  .controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 12px;
+  }
+  .field {
+    display: grid;
+    gap: 7px;
+    align-content: start;
+  }
+  label, .field-label {
+    font-weight: 750;
+  }
+  input[type="text"], select {
+    width: 100%;
+    min-height: 48px;
+    border-radius: 12px;
+    border: 2px solid #9ab2c6;
+    background: white;
+    color: var(--ink);
+    padding: 9px 12px;
+    font: inherit;
+    font-size: 1.05rem;
+  }
+  input[type="text"].correct, select.correct {
+    background: var(--ok-bg);
+    border-color: var(--ok-border);
+  }
+  input[type="text"].incorrect, select.incorrect {
+    background: var(--bad-bg);
+    border-color: var(--bad-border);
+  }
+  .feedback {
+    min-height: 1.35em;
+    font-weight: 800;
+    font-size: 0.94rem;
+  }
+  .feedback.correct-text { color: #206e35; }
+  .feedback.incorrect-text { color: #9b2933; }
+  .combined {
+    display: grid;
+    grid-template-columns: minmax(130px, 1fr) minmax(120px, 0.7fr);
+    gap: 10px;
+  }
+  .table-wrap {
+    overflow-x: auto;
+    border-radius: 12px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+  }
+  th, td {
+    border: 1px solid #bcd0df;
+    padding: 10px;
+    text-align: center;
+  }
+  th {
+    background: #e7f1f8;
+    font-weight: 800;
+  }
+  td.given {
+    font-weight: 800;
+    background: #f8fbfd;
+  }
+  table input[type="text"] {
+    min-width: 92px;
+    text-align: center;
+  }
+  .choice-panel {
+    border: 2px solid transparent;
+    border-radius: 14px;
+    padding: 12px;
+    background: white;
+  }
+  .choice-panel.correct-panel {
+    background: var(--ok-bg);
+    border-color: var(--ok-border);
+  }
+  .choice-panel.incorrect-panel {
+    background: var(--bad-bg);
+    border-color: var(--bad-border);
+  }
+  .choices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    margin-bottom: 12px;
+  }
+  .choice {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 42px;
+    padding: 6px 10px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #fbfdff;
+    font-weight: 700;
+  }
+  .choice input {
+    width: 22px;
+    height: 22px;
+    accent-color: var(--accent);
+  }
+  .bottom-actions {
+    margin-top: 22px;
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 18px;
+    box-shadow: 0 8px 28px rgba(24, 74, 112, 0.08);
+  }
+  .bottom-actions button {
+    width: 100%;
+    font-size: 1.08rem;
+  }
+  #overall-message {
+    margin: 14px 0 0;
+    min-height: 1.5em;
+    text-align: center;
+    font-weight: 850;
+    font-size: 1.05rem;
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  @media (max-width: 620px) {
+    .app { width: min(100% - 14px, 980px); margin-top: 8px; }
+    .topbar, .questions { padding: 14px; }
+    .question { padding: 13px; }
+    .combined { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<main class="app">
+  <header class="topbar">
+    <h1>Checking answers for pages 25–28</h1>
+    <p class="intro">Enter each answer. Completed text and choice controls check when you leave them. For 10(a) and 10(b), select choices and use <strong>Check</strong>.</p>
+    <button id="reset-all" type="button" class="secondary">Reset all</button>
+  </header>
+
+  <section class="page" aria-labelledby="page25">
+    <h2 id="page25">Page 25</h2>
+    <div class="questions">
+      <section class="question" aria-labelledby="q1">
+        <h3 class="question-title" id="q1">1</h3>
+        <div class="controls">
+          <div class="field"><label for="q1ai">1(a)(i)</label><input id="q1ai" type="text" inputmode="numeric" autocomplete="off" data-item="q1ai"><span class="feedback" id="f-q1ai" aria-live="polite"></span></div>
+          <div class="field"><label for="q1aii">1(a)(ii)</label><input id="q1aii" type="text" inputmode="numeric" autocomplete="off" data-item="q1aii"><span class="feedback" id="f-q1aii" aria-live="polite"></span></div>
+          <div class="field"><label for="q1bi">1(b)(i)</label><input id="q1bi" type="text" inputmode="numeric" autocomplete="off" data-item="q1bi"><span class="feedback" id="f-q1bi" aria-live="polite"></span></div>
+          <div class="field"><label for="q1bii">1(b)(ii)</label><input id="q1bii" type="text" inputmode="numeric" autocomplete="off" data-item="q1bii"><span class="feedback" id="f-q1bii" aria-live="polite"></span></div>
+          <div class="field"><label for="q1ci">1(c)(i)</label><input id="q1ci" type="text" inputmode="numeric" autocomplete="off" data-item="q1ci"><span class="feedback" id="f-q1ci" aria-live="polite"></span></div>
+          <div class="field"><label for="q1cii">1(c)(ii)</label><input id="q1cii" type="text" inputmode="numeric" autocomplete="off" data-item="q1cii"><span class="feedback" id="f-q1cii" aria-live="polite"></span></div>
+        </div>
+      </section>
+
+      <section class="question" aria-labelledby="q2">
+        <h3 class="question-title" id="q2">2</h3>
+        <div class="controls">
+          <div class="field"><label for="q2a">2(a)</label><input id="q2a" type="text" inputmode="text" autocomplete="off" data-item="q2a"><span class="feedback" id="f-q2a" aria-live="polite"></span></div>
+          <div class="field">
+            <span class="field-label">2(b)</span>
+            <div class="combined" data-combined="q2b">
+              <div><label class="sr-only" for="q2b-num">2(b) number</label><input id="q2b-num" type="text" inputmode="numeric" autocomplete="off"></div>
+              <div><label class="sr-only" for="q2b-unit">2(b) unit</label><select id="q2b-unit"><option value=""></option><option value="l">ℓ</option></select></div>
+            </div>
+            <span class="feedback" id="f-q2b" aria-live="polite"></span>
+          </div>
+          <div class="field"><label for="q2c">2(c)</label><input id="q2c" type="text" inputmode="text" autocomplete="off" data-item="q2c"><span class="feedback" id="f-q2c" aria-live="polite"></span></div>
+          <div class="field"><label for="q2d">2(d)</label><input id="q2d" type="text" inputmode="text" autocomplete="off" data-item="q2d"><span class="feedback" id="f-q2d" aria-live="polite"></span></div>
+          <div class="field"><label for="q2e">2(e)</label><input id="q2e" type="text" inputmode="text" autocomplete="off" data-item="q2e"><span class="feedback" id="f-q2e" aria-live="polite"></span></div>
+          <div class="field"><label for="q2f">2(f)</label><input id="q2f" type="text" inputmode="text" autocomplete="off" data-item="q2f"><span class="feedback" id="f-q2f" aria-live="polite"></span></div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <section class="page" aria-labelledby="page26">
+    <h2 id="page26">Page 26</h2>
+    <div class="questions">
+      <section class="question" aria-labelledby="q3"><h3 class="question-title" id="q3">3</h3><div class="controls">
+        <div class="field"><label for="q3i">3(i)</label><input id="q3i" type="text" inputmode="decimal" autocomplete="off" data-item="q3i"><span class="feedback" id="f-q3i" aria-live="polite"></span></div>
+        <div class="field"><label for="q3ii">3(ii)</label><input id="q3ii" type="text" inputmode="decimal" autocomplete="off" data-item="q3ii"><span class="feedback" id="f-q3ii" aria-live="polite"></span></div>
+      </div></section>
+      <section class="question" aria-labelledby="q4"><h3 class="question-title" id="q4">4</h3><div class="controls">
+        <div class="field"><label for="q4i">4(i)</label><input id="q4i" type="text" inputmode="decimal" autocomplete="off" data-item="q4i"><span class="feedback" id="f-q4i" aria-live="polite"></span></div>
+        <div class="field"><label for="q4ii">4(ii)</label><input id="q4ii" type="text" inputmode="decimal" autocomplete="off" data-item="q4ii"><span class="feedback" id="f-q4ii" aria-live="polite"></span></div>
+      </div></section>
+      <section class="question" aria-labelledby="q5"><h3 class="question-title" id="q5">5</h3><div class="controls">
+        <div class="field"><label for="q5i">5(i)</label><input id="q5i" type="text" inputmode="decimal" autocomplete="off" data-item="q5i"><span class="feedback" id="f-q5i" aria-live="polite"></span></div>
+        <div class="field"><label for="q5ii">5(ii)</label><input id="q5ii" type="text" inputmode="decimal" autocomplete="off" data-item="q5ii"><span class="feedback" id="f-q5ii" aria-live="polite"></span></div>
+      </div></section>
+    </div>
+  </section>
+
+  <section class="page" aria-labelledby="page27">
+    <h2 id="page27">Page 27</h2>
+    <div class="questions">
+      <section class="question" aria-labelledby="q6"><h3 class="question-title" id="q6">6</h3><div class="controls">
+        <div class="field"><label for="q6i">6(i)</label><input id="q6i" type="text" inputmode="decimal" autocomplete="off" data-item="q6i"><span class="feedback" id="f-q6i" aria-live="polite"></span></div>
+        <div class="field"><label for="q6ii">6(ii)</label><input id="q6ii" type="text" inputmode="decimal" autocomplete="off" data-item="q6ii"><span class="feedback" id="f-q6ii" aria-live="polite"></span></div>
+      </div></section>
+      <section class="question" aria-labelledby="q7"><h3 class="question-title" id="q7">7</h3><div class="controls">
+        <div class="field"><label for="q7a">7(a)</label><input id="q7a" type="text" inputmode="decimal" autocomplete="off" data-item="q7a"><span class="feedback" id="f-q7a" aria-live="polite"></span></div>
+        <div class="field"><label for="q7b">7(b)</label><input id="q7b" type="text" inputmode="decimal" autocomplete="off" data-item="q7b"><span class="feedback" id="f-q7b" aria-live="polite"></span></div>
+        <div class="field"><label for="q7c">7(c)</label><input id="q7c" type="text" inputmode="decimal" autocomplete="off" data-item="q7c"><span class="feedback" id="f-q7c" aria-live="polite"></span></div>
+        <div class="field"><label for="q7d">7(d)</label><input id="q7d" type="text" inputmode="decimal" autocomplete="off" data-item="q7d"><span class="feedback" id="f-q7d" aria-live="polite"></span></div>
+      </div></section>
+      <section class="question" aria-labelledby="q8"><h3 class="question-title" id="q8">8</h3><div class="controls">
+        <div class="field"><label for="q8a">8(a)</label><input id="q8a" type="text" inputmode="decimal" autocomplete="off" data-item="q8a"><span class="feedback" id="f-q8a" aria-live="polite"></span></div>
+        <div class="field"><label for="q8b">8(b)</label><input id="q8b" type="text" inputmode="decimal" autocomplete="off" data-item="q8b"><span class="feedback" id="f-q8b" aria-live="polite"></span></div>
+        <div class="field"><label for="q8c">8(c)</label><input id="q8c" type="text" inputmode="decimal" autocomplete="off" data-item="q8c"><span class="feedback" id="f-q8c" aria-live="polite"></span></div>
+        <div class="field"><label for="q8d">8(d)</label><input id="q8d" type="text" inputmode="decimal" autocomplete="off" data-item="q8d"><span class="feedback" id="f-q8d" aria-live="polite"></span></div>
+      </div></section>
+    </div>
+  </section>
+
+  <section class="page" aria-labelledby="page28">
+    <h2 id="page28">Page 28</h2>
+    <div class="questions">
+      <section class="question" aria-labelledby="q9">
+        <h3 class="question-title" id="q9">9</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Given</th><th scope="col">Whole</th><th scope="col">Tenth</th><th scope="col">Hundredth</th></tr></thead>
+            <tbody>
+              <tr><td class="given">5.609</td><td><label class="sr-only" for="q9r1w">9 row 1 whole</label><input id="q9r1w" type="text" inputmode="numeric" data-item="q9r1w"><span class="feedback" id="f-q9r1w" aria-live="polite"></span></td><td><label class="sr-only" for="q9r1t">9 row 1 tenth</label><input id="q9r1t" type="text" inputmode="decimal" data-item="q9r1t"><span class="feedback" id="f-q9r1t" aria-live="polite"></span></td><td><label class="sr-only" for="q9r1h">9 row 1 hundredth</label><input id="q9r1h" type="text" inputmode="decimal" data-item="q9r1h"><span class="feedback" id="f-q9r1h" aria-live="polite"></span></td></tr>
+              <tr><td class="given">1.599</td><td><label class="sr-only" for="q9r2w">9 row 2 whole</label><input id="q9r2w" type="text" inputmode="numeric" data-item="q9r2w"><span class="feedback" id="f-q9r2w" aria-live="polite"></span></td><td><label class="sr-only" for="q9r2t">9 row 2 tenth</label><input id="q9r2t" type="text" inputmode="decimal" data-item="q9r2t"><span class="feedback" id="f-q9r2t" aria-live="polite"></span></td><td><label class="sr-only" for="q9r2h">9 row 2 hundredth</label><input id="q9r2h" type="text" inputmode="decimal" data-item="q9r2h"><span class="feedback" id="f-q9r2h" aria-live="polite"></span></td></tr>
+              <tr><td class="given">16.002</td><td><label class="sr-only" for="q9r3w">9 row 3 whole</label><input id="q9r3w" type="text" inputmode="numeric" data-item="q9r3w"><span class="feedback" id="f-q9r3w" aria-live="polite"></span></td><td><label class="sr-only" for="q9r3t">9 row 3 tenth</label><input id="q9r3t" type="text" inputmode="decimal" data-item="q9r3t"><span class="feedback" id="f-q9r3t" aria-live="polite"></span></td><td><label class="sr-only" for="q9r3h">9 row 3 hundredth</label><input id="q9r3h" type="text" inputmode="decimal" data-item="q9r3h"><span class="feedback" id="f-q9r3h" aria-live="polite"></span></td></tr>
+              <tr><td class="given">504.817</td><td><label class="sr-only" for="q9r4w">9 row 4 whole</label><input id="q9r4w" type="text" inputmode="numeric" data-item="q9r4w"><span class="feedback" id="f-q9r4w" aria-live="polite"></span></td><td><label class="sr-only" for="q9r4t">9 row 4 tenth</label><input id="q9r4t" type="text" inputmode="decimal" data-item="q9r4t"><span class="feedback" id="f-q9r4t" aria-live="polite"></span></td><td><label class="sr-only" for="q9r4h">9 row 4 hundredth</label><input id="q9r4h" type="text" inputmode="decimal" data-item="q9r4h"><span class="feedback" id="f-q9r4h" aria-live="polite"></span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="question" aria-labelledby="q10a-title">
+        <h3 class="question-title" id="q10a-title">10(a)</h3>
+        <div class="choice-panel" id="q10a-panel">
+          <div class="choices" role="group" aria-label="10(a) choices">
+            <label class="choice"><input type="checkbox" name="q10a" value="132">13.2</label>
+            <label class="choice"><input type="checkbox" name="q10a" value="134">13.4</label>
+            <label class="choice"><input type="checkbox" name="q10a" value="135">13.5</label>
+            <label class="choice"><input type="checkbox" name="q10a" value="138">13.8</label>
+          </div>
+          <button type="button" class="check-set" data-set="q10a">Check</button>
+          <span class="feedback" id="f-q10a" aria-live="polite"></span>
+        </div>
+      </section>
+
+      <section class="question" aria-labelledby="q10b-title">
+        <h3 class="question-title" id="q10b-title">10(b)</h3>
+        <div class="choice-panel" id="q10b-panel">
+          <div class="choices" role="group" aria-label="10(b) choices">
+            <label class="choice"><input type="checkbox" name="q10b" value="132">13.2</label>
+            <label class="choice"><input type="checkbox" name="q10b" value="134">13.4</label>
+            <label class="choice"><input type="checkbox" name="q10b" value="135">13.5</label>
+            <label class="choice"><input type="checkbox" name="q10b" value="138">13.8</label>
+          </div>
+          <button type="button" class="check-set" data-set="q10b">Check</button>
+          <span class="feedback" id="f-q10b" aria-live="polite"></span>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <section class="bottom-actions" aria-label="Final checking">
+    <button id="submit-all" type="button">Submit all</button>
+    <p id="overall-message" aria-live="polite"></p>
+  </section>
+</main>
+
+<script>
+(() => {
+  "use strict";
+
+  const items = {
+    q1ai:  { kind: "integer", value: "8" },
+    q1aii: { kind: "integer", value: "8" },
+    q1bi:  { kind: "integer", value: "32" },
+    q1bii: { kind: "integer", value: "32" },
+    q1ci:  { kind: "integer", value: "68" },
+    q1cii: { kind: "integer", value: "68" },
+
+    q2a: { kind: "unitInteger", value: "5", unit: "cm" },
+    q2c: { kind: "unitInteger", value: "29", unit: "kg" },
+    q2d: { kind: "unitInteger", value: "45", unit: "g" },
+    q2e: { kind: "unitInteger", value: "78", unit: "m" },
+    q2f: { kind: "unitInteger", value: "55", unit: "ml" },
+
+    q3i:  { kind: "fixed", value: "2.4", places: 1 },
+    q3ii: { kind: "fixed", value: "2.4", places: 1 },
+    q4i:  { kind: "fixed", value: "0.8", places: 1 },
+    q4ii: { kind: "fixed", value: "0.8", places: 1 },
+    q5i:  { kind: "fixed", value: "32.57", places: 2 },
+    q5ii: { kind: "fixed", value: "32.57", places: 2 },
+
+    q6i:  { kind: "fixed", value: "6.78", places: 2 },
+    q6ii: { kind: "fixed", value: "6.78", places: 2 },
+    q7a: { kind: "fixed", value: "2.7", places: 1 },
+    q7b: { kind: "fixed", value: "50.4", places: 1 },
+    q7c: { kind: "fixed", value: "124.5", places: 1 },
+    q7d: { kind: "fixed", value: "21.0", places: 1 },
+    q8a: { kind: "fixed", value: "3.84", places: 2 },
+    q8b: { kind: "fixed", value: "1.48", places: 2 },
+    q8c: { kind: "fixed", value: "51.91", places: 2 },
+    q8d: { kind: "fixed", value: "17.02", places: 2 },
+
+    q9r1w: { kind: "integer", value: "6" },
+    q9r1t: { kind: "fixed", value: "5.6", places: 1 },
+    q9r1h: { kind: "fixed", value: "5.61", places: 2 },
+    q9r2w: { kind: "integer", value: "2" },
+    q9r2t: { kind: "fixed", value: "1.6", places: 1 },
+    q9r2h: { kind: "fixed", value: "1.60", places: 2 },
+    q9r3w: { kind: "integer", value: "16" },
+    q9r3t: { kind: "fixed", value: "16.0", places: 1 },
+    q9r3h: { kind: "fixed", value: "16.00", places: 2 },
+    q9r4w: { kind: "integer", value: "505" },
+    q9r4t: { kind: "fixed", value: "504.8", places: 1 },
+    q9r4h: { kind: "fixed", value: "504.82", places: 2 }
+  };
+
+  const sets = {
+    q10a: new Set(["132", "134"]),
+    q10b: new Set(["135", "138"])
+  };
+
+  function trimOuter(value) {
+    return String(value).trim();
+  }
+
+  function validIntegerSyntax(value) {
+    return /^-?(?:0|[1-9]\d*)$/.test(value);
+  }
+
+  function validFixedSyntax(value, places) {
+    const pattern = new RegExp(`^-?(?:0|[1-9]\\d*)\\.\\d{${places}}$`);
+    return pattern.test(value);
+  }
+
+  function sameDecimalTextValue(a, b) {
+    function toParts(value) {
+      let s = value;
+      let sign = 1n;
+      if (s.startsWith("-")) {
+        sign = -1n;
+        s = s.slice(1);
+      }
+      const [whole, frac = ""] = s.split(".");
+      const digits = BigInt((whole + frac) || "0") * sign;
+      return { digits, scale: frac.length };
+    }
+    const x = toParts(a);
+    const y = toParts(b);
+    if (x.scale === y.scale) return x.digits === y.digits;
+    if (x.scale < y.scale) return x.digits * (10n ** BigInt(y.scale - x.scale)) === y.digits;
+    return x.digits === y.digits * (10n ** BigInt(x.scale - y.scale));
+  }
+
+  function validateItem(rule, raw) {
+    const value = trimOuter(raw);
+    if (value === "") return { complete: false, correct: false };
+
+    if (rule.kind === "integer") {
+      return { complete: true, correct: validIntegerSyntax(value) && value === rule.value };
+    }
+
+    if (rule.kind === "fixed") {
+      return {
+        complete: true,
+        correct: validFixedSyntax(value, rule.places) && sameDecimalTextValue(value, rule.value)
+      };
+    }
+
+    if (rule.kind === "unitInteger") {
+      const escapedUnit = rule.unit.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const match = value.match(new RegExp(`^(-?(?:0|[1-9]\\d*))\\s*(${escapedUnit})$`, "i"));
+      return {
+        complete: true,
+        correct: Boolean(match) && match[1] === rule.value && match[2].toLowerCase() === rule.unit.toLowerCase()
+      };
+    }
+
+    return { complete: true, correct: false };
+  }
+
+  function setFeedback(id, state) {
+    const control = document.getElementById(id);
+    const feedback = document.getElementById(`f-${id}`);
+    control.classList.remove("correct", "incorrect");
+    feedback.classList.remove("correct-text", "incorrect-text");
+    feedback.textContent = "";
+
+    if (state === "correct") {
+      control.classList.add("correct");
+      feedback.classList.add("correct-text");
+      feedback.textContent = "Correct!";
+    } else if (state === "incorrect") {
+      control.classList.add("incorrect");
+      feedback.classList.add("incorrect-text");
+      feedback.textContent = "Not quite. Try again.";
+    }
+  }
+
+  function checkSingle(id, forceBlank = false) {
+    const control = document.getElementById(id);
+    const result = validateItem(items[id], control.value);
+    if (!result.complete && !forceBlank) {
+      setFeedback(id, "clear");
+      return false;
+    }
+    setFeedback(id, result.correct ? "correct" : "incorrect");
+    return result.correct;
+  }
+
+  function clearSingle(id) {
+    setFeedback(id, "clear");
+    document.getElementById("overall-message").textContent = "";
+  }
+
+  function q2bComplete() {
+    return trimOuter(document.getElementById("q2b-num").value) !== "" &&
+           document.getElementById("q2b-unit").value !== "";
+  }
+
+  function q2bCorrect() {
+    const number = trimOuter(document.getElementById("q2b-num").value);
+    const unit = document.getElementById("q2b-unit").value;
+    return validIntegerSyntax(number) && number === "7" && unit === "l";
+  }
+
+  function setCombinedState(state) {
+    const num = document.getElementById("q2b-num");
+    const unit = document.getElementById("q2b-unit");
+    const feedback = document.getElementById("f-q2b");
+    [num, unit].forEach(el => el.classList.remove("correct", "incorrect"));
+    feedback.classList.remove("correct-text", "incorrect-text");
+    feedback.textContent = "";
+
+    if (state === "correct") {
+      [num, unit].forEach(el => el.classList.add("correct"));
+      feedback.classList.add("correct-text");
+      feedback.textContent = "Correct!";
+    } else if (state === "incorrect") {
+      [num, unit].forEach(el => el.classList.add("incorrect"));
+      feedback.classList.add("incorrect-text");
+      feedback.textContent = "Not quite. Try again.";
+    }
+  }
+
+  function checkCombined(forceBlank = false) {
+    if (!q2bComplete() && !forceBlank) {
+      setCombinedState("clear");
+      return false;
+    }
+    const ok = q2bCorrect();
+    setCombinedState(ok ? "correct" : "incorrect");
+    return ok;
+  }
+
+  function clearCombined() {
+    setCombinedState("clear");
+    document.getElementById("overall-message").textContent = "";
+  }
+
+  function chosenSet(name) {
+    return new Set(
+      Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(el => el.value)
+    );
+  }
+
+  function sameSet(a, b) {
+    if (a.size !== b.size) return false;
+    for (const v of a) if (!b.has(v)) return false;
+    return true;
+  }
+
+  function setChoiceState(name, state) {
+    const panel = document.getElementById(`${name}-panel`);
+    const feedback = document.getElementById(`f-${name}`);
+    panel.classList.remove("correct-panel", "incorrect-panel");
+    feedback.classList.remove("correct-text", "incorrect-text");
+    feedback.textContent = "";
+    if (state === "correct") {
+      panel.classList.add("correct-panel");
+      feedback.classList.add("correct-text");
+      feedback.textContent = "Correct!";
+    } else if (state === "incorrect") {
+      panel.classList.add("incorrect-panel");
+      feedback.classList.add("incorrect-text");
+      feedback.textContent = "Not quite. Try again.";
+    }
+  }
+
+  function checkSet(name) {
+    const ok = sameSet(chosenSet(name), sets[name]);
+    setChoiceState(name, ok ? "correct" : "incorrect");
+    return ok;
+  }
+
+  function clearSet(name) {
+    setChoiceState(name, "clear");
+    document.getElementById("overall-message").textContent = "";
+  }
+
+  document.querySelectorAll("[data-item]").forEach(control => {
+    const id = control.id;
+    control.addEventListener("input", () => clearSingle(id));
+    control.addEventListener("blur", () => checkSingle(id, false));
+  });
+
+  ["q2b-num", "q2b-unit"].forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener(id === "q2b-unit" ? "change" : "input", clearCombined);
+    el.addEventListener(id === "q2b-unit" ? "change" : "blur", () => checkCombined(false));
+  });
+
+  document.querySelectorAll(".check-set").forEach(button => {
+    button.addEventListener("click", () => checkSet(button.dataset.set));
+  });
+
+  Object.keys(sets).forEach(name => {
+    document.querySelectorAll(`input[name="${name}"]`).forEach(box => {
+      box.addEventListener("change", () => clearSet(name));
+    });
+  });
+
+  document.getElementById("submit-all").addEventListener("click", () => {
+    const results = [];
+    Object.keys(items).forEach(id => results.push(checkSingle(id, true)));
+    results.push(checkCombined(true));
+    Object.keys(sets).forEach(name => results.push(checkSet(name)));
+
+    const allCorrect = results.every(Boolean);
+    document.getElementById("overall-message").textContent = allCorrect
+      ? "You got it all correct! Good job!"
+      : "Keep going—you can try again.";
+  });
+
+  document.getElementById("reset-all").addEventListener("click", () => {
+    document.querySelectorAll('input[type="text"]').forEach(el => {
+      el.value = "";
+      el.classList.remove("correct", "incorrect");
+    });
+    document.querySelectorAll("select").forEach(el => {
+      el.selectedIndex = 0;
+      el.classList.remove("correct", "incorrect");
+    });
+    document.querySelectorAll('input[type="checkbox"]').forEach(el => {
+      el.checked = false;
+    });
+    document.querySelectorAll(".feedback").forEach(el => {
+      el.textContent = "";
+      el.classList.remove("correct-text", "incorrect-text");
+    });
+    document.querySelectorAll(".choice-panel").forEach(el => {
+      el.classList.remove("correct-panel", "incorrect-panel");
+    });
+    document.getElementById("overall-message").textContent = "";
+  });
+})();
+</script>
+</body>
+</html>

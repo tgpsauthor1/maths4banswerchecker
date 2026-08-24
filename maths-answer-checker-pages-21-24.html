@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maths Answer Checker — Pages 21–24</title>
+<style>
+  :root {
+    --bg: #f4f8fb;
+    --card: #ffffff;
+    --ink: #17324d;
+    --muted: #52697f;
+    --accent: #0878bd;
+    --accent-dark: #055b91;
+    --line: #d9e5ee;
+    --good-bg: #e8f7ec;
+    --good-border: #2b8a3e;
+    --bad-bg: #fff0f0;
+    --bad-border: #c92a2a;
+    --focus: #ffbf47;
+    --shadow: 0 8px 24px rgba(22, 50, 77, .08);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.45;
+  }
+
+  button, input, select { font: inherit; }
+
+  .wrap {
+    width: min(900px, calc(100% - 28px));
+    margin: 0 auto;
+    padding: 24px 0 44px;
+  }
+
+  .topbar {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(1.55rem, 4vw, 2.15rem);
+    line-height: 1.15;
+    color: var(--accent-dark);
+  }
+
+  .button {
+    border: 0;
+    border-radius: 12px;
+    min-height: 48px;
+    padding: 11px 18px;
+    font-weight: 750;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  .button:focus-visible,
+  input:focus-visible,
+  select:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
+  }
+
+  .button.secondary {
+    color: var(--accent-dark);
+    background: #e7f3fa;
+    border: 2px solid #b9dcef;
+  }
+
+  .button.primary {
+    color: white;
+    background: var(--accent);
+    box-shadow: var(--shadow);
+  }
+
+  .page {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    padding: clamp(18px, 4vw, 30px);
+    margin-bottom: 24px;
+  }
+
+  .page h2 {
+    margin: 0 0 18px;
+    padding-bottom: 12px;
+    border-bottom: 3px solid #d9eef9;
+    color: var(--accent-dark);
+    font-size: 1.35rem;
+  }
+
+  .question {
+    margin: 0 0 16px;
+    border: 2px solid var(--line);
+    border-radius: 16px;
+    padding: 14px;
+    transition: border-color .15s ease, background-color .15s ease;
+  }
+
+  .question:last-child { margin-bottom: 0; }
+
+  .question > legend {
+    padding: 0 7px;
+    font-weight: 800;
+    color: var(--ink);
+  }
+
+  .question.state-correct {
+    border-color: var(--good-border);
+    background: #fbfffc;
+  }
+
+  .question.state-wrong {
+    border-color: var(--bad-border);
+    background: #fffdfd;
+  }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .field {
+    min-width: 0;
+    display: grid;
+    gap: 6px;
+  }
+
+  .field-label {
+    font-size: .88rem;
+    font-weight: 750;
+    color: var(--muted);
+  }
+
+  input.answer,
+  select.answer {
+    width: 160px;
+    max-width: 100%;
+    min-height: 48px;
+    border: 2px solid #aebfcd;
+    border-radius: 12px;
+    background: white;
+    color: var(--ink);
+    padding: 9px 12px;
+    transition: border-color .12s ease, background-color .12s ease;
+  }
+
+  select.answer { width: 170px; }
+
+  input.answer.is-correct,
+  select.answer.is-correct {
+    background: var(--good-bg);
+    border-color: var(--good-border);
+  }
+
+  input.answer.is-wrong,
+  select.answer.is-wrong {
+    background: var(--bad-bg);
+    border-color: var(--bad-border);
+  }
+
+  .feedback {
+    min-height: 1.4em;
+    margin-top: 10px;
+    font-weight: 800;
+  }
+
+  .feedback.good { color: var(--good-border); }
+  .feedback.bad { color: var(--bad-border); }
+
+  .submit-row {
+    display: grid;
+    gap: 14px;
+    justify-items: stretch;
+    margin-top: 26px;
+  }
+
+  .result {
+    min-height: 1.8em;
+    margin: 0;
+    text-align: center;
+    font-size: 1.08rem;
+    font-weight: 850;
+    color: var(--accent-dark);
+  }
+
+  .visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+
+  @media (max-width: 520px) {
+    .wrap { width: min(100% - 18px, 900px); padding-top: 14px; }
+    .topbar { align-items: stretch; }
+    .topbar .button { width: 100%; }
+    .controls { display: grid; grid-template-columns: 1fr; }
+    input.answer, select.answer { width: 100%; }
+  }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="topbar">
+    <h1>Checking answers for pages 21–24</h1>
+    <button id="resetAll" class="button secondary" type="button">Reset all</button>
+  </div>
+
+  <div id="pages"></div>
+
+  <div class="submit-row">
+    <button id="submitAll" class="button primary" type="button">Submit all</button>
+    <p id="result" class="result" role="status" aria-live="polite"></p>
+  </div>
+</main>
+
+<script>
+(() => {
+  "use strict";
+
+  const questions = [
+    { page: 21, label: "1(a)", fields: [{ id: "p21q1a", type: "number", answer: "0.7" }] },
+    { page: 21, label: "1(b)", fields: [{ id: "p21q1b", type: "number", answer: "2.4" }] },
+    { page: 21, label: "1(c)", fields: [{ id: "p21q1c", type: "number", answer: "3.9" }] },
+    { page: 21, label: "1(d)", fields: [{ id: "p21q1d", type: "number", answer: "2.24" }] },
+
+    { page: 22, label: "1(e)", fields: [{ id: "p22q1e", type: "number", answer: "8.54" }] },
+    { page: 22, label: "1(f)", fields: [{ id: "p22q1f", type: "number", answer: "9.19" }] },
+    { page: 22, label: "1(g)", fields: [{ id: "p22q1g", type: "number", answer: "3.503" }] },
+    { page: 22, label: "1(h)", fields: [{ id: "p22q1h", type: "number", answer: "17.135" }] },
+
+    {
+      page: 23, label: "2(a)", combined: true,
+      fields: [
+        { id: "p23q2a-n", type: "number", answer: "0.1", aria: "Number answer for 2(a)" },
+        { id: "p23q2a-c", type: "choice", answer: "less", aria: "Choice for 2(a)" }
+      ]
+    },
+    {
+      page: 23, label: "2(b)", combined: true,
+      fields: [
+        { id: "p23q2b-n", type: "number", answer: "0.02", aria: "Number answer for 2(b)" },
+        { id: "p23q2b-c", type: "choice", answer: "more", aria: "Choice for 2(b)" }
+      ]
+    },
+    {
+      page: 23, label: "2(c)", combined: true,
+      fields: [
+        { id: "p23q2c-n", type: "number", answer: "0.003", aria: "Number answer for 2(c)" },
+        { id: "p23q2c-c", type: "choice", answer: "more", aria: "Choice for 2(c)" }
+      ]
+    },
+    {
+      page: 23, label: "2(d)", combined: true,
+      fields: [
+        { id: "p23q2d-n", type: "number", answer: "0.5", aria: "Number answer for 2(d)" },
+        { id: "p23q2d-c", type: "choice", answer: "less", aria: "Choice for 2(d)" }
+      ]
+    },
+
+    {
+      page: 24, label: "3(a)", combined: true,
+      fields: [
+        { id: "p24q3a1", type: "number", answer: "3.259", visibleLabel: "3(a)(i)" },
+        { id: "p24q3a2", type: "number", answer: "3.261", visibleLabel: "3(a)(ii)" }
+      ]
+    },
+    {
+      page: 24, label: "3(b)", combined: true,
+      fields: [
+        { id: "p24q3b1", type: "number", answer: "2.8", visibleLabel: "3(b)(i)" },
+        { id: "p24q3b2", type: "number", answer: "4.4", visibleLabel: "3(b)(ii)" }
+      ]
+    },
+    { page: 24, label: "3(c)", fields: [{ id: "p24q3c", type: "number", answer: "4.02" }] },
+    {
+      page: 24, label: "3(d)", combined: true,
+      fields: [
+        { id: "p24q3d1", type: "number", answer: "6.75", visibleLabel: "3(d)(i)" },
+        { id: "p24q3d2", type: "number", answer: "6.7", visibleLabel: "3(d)(ii)" }
+      ]
+    },
+    {
+      page: 24, label: "3(e)", combined: true,
+      fields: [
+        { id: "p24q3e1", type: "number", answer: "17", visibleLabel: "3(e)(i)" },
+        { id: "p24q3e2", type: "number", answer: "16.2", visibleLabel: "3(e)(ii)" }
+      ]
+    },
+    {
+      page: 24, label: "3(f)", combined: true,
+      fields: [
+        { id: "p24q3f1", type: "number", answer: "5.3", visibleLabel: "3(f)(i)" },
+        { id: "p24q3f2", type: "number", answer: "4.8", visibleLabel: "3(f)(ii)" }
+      ]
+    },
+    {
+      page: 24, label: "3(g)", combined: true,
+      fields: [
+        { id: "p24q3g1", type: "number", answer: "9.75", visibleLabel: "3(g)(i)" },
+        { id: "p24q3g2", type: "number", answer: "11.75", visibleLabel: "3(g)(ii)" }
+      ]
+    },
+    {
+      page: 24, label: "3(h)", combined: true,
+      fields: [
+        { id: "p24q3h1", type: "number", answer: "3.85", visibleLabel: "3(h)(i)" },
+        { id: "p24q3h2", type: "number", answer: "3.9", visibleLabel: "3(h)(ii)" }
+      ]
+    },
+    {
+      page: 24, label: "3(i)", combined: true,
+      fields: [
+        { id: "p24q3i1", type: "number", answer: "5.54", visibleLabel: "3(i)(i)" },
+        { id: "p24q3i2", type: "number", answer: "5.44", visibleLabel: "3(i)(ii)" }
+      ]
+    }
+  ];
+
+  const pagesRoot = document.getElementById("pages");
+  const result = document.getElementById("result");
+
+  function canonicalDecimal(raw) {
+    const s = String(raw).trim();
+    if (!/^[+-]?(?:0|[1-9]\d*)(?:\.\d+)?$/.test(s)) return null;
+
+    let sign = "";
+    let body = s;
+    if (body[0] === "+" || body[0] === "-") {
+      sign = body[0] === "-" ? "-" : "";
+      body = body.slice(1);
+    }
+
+    let [whole, fraction = ""] = body.split(".");
+    fraction = fraction.replace(/0+$/, "");
+
+    const isZero = whole === "0" && fraction.length === 0;
+    if (isZero) sign = "";
+
+    return sign + whole + (fraction ? "." + fraction : "");
+  }
+
+  function numberMatches(raw, expected) {
+    const actual = canonicalDecimal(raw);
+    const target = canonicalDecimal(expected);
+    return actual !== null && target !== null && actual === target;
+  }
+
+  function fieldIsFilled(field, element) {
+    if (field.type === "choice") return element.value !== "";
+    return element.value.trim() !== "";
+  }
+
+  function fieldIsCorrect(field, element) {
+    if (field.type === "choice") return element.value === field.answer;
+    return numberMatches(element.value, field.answer);
+  }
+
+  function clearFieldState(element) {
+    element.classList.remove("is-correct", "is-wrong");
+    element.removeAttribute("aria-invalid");
+  }
+
+  function clearQuestionState(question) {
+    const box = document.querySelector(`[data-question="${question.label}"][data-page="${question.page}"]`);
+    question.fields.forEach(field => clearFieldState(document.getElementById(field.id)));
+    box.classList.remove("state-correct", "state-wrong");
+    const feedback = box.querySelector(".feedback");
+    feedback.textContent = "";
+    feedback.className = "feedback";
+  }
+
+  function checkQuestion(question, force) {
+    const box = document.querySelector(`[data-question="${question.label}"][data-page="${question.page}"]`);
+    const elements = question.fields.map(field => document.getElementById(field.id));
+    const allFilled = question.fields.every((field, index) => fieldIsFilled(field, elements[index]));
+
+    if (!force && !allFilled) return null;
+
+    let allCorrect = true;
+    question.fields.forEach((field, index) => {
+      const element = elements[index];
+      const filled = fieldIsFilled(field, element);
+      clearFieldState(element);
+
+      if (!filled) {
+        allCorrect = false;
+        if (force) {
+          element.classList.add("is-wrong");
+          element.setAttribute("aria-invalid", "true");
+        }
+        return;
+      }
+
+      if (fieldIsCorrect(field, element)) {
+        element.classList.add("is-correct");
+        element.setAttribute("aria-invalid", "false");
+      } else {
+        allCorrect = false;
+        element.classList.add("is-wrong");
+        element.setAttribute("aria-invalid", "true");
+      }
+    });
+
+    box.classList.remove("state-correct", "state-wrong");
+    const feedback = box.querySelector(".feedback");
+
+    if (allCorrect) {
+      box.classList.add("state-correct");
+      feedback.textContent = "Correct!";
+      feedback.className = "feedback good";
+      return true;
+    }
+
+    if (force || allFilled) {
+      box.classList.add("state-wrong");
+      feedback.textContent = "Not quite. Try again.";
+      feedback.className = "feedback bad";
+      return false;
+    }
+
+    feedback.textContent = "";
+    feedback.className = "feedback";
+    return null;
+  }
+
+  function makeField(question, field, fieldIndex) {
+    const wrapper = document.createElement("div");
+    wrapper.className = "field";
+
+    if (field.visibleLabel) {
+      const label = document.createElement("label");
+      label.className = "field-label";
+      label.htmlFor = field.id;
+      label.textContent = field.visibleLabel;
+      wrapper.appendChild(label);
+    }
+
+    let element;
+    if (field.type === "choice") {
+      element = document.createElement("select");
+      const blank = document.createElement("option");
+      blank.value = "";
+      blank.textContent = "";
+      element.appendChild(blank);
+
+      ["more", "less"].forEach(value => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = value;
+        element.appendChild(option);
+      });
+    } else {
+      element = document.createElement("input");
+      element.type = "text";
+      element.inputMode = "decimal";
+      element.autocomplete = "off";
+      element.spellcheck = false;
+    }
+
+    element.id = field.id;
+    element.className = "answer";
+    element.setAttribute("aria-label", field.aria || field.visibleLabel || `Answer for ${question.label}`);
+    element.setAttribute("data-field-index", String(fieldIndex));
+    element.setAttribute("data-page", String(question.page));
+    element.setAttribute("data-question", question.label);
+
+    if (field.type === "choice") {
+      element.addEventListener("change", () => {
+        clearQuestionState(question);
+        if (question.fields.every(f => fieldIsFilled(f, document.getElementById(f.id)))) {
+          checkQuestion(question, false);
+        }
+        result.textContent = "";
+      });
+    } else {
+      element.addEventListener("input", () => {
+        clearQuestionState(question);
+        result.textContent = "";
+      });
+
+      element.addEventListener("blur", () => {
+        if (!fieldIsFilled(field, element)) return;
+        if (question.fields.every(f => fieldIsFilled(f, document.getElementById(f.id)))) {
+          checkQuestion(question, false);
+        }
+      });
+    }
+
+    wrapper.appendChild(element);
+    return wrapper;
+  }
+
+  function render() {
+    const pages = [...new Set(questions.map(q => q.page))];
+
+    pages.forEach(pageNumber => {
+      const section = document.createElement("section");
+      section.className = "page";
+      section.setAttribute("aria-labelledby", `page-${pageNumber}-heading`);
+
+      const heading = document.createElement("h2");
+      heading.id = `page-${pageNumber}-heading`;
+      heading.textContent = `Page ${pageNumber}`;
+      section.appendChild(heading);
+
+      questions.filter(q => q.page === pageNumber).forEach(question => {
+        const fieldset = document.createElement("fieldset");
+        fieldset.className = "question";
+        fieldset.setAttribute("data-page", String(question.page));
+        fieldset.setAttribute("data-question", question.label);
+
+        const legend = document.createElement("legend");
+        legend.textContent = question.label;
+        fieldset.appendChild(legend);
+
+        const controls = document.createElement("div");
+        controls.className = "controls";
+
+        question.fields.forEach((field, index) => {
+          controls.appendChild(makeField(question, field, index));
+        });
+
+        fieldset.appendChild(controls);
+
+        const feedback = document.createElement("div");
+        feedback.className = "feedback";
+        feedback.setAttribute("role", "status");
+        feedback.setAttribute("aria-live", "polite");
+        fieldset.appendChild(feedback);
+
+        section.appendChild(fieldset);
+      });
+
+      pagesRoot.appendChild(section);
+    });
+  }
+
+  document.getElementById("resetAll").addEventListener("click", () => {
+    questions.forEach(question => {
+      question.fields.forEach(field => {
+        const element = document.getElementById(field.id);
+        if (field.type === "choice") element.selectedIndex = 0;
+        else element.value = "";
+      });
+      clearQuestionState(question);
+    });
+    result.textContent = "";
+  });
+
+  document.getElementById("submitAll").addEventListener("click", () => {
+    let allCorrect = true;
+    questions.forEach(question => {
+      if (checkQuestion(question, true) !== true) allCorrect = false;
+    });
+
+    if (allCorrect) {
+      result.textContent = "You got it all correct! Good job!";
+    } else {
+      result.textContent = "Keep going — check the red answers and try again.";
+    }
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

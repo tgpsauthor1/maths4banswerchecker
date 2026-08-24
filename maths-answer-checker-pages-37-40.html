@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maths Answer Checker — Pages 37–40</title>
+<style>
+  :root {
+    color-scheme: light;
+    --ink: #17212b;
+    --muted: #5f6b76;
+    --border: #cfd7df;
+    --blue: #0b74b8;
+    --blue-dark: #075b91;
+    --green-bg: #e8f7ec;
+    --green-border: #2d8a47;
+    --red-bg: #fdecec;
+    --red-border: #c33b3b;
+    --panel: #f7f9fb;
+    --white: #ffffff;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: var(--ink);
+    background: var(--white);
+    line-height: 1.4;
+  }
+
+  .app {
+    width: min(920px, calc(100% - 28px));
+    margin: 0 auto;
+    padding: 20px 0 44px;
+  }
+
+  header {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+  }
+
+  h1 {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    margin: 0;
+  }
+
+  .top-actions, .bottom-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  button {
+    appearance: none;
+    border: 2px solid var(--blue);
+    background: var(--blue);
+    color: #fff;
+    min-height: 46px;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  button:hover { background: var(--blue-dark); border-color: var(--blue-dark); }
+  button:focus-visible, input:focus-visible {
+    outline: 3px solid #111;
+    outline-offset: 3px;
+  }
+
+  .secondary {
+    background: #fff;
+    color: var(--blue-dark);
+  }
+
+  .secondary:hover {
+    background: #eef7fc;
+    color: var(--blue-dark);
+  }
+
+  .page-section {
+    border-top: 3px solid var(--blue);
+    padding-top: 14px;
+    margin-top: 26px;
+  }
+
+  .page-section h2 {
+    margin: 0 0 12px;
+    font-size: 1.25rem;
+  }
+
+  .question-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .answer-row {
+    display: grid;
+    grid-template-columns: minmax(72px, auto) minmax(0, 1fr);
+    gap: 12px;
+    align-items: center;
+    padding: 14px;
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    background: var(--panel);
+    min-height: 82px;
+  }
+
+  .answer-row.correct {
+    background: var(--green-bg);
+    border-color: var(--green-border);
+  }
+
+  .answer-row.incorrect {
+    background: var(--red-bg);
+    border-color: var(--red-border);
+  }
+
+  .question-label {
+    font-weight: 800;
+    font-size: 1.05rem;
+  }
+
+  .answer-control {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+    align-items: center;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    max-width: 190px;
+    min-height: 48px;
+    border: 2px solid #8896a4;
+    border-radius: 10px;
+    background: #fff;
+    color: var(--ink);
+    padding: 9px 12px;
+    font: inherit;
+    font-size: 1.05rem;
+  }
+
+  .feedback {
+    min-width: 132px;
+    font-weight: 800;
+  }
+
+  .feedback:empty {
+    min-width: 0;
+  }
+
+  .correct .feedback { color: #1f6b36; }
+  .incorrect .feedback { color: #9c2424; }
+
+  .bottom-actions {
+    margin-top: 28px;
+  }
+
+  #overall {
+    margin-top: 16px;
+    min-height: 1.7em;
+    font-weight: 800;
+    font-size: 1.08rem;
+  }
+
+  @media (max-width: 680px) {
+    .question-grid { grid-template-columns: 1fr; }
+    .answer-row {
+      grid-template-columns: 68px minmax(0, 1fr);
+    }
+    .answer-control {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+    .feedback { min-width: 0; }
+    input[type="text"] { max-width: none; }
+  }
+</style>
+</head>
+<body>
+<main class="app">
+  <header>
+    <h1>Checking answers for pages 37–40</h1>
+    <div class="top-actions">
+      <button type="button" id="resetAll" class="secondary">Reset all</button>
+    </div>
+  </header>
+
+  <div id="checker"></div>
+
+  <div class="bottom-actions">
+    <button type="button" id="submitAll">Submit all</button>
+  </div>
+  <div id="overall" role="status" aria-live="polite"></div>
+</main>
+
+<script>
+(() => {
+  "use strict";
+
+  // Structured checker data. Values are stored as scaled integers.
+  const items = [
+    { page: 37, q: "1(a)", n: 12, s: 1 },
+    { page: 37, q: "1(b)", n: 5, s: 1 },
+    { page: 37, q: "1(c)", n: 21, s: 1 },
+    { page: 37, q: "1(d)", n: 53, s: 1 },
+    { page: 37, q: "1(e)", n: 147, s: 2 },
+    { page: 37, q: "1(f)", n: 336, s: 2 },
+    { page: 37, q: "1(g)", n: 14, s: 2 },
+    { page: 37, q: "1(h)", n: 46, s: 2 },
+
+    { page: 38, q: "2(a)", n: 6, s: 1 },
+    { page: 38, q: "2(b)", n: 26, s: 1 },
+    { page: 38, q: "2(c)", n: 155, s: 2 },
+    { page: 38, q: "2(d)", n: 417, s: 2 },
+    { page: 38, q: "2(e)", n: 767, s: 2 },
+    { page: 38, q: "2(f)", n: 361, s: 2 },
+    { page: 38, q: "2(g)", n: 43, s: 1 },
+    { page: 38, q: "2(h)", n: 4, s: 1 },
+
+    { page: 39, q: "3(a)", n: 13, s: 1 },
+    { page: 39, q: "3(b)", n: 103, s: 2 },
+    { page: 39, q: "3(c)", n: 17, s: 2 },
+    { page: 39, q: "3(d)", n: 147, s: 2 },
+    { page: 39, q: "3(e)", n: 507, s: 2 },
+    { page: 39, q: "3(f)", n: 188, s: 2 },
+
+    { page: 40, q: "3(g)", n: 287, s: 2 },
+    { page: 40, q: "3(h)", n: 21, s: 2 },
+    { page: 40, q: "3(i)", n: 223, s: 1 },
+    { page: 40, q: "3(j)", n: 738, s: 1 },
+    { page: 40, q: "3(k)", n: 495, s: 2 },
+    { page: 40, q: "3(l)", n: 252, s: 2 }
+  ];
+
+  const checker = document.getElementById("checker");
+  const overall = document.getElementById("overall");
+  const pageGroups = new Map();
+
+  for (const item of items) {
+    if (!pageGroups.has(item.page)) pageGroups.set(item.page, []);
+    pageGroups.get(item.page).push(item);
+  }
+
+  function expectedCanonical(n, scale) {
+    const negative = n < 0;
+    let digits = String(Math.abs(n));
+    if (scale > 0) {
+      digits = digits.padStart(scale + 1, "0");
+      const whole = digits.slice(0, -scale);
+      let frac = digits.slice(-scale).replace(/0+$/, "");
+      const text = frac ? whole + "." + frac : whole;
+      return (negative && text !== "0" ? "-" : "") + text;
+    }
+    return (negative ? "-" : "") + digits;
+  }
+
+  function canonicalDecimal(raw) {
+    const text = raw.trim();
+    if (!text) return { ok: false, empty: true };
+
+    const match = text.match(/^([+-]?)(\d+)(?:\.(\d+))?$/);
+    if (!match) return { ok: false, empty: false };
+
+    const sign = match[1];
+    const whole = match[2];
+    let frac = match[3] || "";
+
+    // Reject unnecessary leading zeros, including values like 00.5 and 05.6.
+    if (whole.length > 1 && whole.startsWith("0")) {
+      return { ok: false, empty: false };
+    }
+
+    frac = frac.replace(/0+$/, "");
+    const isZero = /^0+$/.test(whole) && frac === "";
+    let value = whole + (frac ? "." + frac : "");
+    if (sign === "-" && !isZero) value = "-" + value;
+
+    return { ok: true, empty: false, value };
+  }
+
+  function isCorrect(raw, item) {
+    const parsed = canonicalDecimal(raw);
+    if (!parsed.ok) return false;
+    return parsed.value === expectedCanonical(item.n, item.s);
+  }
+
+  function setNeutral(row, input, feedback) {
+    row.classList.remove("correct", "incorrect");
+    input.removeAttribute("aria-invalid");
+    feedback.textContent = "";
+  }
+
+  function setResult(row, input, feedback, correct) {
+    row.classList.toggle("correct", correct);
+    row.classList.toggle("incorrect", !correct);
+    input.setAttribute("aria-invalid", correct ? "false" : "true");
+    feedback.textContent = correct ? "Correct!" : "Not quite. Try again.";
+  }
+
+  function checkOne(item, forceBlank = false) {
+    const input = document.getElementById(item.id);
+    const row = input.closest(".answer-row");
+    const feedback = row.querySelector(".feedback");
+    const trimmed = input.value.trim();
+
+    if (!trimmed && !forceBlank) {
+      setNeutral(row, input, feedback);
+      return null;
+    }
+
+    const correct = trimmed ? isCorrect(input.value, item) : false;
+    setResult(row, input, feedback, correct);
+    return correct;
+  }
+
+  let serial = 0;
+  for (const [page, pageItems] of pageGroups.entries()) {
+    const section = document.createElement("section");
+    section.className = "page-section";
+    section.setAttribute("aria-labelledby", "page-" + page);
+
+    const heading = document.createElement("h2");
+    heading.id = "page-" + page;
+    heading.textContent = "Page " + page;
+    section.appendChild(heading);
+
+    const grid = document.createElement("div");
+    grid.className = "question-grid";
+
+    for (const item of pageItems) {
+      serial += 1;
+      item.id = "answer-" + serial;
+
+      const row = document.createElement("div");
+      row.className = "answer-row";
+
+      const label = document.createElement("label");
+      label.className = "question-label";
+      label.htmlFor = item.id;
+      label.textContent = item.q;
+
+      const control = document.createElement("div");
+      control.className = "answer-control";
+
+      const input = document.createElement("input");
+      input.type = "text";
+      input.inputMode = "decimal";
+      input.autocomplete = "off";
+      input.spellcheck = false;
+      input.id = item.id;
+      input.setAttribute("aria-label", "Page " + page + ", question " + item.q);
+      input.setAttribute("aria-describedby", item.id + "-feedback");
+
+      const feedback = document.createElement("span");
+      feedback.className = "feedback";
+      feedback.id = item.id + "-feedback";
+      feedback.setAttribute("aria-live", "polite");
+
+      input.addEventListener("input", () => {
+        setNeutral(row, input, feedback);
+        overall.textContent = "";
+      });
+
+      input.addEventListener("blur", () => {
+        checkOne(item, false);
+      });
+
+      control.append(input, feedback);
+      row.append(label, control);
+      grid.appendChild(row);
+    }
+
+    section.appendChild(grid);
+    checker.appendChild(section);
+  }
+
+  document.getElementById("submitAll").addEventListener("click", () => {
+    let allCorrect = true;
+    for (const item of items) {
+      if (checkOne(item, true) !== true) allCorrect = false;
+    }
+    overall.textContent = allCorrect
+      ? "You got it all correct! Good job!"
+      : "Keep going — try the questions marked in red again.";
+  });
+
+  document.getElementById("resetAll").addEventListener("click", () => {
+    for (const item of items) {
+      const input = document.getElementById(item.id);
+      const row = input.closest(".answer-row");
+      const feedback = row.querySelector(".feedback");
+      input.value = "";
+      setNeutral(row, input, feedback);
+    }
+    overall.textContent = "";
+    const first = document.getElementById(items[0].id);
+    if (first) first.focus();
+  });
+})();
+</script>
+</body>
+</html>

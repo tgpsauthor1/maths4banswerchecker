@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maths Answer Checker — Pages 33–36</title>
+<style>
+  :root{
+    --bg:#f5f8fc;
+    --card:#ffffff;
+    --ink:#17324d;
+    --muted:#5d7186;
+    --accent:#0877bd;
+    --border:#cfdbe7;
+    --correct-bg:#e7f7ec;
+    --correct-border:#2e8b57;
+    --wrong-bg:#fdebec;
+    --wrong-border:#c9434f;
+    --focus:#f3b61f;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.4;
+  }
+  .wrap{
+    width:min(920px,calc(100% - 28px));
+    margin:0 auto;
+    padding:24px 0 40px;
+  }
+  h1{
+    font-size:clamp(1.45rem,3vw,2rem);
+    margin:14px 0 22px;
+  }
+  .toolbar{
+    display:flex;
+    justify-content:flex-start;
+    margin-bottom:8px;
+  }
+  button{
+    appearance:none;
+    border:0;
+    border-radius:12px;
+    padding:12px 18px;
+    font:inherit;
+    font-weight:700;
+    cursor:pointer;
+    background:var(--accent);
+    color:#fff;
+    min-height:46px;
+  }
+  button:hover{filter:brightness(.95)}
+  button:focus-visible,
+  input:focus-visible{
+    outline:3px solid var(--focus);
+    outline-offset:3px;
+  }
+  button.secondary{
+    background:#e9f1f7;
+    color:var(--ink);
+    border:1px solid var(--border);
+  }
+  .page-section{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    margin:18px 0;
+    padding:18px;
+    box-shadow:0 4px 14px rgba(23,50,77,.05);
+  }
+  .page-section h2{
+    margin:0 0 16px;
+    font-size:1.15rem;
+    color:var(--accent);
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:14px;
+  }
+  .item{
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:14px;
+    background:#fff;
+    transition:background .15s,border-color .15s;
+  }
+  .row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  label{
+    font-weight:800;
+    min-width:58px;
+  }
+  input[type="text"]{
+    width:150px;
+    max-width:100%;
+    min-height:46px;
+    padding:10px 12px;
+    border:2px solid var(--border);
+    border-radius:10px;
+    font:inherit;
+    font-size:1.05rem;
+    background:#fff;
+    color:var(--ink);
+  }
+  .feedback{
+    min-height:1.35em;
+    margin-top:8px;
+    font-weight:800;
+  }
+  .item.correct{
+    background:var(--correct-bg);
+    border-color:var(--correct-border);
+  }
+  .item.correct input{
+    border-color:var(--correct-border);
+    background:#fff;
+  }
+  .item.wrong{
+    background:var(--wrong-bg);
+    border-color:var(--wrong-border);
+  }
+  .item.wrong input{
+    border-color:var(--wrong-border);
+    background:#fff;
+  }
+  .submit-area{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    flex-wrap:wrap;
+    margin-top:22px;
+  }
+  #summary{
+    font-weight:800;
+    min-height:1.4em;
+  }
+  @media (max-width:640px){
+    .grid{grid-template-columns:1fr}
+    .wrap{width:min(100% - 18px,920px)}
+    .page-section{padding:14px}
+    input[type="text"]{width:100%}
+    .row{align-items:stretch}
+    label{width:100%}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{scroll-behavior:auto!important;transition:none!important}
+  }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="toolbar">
+    <button id="resetAll" type="button" class="secondary">Reset all</button>
+  </div>
+
+  <h1>Checking answers for pages 33–36</h1>
+
+  <section class="page-section" aria-labelledby="page33">
+    <h2 id="page33">Page 33</h2>
+    <div class="grid">
+      <div class="item" data-id="33-1a"><div class="row"><label for="q33-1a">1(a)</label><input id="q33-1a" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f33-1a" aria-live="polite"></div></div>
+      <div class="item" data-id="33-1b"><div class="row"><label for="q33-1b">1(b)</label><input id="q33-1b" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f33-1b" aria-live="polite"></div></div>
+      <div class="item" data-id="33-1c"><div class="row"><label for="q33-1c">1(c)</label><input id="q33-1c" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f33-1c" aria-live="polite"></div></div>
+      <div class="item" data-id="33-1d"><div class="row"><label for="q33-1d">1(d)</label><input id="q33-1d" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f33-1d" aria-live="polite"></div></div>
+      <div class="item" data-id="33-1e"><div class="row"><label for="q33-1e">1(e)</label><input id="q33-1e" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f33-1e" aria-live="polite"></div></div>
+      <div class="item" data-id="33-1f"><div class="row"><label for="q33-1f">1(f)</label><input id="q33-1f" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f33-1f" aria-live="polite"></div></div>
+      <div class="item" data-id="33-1g"><div class="row"><label for="q33-1g">1(g)</label><input id="q33-1g" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f33-1g" aria-live="polite"></div></div>
+      <div class="item" data-id="33-1h"><div class="row"><label for="q33-1h">1(h)</label><input id="q33-1h" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f33-1h" aria-live="polite"></div></div>
+    </div>
+  </section>
+
+  <section class="page-section" aria-labelledby="page34">
+    <h2 id="page34">Page 34</h2>
+    <div class="grid">
+      <div class="item" data-id="34-2a"><div class="row"><label for="q34-2a">2(a)</label><input id="q34-2a" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f34-2a" aria-live="polite"></div></div>
+      <div class="item" data-id="34-2b"><div class="row"><label for="q34-2b">2(b)</label><input id="q34-2b" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f34-2b" aria-live="polite"></div></div>
+      <div class="item" data-id="34-2c"><div class="row"><label for="q34-2c">2(c)</label><input id="q34-2c" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f34-2c" aria-live="polite"></div></div>
+      <div class="item" data-id="34-2d"><div class="row"><label for="q34-2d">2(d)</label><input id="q34-2d" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f34-2d" aria-live="polite"></div></div>
+      <div class="item" data-id="34-2e"><div class="row"><label for="q34-2e">2(e)</label><input id="q34-2e" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f34-2e" aria-live="polite"></div></div>
+      <div class="item" data-id="34-2f"><div class="row"><label for="q34-2f">2(f)</label><input id="q34-2f" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f34-2f" aria-live="polite"></div></div>
+      <div class="item" data-id="34-2g"><div class="row"><label for="q34-2g">2(g)</label><input id="q34-2g" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f34-2g" aria-live="polite"></div></div>
+      <div class="item" data-id="34-2h"><div class="row"><label for="q34-2h">2(h)</label><input id="q34-2h" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f34-2h" aria-live="polite"></div></div>
+    </div>
+  </section>
+
+  <section class="page-section" aria-labelledby="page35">
+    <h2 id="page35">Page 35</h2>
+    <div class="grid">
+      <div class="item" data-id="35-3a"><div class="row"><label for="q35-3a">3(a)</label><input id="q35-3a" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f35-3a" aria-live="polite"></div></div>
+      <div class="item" data-id="35-3b"><div class="row"><label for="q35-3b">3(b)</label><input id="q35-3b" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f35-3b" aria-live="polite"></div></div>
+      <div class="item" data-id="35-3c"><div class="row"><label for="q35-3c">3(c)</label><input id="q35-3c" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f35-3c" aria-live="polite"></div></div>
+      <div class="item" data-id="35-3d"><div class="row"><label for="q35-3d">3(d)</label><input id="q35-3d" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f35-3d" aria-live="polite"></div></div>
+      <div class="item" data-id="35-3e"><div class="row"><label for="q35-3e">3(e)</label><input id="q35-3e" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f35-3e" aria-live="polite"></div></div>
+      <div class="item" data-id="35-3f"><div class="row"><label for="q35-3f">3(f)</label><input id="q35-3f" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f35-3f" aria-live="polite"></div></div>
+      <div class="item" data-id="35-3g"><div class="row"><label for="q35-3g">3(g)</label><input id="q35-3g" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f35-3g" aria-live="polite"></div></div>
+      <div class="item" data-id="35-3h"><div class="row"><label for="q35-3h">3(h)</label><input id="q35-3h" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f35-3h" aria-live="polite"></div></div>
+    </div>
+  </section>
+
+  <section class="page-section" aria-labelledby="page36">
+    <h2 id="page36">Page 36</h2>
+    <div class="grid">
+      <div class="item" data-id="36-4a"><div class="row"><label for="q36-4a">4(a)</label><input id="q36-4a" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f36-4a" aria-live="polite"></div></div>
+      <div class="item" data-id="36-4b"><div class="row"><label for="q36-4b">4(b)</label><input id="q36-4b" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f36-4b" aria-live="polite"></div></div>
+      <div class="item" data-id="36-4c"><div class="row"><label for="q36-4c">4(c)</label><input id="q36-4c" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f36-4c" aria-live="polite"></div></div>
+      <div class="item" data-id="36-4d"><div class="row"><label for="q36-4d">4(d)</label><input id="q36-4d" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f36-4d" aria-live="polite"></div></div>
+      <div class="item" data-id="36-4e"><div class="row"><label for="q36-4e">4(e)</label><input id="q36-4e" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f36-4e" aria-live="polite"></div></div>
+      <div class="item" data-id="36-4f"><div class="row"><label for="q36-4f">4(f)</label><input id="q36-4f" type="text" inputmode="decimal" autocomplete="off"></div><div class="feedback" id="f36-4f" aria-live="polite"></div></div>
+    </div>
+  </section>
+
+  <div class="submit-area">
+    <button id="submitAll" type="button">Submit all</button>
+    <div id="summary" role="status" aria-live="polite"></div>
+  </div>
+</main>
+
+<script>
+(() => {
+  "use strict";
+
+  const items = [
+    ["33-1a","47",1],["33-1b","19",1],["33-1c","69",1],["33-1d","87",1],
+    ["33-1e","797",2],["33-1f","927",2],["33-1g","783",2],["33-1h","881",2],
+    ["34-2a","95",1],["34-2b","93",1],["34-2c","104",1],["34-2d","9",0],
+    ["34-2e","787",2],["34-2f","6",0],["34-2g","1631",2],["34-2h","633",2],
+    ["35-3a","884",2],["35-3b","113",1],["35-3c","1043",2],["35-3d","641",2],
+    ["35-3e","1025",2],["35-3f","1004",2],["35-3g","2105",2],["35-3h","30",0],
+    ["36-4a","98",1],["36-4b","104",1],["36-4c","995",2],["36-4d","828",2],
+    ["36-4e","998",2],["36-4f","2127",2]
+  ];
+
+  const byId = new Map(items.map(([id,digits,scale]) => [id,{digits,scale}]));
+  const summary = document.getElementById("summary");
+
+  function parseDecimal(raw){
+    const s = raw.trim();
+    if (!s) return {ok:false, empty:true};
+
+    if (!/^[+-]?\d+(?:\.\d+)?$/.test(s)) return {ok:false, empty:false};
+
+    const signless = s.replace(/^[+-]/,"");
+    const [whole, frac=""] = signless.split(".");
+
+    if (whole.length > 1 && whole.startsWith("0")) return {ok:false, empty:false};
+    if (whole === "" || (whole === "0" && signless.startsWith("."))) return {ok:false, empty:false};
+
+    const sign = s.startsWith("-") ? -1n : 1n;
+    const digits = BigInt((whole + frac) || "0") * sign;
+    return {ok:true, digits, scale:frac.length};
+  }
+
+  function pow10(n){
+    return 10n ** BigInt(n);
+  }
+
+  function equivalentDecimal(parsed, targetDigits, targetScale){
+    if (!parsed.ok) return false;
+    const a = parsed.digits;
+    const b = BigInt(targetDigits);
+    const s1 = parsed.scale;
+    const s2 = targetScale;
+    if (s1 === s2) return a === b;
+    if (s1 > s2) return a === b * pow10(s1 - s2);
+    return a * pow10(s2 - s1) === b;
+  }
+
+  function setNeutral(panel, feedback){
+    panel.classList.remove("correct","wrong");
+    feedback.textContent = "";
+  }
+
+  function setResult(panel, feedback, correct){
+    panel.classList.toggle("correct", correct);
+    panel.classList.toggle("wrong", !correct);
+    feedback.textContent = correct ? "Correct!" : "Not quite. Try again.";
+  }
+
+  function checkOne(panel, forceBlankWrong=false){
+    const id = panel.dataset.id;
+    const input = panel.querySelector("input");
+    const feedback = panel.querySelector(".feedback");
+    const raw = input.value;
+    if (!raw.trim()){
+      if (forceBlankWrong){
+        setResult(panel, feedback, false);
+        return false;
+      }
+      setNeutral(panel, feedback);
+      return null;
+    }
+    const target = byId.get(id);
+    const parsed = parseDecimal(raw);
+    const correct = equivalentDecimal(parsed, target.digits, target.scale);
+    setResult(panel, feedback, correct);
+    return correct;
+  }
+
+  document.querySelectorAll(".item").forEach(panel => {
+    const input = panel.querySelector("input");
+    input.addEventListener("input", () => {
+      setNeutral(panel, panel.querySelector(".feedback"));
+      summary.textContent = "";
+    });
+    input.addEventListener("blur", () => checkOne(panel, false));
+  });
+
+  document.getElementById("submitAll").addEventListener("click", () => {
+    let allCorrect = true;
+    document.querySelectorAll(".item").forEach(panel => {
+      if (checkOne(panel, true) !== true) allCorrect = false;
+    });
+    summary.textContent = allCorrect
+      ? "You got it all correct! Good job!"
+      : "Keep going — check the red answers and try again.";
+  });
+
+  document.getElementById("resetAll").addEventListener("click", () => {
+    document.querySelectorAll(".item").forEach(panel => {
+      panel.querySelector("input").value = "";
+      setNeutral(panel, panel.querySelector(".feedback"));
+    });
+    summary.textContent = "";
+  });
+
+  window.__checkerTest = { parseDecimal, equivalentDecimal };
+})();
+</script>
+</body>
+</html>

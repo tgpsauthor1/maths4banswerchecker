@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maths Answer Checker — Pages 7–10</title>
+<style>
+  :root {
+    color-scheme: light;
+    --border: #c9d4df;
+    --text: #17212b;
+    --muted: #5e6b78;
+    --surface: #ffffff;
+    --panel: #f7f9fb;
+    --focus: #1d6fdc;
+    --good-bg: #e9f7ec;
+    --good-border: #2f7d32;
+    --bad-bg: #fdecec;
+    --bad-border: #b42318;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #f1f4f7;
+    color: var(--text);
+  }
+  .app {
+    width: min(980px, calc(100% - 24px));
+    margin: 0 auto;
+    padding: 18px 0 42px;
+  }
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 0;
+    background: #f1f4f7;
+  }
+  h1 {
+    margin: 0;
+    font-size: clamp(1.3rem, 2.5vw, 2rem);
+    line-height: 1.2;
+  }
+  button {
+    min-height: 44px;
+    border: 1px solid #8b98a5;
+    border-radius: 10px;
+    background: #fff;
+    color: var(--text);
+    padding: 10px 16px;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  button:hover { background: #f6f8fa; }
+  button:focus-visible, input:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--focus) 35%, transparent);
+    outline-offset: 2px;
+  }
+  .page-section {
+    margin-top: 20px;
+    padding: 22px;
+    border: 1px solid #d7e0e8;
+    border-radius: 16px;
+    background: var(--surface);
+    box-shadow: 0 2px 8px rgb(0 0 0 / 5%);
+  }
+  .page-section > h2 {
+    margin: 0 0 18px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e6ebf0;
+    font-size: 1.35rem;
+  }
+  .question-group {
+    margin: 18px 0 26px;
+    padding: 16px;
+    border-radius: 12px;
+    background: var(--panel);
+  }
+  .question-group:last-child { margin-bottom: 0; }
+  .question-group h3 {
+    margin: 0 0 14px;
+    font-size: 1.08rem;
+  }
+  .answers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+    gap: 14px;
+  }
+  .answer-item {
+    min-width: 0;
+  }
+  .answer-item label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+  .answer-item input {
+    width: 100%;
+    min-height: 48px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    background: #fff;
+    color: var(--text);
+    padding: 8px 10px;
+    font: inherit;
+    font-size: 1.08rem;
+  }
+  .answer-item input.correct {
+    border-color: var(--good-border);
+    background: var(--good-bg);
+  }
+  .answer-item input.incorrect {
+    border-color: var(--bad-border);
+    background: var(--bad-bg);
+  }
+  .status {
+    display: block;
+    min-height: 1.35em;
+    margin-top: 5px;
+    font-size: .92rem;
+    font-weight: 700;
+  }
+  .status.good { color: var(--good-border); }
+  .status.bad { color: var(--bad-border); }
+  .bottom-actions {
+    margin-top: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+  }
+  #submit-all {
+    min-width: 150px;
+    background: #1d6fdc;
+    border-color: #1d6fdc;
+    color: #fff;
+  }
+  #submit-all:hover { background: #175fbd; }
+  #global-status {
+    min-height: 1.5em;
+    font-weight: 800;
+  }
+  @media (max-width: 560px) {
+    .topbar { align-items: flex-start; flex-direction: column; }
+    .page-section { padding: 16px; }
+    .question-group { padding: 14px; }
+    .answers-grid { grid-template-columns: 1fr; }
+    .bottom-actions { align-items: stretch; }
+    #submit-all { width: 100%; }
+  }
+</style>
+</head>
+<body>
+<main class="app">
+  <div class="topbar">
+    <button id="reset-all" type="button">Reset all</button>
+    <h1>Checking answers for pages 7–10</h1>
+  </div>
+
+
+  <section class="page-section" aria-labelledby="page-7">
+    <h2 id="page-7">Page 7</h2>
+    
+    <section class="question-group" aria-labelledby="group-7-1a">
+      <h3 id="group-7-1a">1(a)</h3>
+      <div class="answers-grid">
+
+      <div class="answer-item" data-wrapper-for="p7-q1a-i">
+        <label for="p7-q1a-i">1(a)(i)</label>
+        <input id="p7-q1a-i" data-item-id="p7-q1a-i" type="text" inputmode="numeric"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p7-q1a-i">
+        <span class="status" id="status-p7-q1a-i" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p7-q1a-ii">
+        <label for="p7-q1a-ii">1(a)(ii)</label>
+        <input id="p7-q1a-ii" data-item-id="p7-q1a-ii" type="text" inputmode="numeric"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p7-q1a-ii">
+        <span class="status" id="status-p7-q1a-ii" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p7-q1a-iii">
+        <label for="p7-q1a-iii">1(a)(iii)</label>
+        <input id="p7-q1a-iii" data-item-id="p7-q1a-iii" type="text" inputmode="decimal"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p7-q1a-iii">
+        <span class="status" id="status-p7-q1a-iii" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p7-q1a-iv">
+        <label for="p7-q1a-iv">1(a)(iv)</label>
+        <input id="p7-q1a-iv" data-item-id="p7-q1a-iv" type="text" inputmode="decimal"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p7-q1a-iv">
+        <span class="status" id="status-p7-q1a-iv" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p7-q1a-v">
+        <label for="p7-q1a-v">1(a)(v)</label>
+        <input id="p7-q1a-v" data-item-id="p7-q1a-v" type="text" inputmode="decimal"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p7-q1a-v">
+        <span class="status" id="status-p7-q1a-v" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p7-q1a-vi">
+        <label for="p7-q1a-vi">1(a)(vi)</label>
+        <input id="p7-q1a-vi" data-item-id="p7-q1a-vi" type="text" inputmode="decimal"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p7-q1a-vi">
+        <span class="status" id="status-p7-q1a-vi" aria-live="polite"></span>
+      </div>
+      </div>
+    </section>
+    <section class="question-group" aria-labelledby="group-7-1b">
+      <h3 id="group-7-1b">1(b)</h3>
+      <div class="answers-grid">
+
+      <div class="answer-item" data-wrapper-for="p7-q1b-i">
+        <label for="p7-q1b-i">1(b)(i)</label>
+        <input id="p7-q1b-i" data-item-id="p7-q1b-i" type="text" inputmode="numeric"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p7-q1b-i">
+        <span class="status" id="status-p7-q1b-i" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p7-q1b-ii">
+        <label for="p7-q1b-ii">1(b)(ii)</label>
+        <input id="p7-q1b-ii" data-item-id="p7-q1b-ii" type="text" inputmode="numeric"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p7-q1b-ii">
+        <span class="status" id="status-p7-q1b-ii" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p7-q1b-iii">
+        <label for="p7-q1b-iii">1(b)(iii)</label>
+        <input id="p7-q1b-iii" data-item-id="p7-q1b-iii" type="text" inputmode="decimal"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p7-q1b-iii">
+        <span class="status" id="status-p7-q1b-iii" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p7-q1b-iv">
+        <label for="p7-q1b-iv">1(b)(iv)</label>
+        <input id="p7-q1b-iv" data-item-id="p7-q1b-iv" type="text" inputmode="decimal"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p7-q1b-iv">
+        <span class="status" id="status-p7-q1b-iv" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p7-q1b-v">
+        <label for="p7-q1b-v">1(b)(v)</label>
+        <input id="p7-q1b-v" data-item-id="p7-q1b-v" type="text" inputmode="decimal"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p7-q1b-v">
+        <span class="status" id="status-p7-q1b-v" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p7-q1b-vi">
+        <label for="p7-q1b-vi">1(b)(vi)</label>
+        <input id="p7-q1b-vi" data-item-id="p7-q1b-vi" type="text" inputmode="decimal"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p7-q1b-vi">
+        <span class="status" id="status-p7-q1b-vi" aria-live="polite"></span>
+      </div>
+      </div>
+    </section>
+    <section class="question-group" aria-labelledby="group-7-1c">
+      <h3 id="group-7-1c">1(c)</h3>
+      <div class="answers-grid">
+
+      <div class="answer-item" data-wrapper-for="p7-q1c-i">
+        <label for="p7-q1c-i">1(c)(i)</label>
+        <input id="p7-q1c-i" data-item-id="p7-q1c-i" type="text" inputmode="numeric"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p7-q1c-i">
+        <span class="status" id="status-p7-q1c-i" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p7-q1c-ii">
+        <label for="p7-q1c-ii">1(c)(ii)</label>
+        <input id="p7-q1c-ii" data-item-id="p7-q1c-ii" type="text" inputmode="numeric"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p7-q1c-ii">
+        <span class="status" id="status-p7-q1c-ii" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p7-q1c-iii">
+        <label for="p7-q1c-iii">1(c)(iii)</label>
+        <input id="p7-q1c-iii" data-item-id="p7-q1c-iii" type="text" inputmode="numeric"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p7-q1c-iii">
+        <span class="status" id="status-p7-q1c-iii" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p7-q1c-iv">
+        <label for="p7-q1c-iv">1(c)(iv)</label>
+        <input id="p7-q1c-iv" data-item-id="p7-q1c-iv" type="text" inputmode="decimal"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p7-q1c-iv">
+        <span class="status" id="status-p7-q1c-iv" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p7-q1c-v">
+        <label for="p7-q1c-v">1(c)(v)</label>
+        <input id="p7-q1c-v" data-item-id="p7-q1c-v" type="text" inputmode="decimal"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p7-q1c-v">
+        <span class="status" id="status-p7-q1c-v" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p7-q1c-vi">
+        <label for="p7-q1c-vi">1(c)(vi)</label>
+        <input id="p7-q1c-vi" data-item-id="p7-q1c-vi" type="text" inputmode="decimal"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p7-q1c-vi">
+        <span class="status" id="status-p7-q1c-vi" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p7-q1c-vii">
+        <label for="p7-q1c-vii">1(c)(vii)</label>
+        <input id="p7-q1c-vii" data-item-id="p7-q1c-vii" type="text" inputmode="decimal"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p7-q1c-vii">
+        <span class="status" id="status-p7-q1c-vii" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p7-q1c-viii">
+        <label for="p7-q1c-viii">1(c)(viii)</label>
+        <input id="p7-q1c-viii" data-item-id="p7-q1c-viii" type="text" inputmode="decimal"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p7-q1c-viii">
+        <span class="status" id="status-p7-q1c-viii" aria-live="polite"></span>
+      </div>
+      </div>
+    </section>
+  </section>
+  <section class="page-section" aria-labelledby="page-8">
+    <h2 id="page-8">Page 8</h2>
+    
+    <section class="question-group" aria-labelledby="group-8-2a">
+      <h3 id="group-8-2a">2(a)</h3>
+      <div class="answers-grid">
+
+      <div class="answer-item" data-wrapper-for="p8-q2a-i">
+        <label for="p8-q2a-i">2(a)(i)</label>
+        <input id="p8-q2a-i" data-item-id="p8-q2a-i" type="text" inputmode="numeric"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p8-q2a-i">
+        <span class="status" id="status-p8-q2a-i" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p8-q2a-ii">
+        <label for="p8-q2a-ii">2(a)(ii)</label>
+        <input id="p8-q2a-ii" data-item-id="p8-q2a-ii" type="text" inputmode="numeric"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p8-q2a-ii">
+        <span class="status" id="status-p8-q2a-ii" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p8-q2a-iii">
+        <label for="p8-q2a-iii">2(a)(iii)</label>
+        <input id="p8-q2a-iii" data-item-id="p8-q2a-iii" type="text" inputmode="numeric"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p8-q2a-iii">
+        <span class="status" id="status-p8-q2a-iii" aria-live="polite"></span>
+      </div>
+      </div>
+    </section>
+    <section class="question-group" aria-labelledby="group-8-2b">
+      <h3 id="group-8-2b">2(b)</h3>
+      <div class="answers-grid">
+
+      <div class="answer-item" data-wrapper-for="p8-q2b-i">
+        <label for="p8-q2b-i">2(b)(i)</label>
+        <input id="p8-q2b-i" data-item-id="p8-q2b-i" type="text" inputmode="numeric"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p8-q2b-i">
+        <span class="status" id="status-p8-q2b-i" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p8-q2b-ii">
+        <label for="p8-q2b-ii">2(b)(ii)</label>
+        <input id="p8-q2b-ii" data-item-id="p8-q2b-ii" type="text" inputmode="numeric"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p8-q2b-ii">
+        <span class="status" id="status-p8-q2b-ii" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p8-q2b-iii">
+        <label for="p8-q2b-iii">2(b)(iii)</label>
+        <input id="p8-q2b-iii" data-item-id="p8-q2b-iii" type="text" inputmode="numeric"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p8-q2b-iii">
+        <span class="status" id="status-p8-q2b-iii" aria-live="polite"></span>
+      </div>
+      </div>
+    </section>
+    <section class="question-group" aria-labelledby="group-8-2c">
+      <h3 id="group-8-2c">2(c)</h3>
+      <div class="answers-grid">
+
+      <div class="answer-item" data-wrapper-for="p8-q2c-i">
+        <label for="p8-q2c-i">2(c)(i)</label>
+        <input id="p8-q2c-i" data-item-id="p8-q2c-i" type="text" inputmode="numeric"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p8-q2c-i">
+        <span class="status" id="status-p8-q2c-i" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p8-q2c-ii">
+        <label for="p8-q2c-ii">2(c)(ii)</label>
+        <input id="p8-q2c-ii" data-item-id="p8-q2c-ii" type="text" inputmode="numeric"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p8-q2c-ii">
+        <span class="status" id="status-p8-q2c-ii" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p8-q2c-iii">
+        <label for="p8-q2c-iii">2(c)(iii)</label>
+        <input id="p8-q2c-iii" data-item-id="p8-q2c-iii" type="text" inputmode="numeric"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p8-q2c-iii">
+        <span class="status" id="status-p8-q2c-iii" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p8-q2c-iv">
+        <label for="p8-q2c-iv">2(c)(iv)</label>
+        <input id="p8-q2c-iv" data-item-id="p8-q2c-iv" type="text" inputmode="numeric"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p8-q2c-iv">
+        <span class="status" id="status-p8-q2c-iv" aria-live="polite"></span>
+      </div>
+      </div>
+    </section>
+    <section class="question-group" aria-labelledby="group-8-2d">
+      <h3 id="group-8-2d">2(d)</h3>
+      <div class="answers-grid">
+
+      <div class="answer-item" data-wrapper-for="p8-q2d-i">
+        <label for="p8-q2d-i">2(d)(i)</label>
+        <input id="p8-q2d-i" data-item-id="p8-q2d-i" type="text" inputmode="numeric"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p8-q2d-i">
+        <span class="status" id="status-p8-q2d-i" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p8-q2d-ii">
+        <label for="p8-q2d-ii">2(d)(ii)</label>
+        <input id="p8-q2d-ii" data-item-id="p8-q2d-ii" type="text" inputmode="numeric"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p8-q2d-ii">
+        <span class="status" id="status-p8-q2d-ii" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p8-q2d-iii">
+        <label for="p8-q2d-iii">2(d)(iii)</label>
+        <input id="p8-q2d-iii" data-item-id="p8-q2d-iii" type="text" inputmode="numeric"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p8-q2d-iii">
+        <span class="status" id="status-p8-q2d-iii" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p8-q2d-iv">
+        <label for="p8-q2d-iv">2(d)(iv)</label>
+        <input id="p8-q2d-iv" data-item-id="p8-q2d-iv" type="text" inputmode="numeric"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p8-q2d-iv">
+        <span class="status" id="status-p8-q2d-iv" aria-live="polite"></span>
+      </div>
+      </div>
+    </section>
+  </section>
+  <section class="page-section" aria-labelledby="page-9">
+    <h2 id="page-9">Page 9</h2>
+    
+    <section class="question-group" aria-labelledby="group-9-3a">
+      <h3 id="group-9-3a">3(a)</h3>
+      <div class="answers-grid">
+
+      <div class="answer-item" data-wrapper-for="p9-q3a-i">
+        <label for="p9-q3a-i">3(a)(i)</label>
+        <input id="p9-q3a-i" data-item-id="p9-q3a-i" type="text" inputmode="text"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p9-q3a-i">
+        <span class="status" id="status-p9-q3a-i" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p9-q3a-ii">
+        <label for="p9-q3a-ii">3(a)(ii)</label>
+        <input id="p9-q3a-ii" data-item-id="p9-q3a-ii" type="text" inputmode="text"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p9-q3a-ii">
+        <span class="status" id="status-p9-q3a-ii" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p9-q3a-iii">
+        <label for="p9-q3a-iii">3(a)(iii)</label>
+        <input id="p9-q3a-iii" data-item-id="p9-q3a-iii" type="text" inputmode="text"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p9-q3a-iii">
+        <span class="status" id="status-p9-q3a-iii" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p9-q3a-iv">
+        <label for="p9-q3a-iv">3(a)(iv)</label>
+        <input id="p9-q3a-iv" data-item-id="p9-q3a-iv" type="text" inputmode="text"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p9-q3a-iv">
+        <span class="status" id="status-p9-q3a-iv" aria-live="polite"></span>
+      </div>
+      </div>
+    </section>
+    <section class="question-group" aria-labelledby="group-9-3b">
+      <h3 id="group-9-3b">3(b)</h3>
+      <div class="answers-grid">
+
+      <div class="answer-item" data-wrapper-for="p9-q3b-i">
+        <label for="p9-q3b-i">3(b)(i)</label>
+        <input id="p9-q3b-i" data-item-id="p9-q3b-i" type="text" inputmode="text"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p9-q3b-i">
+        <span class="status" id="status-p9-q3b-i" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p9-q3b-ii">
+        <label for="p9-q3b-ii">3(b)(ii)</label>
+        <input id="p9-q3b-ii" data-item-id="p9-q3b-ii" type="text" inputmode="text"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p9-q3b-ii">
+        <span class="status" id="status-p9-q3b-ii" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p9-q3b-iii">
+        <label for="p9-q3b-iii">3(b)(iii)</label>
+        <input id="p9-q3b-iii" data-item-id="p9-q3b-iii" type="text" inputmode="text"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p9-q3b-iii">
+        <span class="status" id="status-p9-q3b-iii" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p9-q3b-iv">
+        <label for="p9-q3b-iv">3(b)(iv)</label>
+        <input id="p9-q3b-iv" data-item-id="p9-q3b-iv" type="text" inputmode="numeric"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p9-q3b-iv">
+        <span class="status" id="status-p9-q3b-iv" aria-live="polite"></span>
+      </div>
+      </div>
+    </section>
+    <section class="question-group" aria-labelledby="group-9-3c">
+      <h3 id="group-9-3c">3(c)</h3>
+      <div class="answers-grid">
+
+      <div class="answer-item" data-wrapper-for="p9-q3c-i">
+        <label for="p9-q3c-i">3(c)(i)</label>
+        <input id="p9-q3c-i" data-item-id="p9-q3c-i" type="text" inputmode="text"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p9-q3c-i">
+        <span class="status" id="status-p9-q3c-i" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p9-q3c-ii">
+        <label for="p9-q3c-ii">3(c)(ii)</label>
+        <input id="p9-q3c-ii" data-item-id="p9-q3c-ii" type="text" inputmode="text"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p9-q3c-ii">
+        <span class="status" id="status-p9-q3c-ii" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p9-q3c-iii">
+        <label for="p9-q3c-iii">3(c)(iii)</label>
+        <input id="p9-q3c-iii" data-item-id="p9-q3c-iii" type="text" inputmode="text"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p9-q3c-iii">
+        <span class="status" id="status-p9-q3c-iii" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p9-q3c-iv">
+        <label for="p9-q3c-iv">3(c)(iv)</label>
+        <input id="p9-q3c-iv" data-item-id="p9-q3c-iv" type="text" inputmode="numeric"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p9-q3c-iv">
+        <span class="status" id="status-p9-q3c-iv" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p9-q3c-v">
+        <label for="p9-q3c-v">3(c)(v)</label>
+        <input id="p9-q3c-v" data-item-id="p9-q3c-v" type="text" inputmode="text"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p9-q3c-v">
+        <span class="status" id="status-p9-q3c-v" aria-live="polite"></span>
+      </div>
+      </div>
+    </section>
+  </section>
+  <section class="page-section" aria-labelledby="page-10">
+    <h2 id="page-10">Page 10</h2>
+    
+    <section class="question-group" aria-labelledby="group-10-4">
+      <h3 id="group-10-4">4</h3>
+      <div class="answers-grid">
+
+      <div class="answer-item" data-wrapper-for="p10-q4a">
+        <label for="p10-q4a">4(a)</label>
+        <input id="p10-q4a" data-item-id="p10-q4a" type="text" inputmode="decimal"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p10-q4a">
+        <span class="status" id="status-p10-q4a" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p10-q4b">
+        <label for="p10-q4b">4(b)</label>
+        <input id="p10-q4b" data-item-id="p10-q4b" type="text" inputmode="decimal"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p10-q4b">
+        <span class="status" id="status-p10-q4b" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p10-q4c">
+        <label for="p10-q4c">4(c)</label>
+        <input id="p10-q4c" data-item-id="p10-q4c" type="text" inputmode="decimal"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p10-q4c">
+        <span class="status" id="status-p10-q4c" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p10-q4d">
+        <label for="p10-q4d">4(d)</label>
+        <input id="p10-q4d" data-item-id="p10-q4d" type="text" inputmode="decimal"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p10-q4d">
+        <span class="status" id="status-p10-q4d" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p10-q4e">
+        <label for="p10-q4e">4(e)</label>
+        <input id="p10-q4e" data-item-id="p10-q4e" type="text" inputmode="decimal"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p10-q4e">
+        <span class="status" id="status-p10-q4e" aria-live="polite"></span>
+      </div>
+      </div>
+    </section>
+    <section class="question-group" aria-labelledby="group-10-5a">
+      <h3 id="group-10-5a">5(a)</h3>
+      <div class="answers-grid">
+
+      <div class="answer-item" data-wrapper-for="p10-q5a-i">
+        <label for="p10-q5a-i">5(a)(i)</label>
+        <input id="p10-q5a-i" data-item-id="p10-q5a-i" type="text" inputmode="decimal"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p10-q5a-i">
+        <span class="status" id="status-p10-q5a-i" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p10-q5a-ii">
+        <label for="p10-q5a-ii">5(a)(ii)</label>
+        <input id="p10-q5a-ii" data-item-id="p10-q5a-ii" type="text" inputmode="decimal"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p10-q5a-ii">
+        <span class="status" id="status-p10-q5a-ii" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p10-q5a-iii">
+        <label for="p10-q5a-iii">5(a)(iii)</label>
+        <input id="p10-q5a-iii" data-item-id="p10-q5a-iii" type="text" inputmode="decimal"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p10-q5a-iii">
+        <span class="status" id="status-p10-q5a-iii" aria-live="polite"></span>
+      </div>
+      </div>
+    </section>
+    <section class="question-group" aria-labelledby="group-10-5b">
+      <h3 id="group-10-5b">5(b)</h3>
+      <div class="answers-grid">
+
+      <div class="answer-item" data-wrapper-for="p10-q5b-i">
+        <label for="p10-q5b-i">5(b)(i)</label>
+        <input id="p10-q5b-i" data-item-id="p10-q5b-i" type="text" inputmode="decimal"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p10-q5b-i">
+        <span class="status" id="status-p10-q5b-i" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p10-q5b-ii">
+        <label for="p10-q5b-ii">5(b)(ii)</label>
+        <input id="p10-q5b-ii" data-item-id="p10-q5b-ii" type="text" inputmode="decimal"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p10-q5b-ii">
+        <span class="status" id="status-p10-q5b-ii" aria-live="polite"></span>
+      </div>
+
+      <div class="answer-item" data-wrapper-for="p10-q5b-iii">
+        <label for="p10-q5b-iii">5(b)(iii)</label>
+        <input id="p10-q5b-iii" data-item-id="p10-q5b-iii" type="text" inputmode="decimal"
+               autocomplete="off" spellcheck="false" aria-describedby="status-p10-q5b-iii">
+        <span class="status" id="status-p10-q5b-iii" aria-live="polite"></span>
+      </div>
+      </div>
+    </section>
+  </section>
+
+  <div class="bottom-actions">
+    <button id="submit-all" type="button">Submit all</button>
+    <div id="global-status" aria-live="polite"></div>
+  </div>
+</main>
+
+<script>
+"use strict";
+
+const ITEMS = {"p7-q1a-i":{"type":"digit","value":"5"},"p7-q1a-ii":{"type":"digit","value":"3"},"p7-q1a-iii":{"type":"decimal","value":"0.53"},"p7-q1a-iv":{"type":"decimal","value":"0.5"},"p7-q1a-v":{"type":"decimal","value":"0.03"},"p7-q1a-vi":{"type":"decimal","value":"0.53"},"p7-q1b-i":{"type":"digit","value":"2"},"p7-q1b-ii":{"type":"digit","value":"7"},"p7-q1b-iii":{"type":"decimal","value":"0.27"},"p7-q1b-iv":{"type":"decimal","value":"0.2"},"p7-q1b-v":{"type":"decimal","value":"0.07"},"p7-q1b-vi":{"type":"decimal","value":"0.27"},"p7-q1c-i":{"type":"digit","value":"5"},"p7-q1c-ii":{"type":"digit","value":"8"},"p7-q1c-iii":{"type":"digit","value":"6"},"p7-q1c-iv":{"type":"decimal","value":"5.86"},"p7-q1c-v":{"type":"decimal","value":"5"},"p7-q1c-vi":{"type":"decimal","value":"0.8"},"p7-q1c-vii":{"type":"decimal","value":"0.06"},"p7-q1c-viii":{"type":"decimal","value":"5.86"},"p8-q2a-i":{"type":"digit","value":"0"},"p8-q2a-ii":{"type":"digit","value":"3"},"p8-q2a-iii":{"type":"digit","value":"2"},"p8-q2b-i":{"type":"digit","value":"4"},"p8-q2b-ii":{"type":"digit","value":"6"},"p8-q2b-iii":{"type":"digit","value":"1"},"p8-q2c-i":{"type":"digit","value":"1"},"p8-q2c-ii":{"type":"digit","value":"2"},"p8-q2c-iii":{"type":"digit","value":"4"},"p8-q2c-iv":{"type":"digit","value":"2"},"p8-q2d-i":{"type":"digit","value":"3"},"p8-q2d-ii":{"type":"digit","value":"0"},"p8-q2d-iii":{"type":"digit","value":"0"},"p8-q2d-iv":{"type":"digit","value":"5"},"p9-q3a-i":{"type":"mixed","numbers":["0.02"],"texts":["2 hundredths"]},"p9-q3a-ii":{"type":"text","values":["tenths","tenths place"]},"p9-q3a-iii":{"type":"mixed","numbers":["7"],"texts":["7 ones"]},"p9-q3a-iv":{"type":"mixed","numbers":["10"],"texts":["1 ten"]},"p9-q3b-i":{"type":"mixed","numbers":["60"],"texts":["6 tens"]},"p9-q3b-ii":{"type":"mixed","numbers":["0.4"],"texts":["4 tenths"]},"p9-q3b-iii":{"type":"text","values":["hundredths","hundredths place"]},"p9-q3b-iv":{"type":"digit","value":"7"},"p9-q3c-i":{"type":"text","values":["hundreds","hundreds place"]},"p9-q3c-ii":{"type":"text","values":["ones","ones place"]},"p9-q3c-iii":{"type":"mixed","numbers":["30"],"texts":["3 tens"]},"p9-q3c-iv":{"type":"digit","value":"4"},"p9-q3c-v":{"type":"mixed","numbers":["0.01"],"texts":["1 hundredth"]},"p10-q4a":{"type":"decimal","value":"1.37"},"p10-q4b":{"type":"decimal","value":"360.5"},"p10-q4c":{"type":"decimal","value":"0.9"},"p10-q4d":{"type":"decimal","value":"0.05"},"p10-q4e":{"type":"decimal","value":"0.06"},"p10-q5a-i":{"type":"decimal","value":"2.08"},"p10-q5a-ii":{"type":"decimal","value":"2.15"},"p10-q5a-iii":{"type":"decimal","value":"2.27"},"p10-q5b-i":{"type":"decimal","value":"5.62"},"p10-q5b-ii":{"type":"decimal","value":"5.73"},"p10-q5b-iii":{"type":"decimal","value":"5.84"}};
+
+function normalizeText(value) {
+  return value.trim().toLowerCase().replace(/\s+/g, " ");
+}
+
+function hasValidDecimalSyntax(value) {
+  const s = value.trim();
+  return /^-?(?:0|[1-9]\d*)(?:\.\d+)?$/.test(s);
+}
+
+function canonicalDecimal(value) {
+  let s = value.trim();
+  let negative = false;
+  if (s.startsWith("-")) {
+    negative = true;
+    s = s.slice(1);
+  }
+  let [whole, fraction = ""] = s.split(".");
+  fraction = fraction.replace(/0+$/, "");
+  let out = fraction ? whole + "." + fraction : whole;
+  if (out === "0") negative = false;
+  return negative ? "-" + out : out;
+}
+
+function matchesDecimal(value, expected) {
+  if (!hasValidDecimalSyntax(value)) return false;
+  return canonicalDecimal(value) === canonicalDecimal(expected);
+}
+
+function isCorrect(value, rule) {
+  const raw = value.trim();
+
+  if (rule.type === "digit") {
+    return /^[0-9]$/.test(raw) && raw === rule.value;
+  }
+
+  if (rule.type === "decimal") {
+    return matchesDecimal(raw, rule.value);
+  }
+
+  if (rule.type === "text") {
+    const normalized = normalizeText(raw);
+    return rule.values.some(v => normalized === normalizeText(v));
+  }
+
+  if (rule.type === "mixed") {
+    if (hasValidDecimalSyntax(raw) &&
+        rule.numbers.some(v => canonicalDecimal(raw) === canonicalDecimal(v))) {
+      return true;
+    }
+    const normalized = normalizeText(raw);
+    return rule.texts.some(v => normalized === normalizeText(v));
+  }
+
+  return false;
+}
+
+function setVisual(input, state) {
+  const id = input.dataset.itemId;
+  const status = document.getElementById("status-" + id);
+  input.classList.remove("correct", "incorrect");
+  status.classList.remove("good", "bad");
+  status.textContent = "";
+
+  if (state === "correct") {
+    input.classList.add("correct");
+    status.classList.add("good");
+    status.textContent = "Correct!";
+  } else if (state === "incorrect") {
+    input.classList.add("incorrect");
+    status.classList.add("bad");
+    status.textContent = "Not quite. Try again.";
+  }
+}
+
+function checkInput(input, finalSubmission) {
+  const value = input.value.trim();
+
+  if (value === "") {
+    if (finalSubmission) {
+      setVisual(input, "incorrect");
+      return false;
+    }
+    setVisual(input, "neutral");
+    return null;
+  }
+
+  const ok = isCorrect(value, ITEMS[input.dataset.itemId]);
+  setVisual(input, ok ? "correct" : "incorrect");
+  return ok;
+}
+
+function clearGlobalStatus() {
+  document.getElementById("global-status").textContent = "";
+}
+
+document.querySelectorAll("[data-item-id]").forEach(input => {
+  input.addEventListener("input", () => {
+    setVisual(input, "neutral");
+    clearGlobalStatus();
+  });
+
+  input.addEventListener("blur", () => {
+    checkInput(input, false);
+  });
+});
+
+document.getElementById("reset-all").addEventListener("click", () => {
+  document.querySelectorAll("[data-item-id]").forEach(input => {
+    input.value = "";
+    setVisual(input, "neutral");
+  });
+  clearGlobalStatus();
+});
+
+document.getElementById("submit-all").addEventListener("click", () => {
+  let allCorrect = true;
+  document.querySelectorAll("[data-item-id]").forEach(input => {
+    if (checkInput(input, true) !== true) allCorrect = false;
+  });
+
+  document.getElementById("global-status").textContent =
+    allCorrect ? "You got it all correct! Good job!" : "Keep going—you can try again.";
+});
+</script>
+</body>
+</html>

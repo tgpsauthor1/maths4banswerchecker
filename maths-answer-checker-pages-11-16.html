@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maths Answer Checker — Pages 11–16</title>
+<style>
+  :root{
+    --blue:#0b78b8;
+    --blue-dark:#075f93;
+    --ink:#1e2a33;
+    --muted:#5d6b76;
+    --border:#c9d7e1;
+    --good:#dff5e4;
+    --good-border:#2d8a43;
+    --bad:#fde2e2;
+    --bad-border:#bd3030;
+    --panel:#f7fbfe;
+    --focus:#ffbf47;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    color:var(--ink);
+    background:#eef5f9;
+    line-height:1.4;
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:18px}
+  header{
+    background:linear-gradient(135deg,var(--blue),var(--blue-dark));
+    color:#fff;
+    border-radius:18px;
+    padding:20px;
+    margin-bottom:18px;
+  }
+  header h1{font-size:clamp(1.35rem,3vw,2rem);margin:0 0 8px}
+  header p{margin:0;max-width:760px}
+  button{
+    font:inherit;
+    font-weight:700;
+    border:0;
+    border-radius:12px;
+    padding:12px 18px;
+    min-height:46px;
+    cursor:pointer;
+  }
+  button:focus-visible,input:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+  #resetAll{
+    background:#fff;
+    color:var(--blue-dark);
+    margin-bottom:14px;
+  }
+  #submitAll{
+    width:100%;
+    background:var(--blue);
+    color:#fff;
+    font-size:1.05rem;
+  }
+  .page{
+    background:#fff;
+    border-radius:18px;
+    padding:18px;
+    margin:18px 0;
+    box-shadow:0 3px 16px rgba(7,64,96,.08);
+  }
+  .page h2{
+    margin:0 0 16px;
+    color:var(--blue-dark);
+    font-size:1.3rem;
+  }
+  .q{
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:14px;
+    margin:12px 0;
+    background:var(--panel);
+  }
+  .q h3{margin:0 0 10px;font-size:1.05rem}
+  .field-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+    gap:10px;
+  }
+  .field{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .field label{
+    font-size:.9rem;
+    font-weight:700;
+    color:var(--muted);
+  }
+  input[type="text"]{
+    width:100%;
+    min-height:46px;
+    border:2px solid #9db3c2;
+    border-radius:10px;
+    background:#fff;
+    padding:9px 10px;
+    font:inherit;
+    font-size:1.05rem;
+    color:var(--ink);
+  }
+  input.correct{background:var(--good);border-color:var(--good-border)}
+  input.incorrect{background:var(--bad);border-color:var(--bad-border)}
+  .status{
+    min-height:1.35em;
+    margin-top:9px;
+    font-weight:800;
+  }
+  .status.correct{color:#22763a}
+  .status.incorrect{color:#9f2525}
+  .place-table{
+    display:grid;
+    gap:0;
+    border:2px solid var(--blue);
+    border-radius:10px;
+    overflow:hidden;
+  }
+  .place-table.cols-4{grid-template-columns:repeat(4,1fr)}
+  .place-table.cols-5{grid-template-columns:repeat(5,1fr)}
+  .place-head{
+    background:#e8f4fb;
+    font-weight:800;
+    padding:8px 5px;
+    text-align:center;
+    border-right:1px solid var(--blue);
+  }
+  .place-head:last-child{border-right:0}
+  .place-cell{border-right:1px solid var(--blue);padding:7px;background:#fff}
+  .place-cell:last-child{border-right:0}
+  .place-cell input{text-align:center}
+  .numberline-wrap{
+    overflow-x:auto;
+    padding-bottom:4px;
+  }
+  .numberline{
+    min-width:680px;
+    position:relative;
+  }
+  .numberline svg{
+    display:block;
+    width:100%;
+    height:auto;
+  }
+  .line-inputs{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+  }
+  .line-input{
+    position:absolute;
+    transform:translateX(-50%);
+    width:105px;
+    pointer-events:auto;
+  }
+  .line-input label{
+    display:block;
+    font-size:.82rem;
+    font-weight:800;
+    text-align:center;
+    color:var(--muted);
+    margin-bottom:4px;
+  }
+  .line-input input{text-align:center}
+  .help{
+    color:var(--muted);
+    font-size:.95rem;
+    margin:0 0 10px;
+  }
+  #finalMessage{
+    margin:14px 0 4px;
+    padding:14px;
+    min-height:52px;
+    border-radius:12px;
+    font-weight:800;
+    background:#fff;
+    border:1px solid var(--border);
+  }
+  @media (max-width:640px){
+    .wrap{padding:10px}
+    header,.page{border-radius:12px}
+    .field-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .place-head{font-size:.78rem}
+    .page{padding:12px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <button type="button" id="resetAll">Reset all</button>
+    <h1>Checking answers for pages 11–16</h1>
+    <p>Enter your workbook answers in order. Empty boxes stay white until “Submit all”.</p>
+  </header>
+
+  <main id="app"></main>
+
+  <button type="button" id="submitAll">Submit all</button>
+  <div id="finalMessage" role="status" aria-live="polite"></div>
+</div>
+
+<script>
+(() => {
+  "use strict";
+
+  const items = [
+    {page:11,id:"11-1a",label:"1(a)",kind:"group", answers:["6","8","7","0.687","0.6","0.08","0.007","0.687"]},
+    {page:11,id:"11-1b",label:"1(b)",kind:"group", answers:["4","6","0.406","0.4","0.006","0.406"]},
+    {page:11,id:"11-1c",label:"1(c)",kind:"group", answers:["2","9","5","2.095","2","0.09","0.005","2.095"]},
+
+    {page:12,id:"12-1d",label:"1(d)",kind:"group", answers:["2","3","2","4","2.324","2","0.3","0.02","0.004","2.324"]},
+    {page:12,id:"12-1e",label:"1(e)",kind:"group", answers:["3","8","6","5","3.865","3","0.8","0.06","0.005","3.865"]},
+    {page:12,id:"12-1f",label:"1(f)",kind:"group", answers:["4","7","3","40.703","40","0.7","0.003","40.703"]},
+
+    {page:13,id:"13-2a",label:"2(a)",kind:"place", heads:["Ones","Tenths","Hundredths","Thousandths"], answers:["3","2","5","4"]},
+    {page:13,id:"13-2b",label:"2(b)",kind:"place", heads:["Ones","Tenths","Hundredths","Thousandths"], answers:["5","9","3","2"]},
+    {page:13,id:"13-2c",label:"2(c)",kind:"place", heads:["Ones","Tenths","Hundredths","Thousandths"], answers:["5","4","0","4"]},
+    {page:13,id:"13-2d",label:"2(d)",kind:"place", heads:["Tens","Ones","Tenths","Hundredths","Thousandths"], answers:["5","0","0","0","8"]},
+
+    {page:14,id:"14-3ai",label:"3(a)(i)",kind:"single", answer:{type:"either", numeric:"0.008", text:["8 thousandths"]}},
+    {page:14,id:"14-3aii",label:"3(a)(ii)",kind:"single", answer:{type:"either", numeric:"0.02", text:["2 hundredths"]}},
+    {page:14,id:"14-3aiii",label:"3(a)(iii)",kind:"single", answer:{type:"either", numeric:"9", text:["9 ones"]}},
+    {page:14,id:"14-3aiv",label:"3(a)(iv)",kind:"single", answer:{type:"digit", value:"3"}},
+    {page:14,id:"14-3bi",label:"3(b)(i)",kind:"single", answer:{type:"text", values:["hundredths"]}},
+    {page:14,id:"14-3bii",label:"3(b)(ii)",kind:"single", answer:{type:"either", numeric:"40", text:["4 tens"]}},
+    {page:14,id:"14-3biii",label:"3(b)(iii)",kind:"single", answer:{type:"text", values:["thousandths"]}},
+    {page:14,id:"14-3biv",label:"3(b)(iv)",kind:"single", answer:{type:"either", numeric:"0.1", text:["1 tenth"]}},
+    {page:14,id:"14-3bv",label:"3(b)(v)",kind:"single", answer:{type:"digit", value:"0"}},
+    {page:14,id:"14-3ci",label:"3(c)(i)",kind:"single", answer:{type:"either", numeric:"0.4", text:["4 tenths"]}},
+    {page:14,id:"14-3cii",label:"3(c)(ii)",kind:"single", answer:{type:"either", numeric:"7", text:["7 ones"]}},
+    {page:14,id:"14-3ciii",label:"3(c)(iii)",kind:"single", answer:{type:"text", values:["hundredths"]}},
+    {page:14,id:"14-3civ",label:"3(c)(iv)",kind:"single", answer:{type:"digit", value:"2"}},
+    {page:14,id:"14-3cv",label:"3(c)(v)",kind:"single", answer:{type:"either", numeric:"30", text:["3 tens"]}},
+
+    {page:15,id:"15-4a",label:"4(a)",kind:"single", answer:{type:"either", numeric:"0.4", text:["4 tenths"]}},
+    {page:15,id:"15-4b",label:"4(b)",kind:"single", answer:{type:"either", numeric:"0.003", text:["3 thousandths"]}},
+    {page:15,id:"15-4c",label:"4(c)",kind:"single", answer:{type:"either", numeric:"90", text:["9 tens"]}},
+    {page:15,id:"15-4d",label:"4(d)",kind:"single", answer:{type:"either", numeric:"0.8", text:["8 tenths"]}},
+    {page:15,id:"15-4e",label:"4(e)",kind:"single", answer:{type:"either", numeric:"0.007", text:["7 thousandths"]}},
+    {page:15,id:"15-5a",label:"5(a)",kind:"single", answer:{type:"number", value:"6.793"}},
+    {page:15,id:"15-5b",label:"5(b)",kind:"single", answer:{type:"number", value:"50.031"}},
+    {page:15,id:"15-5c",label:"5(c)",kind:"single", answer:{type:"number", value:"12.546"}},
+    {page:15,id:"15-5d",label:"5(d)",kind:"single", answer:{type:"number", value:"6.004"}},
+    {page:15,id:"15-5e",label:"5(e)",kind:"single", answer:{type:"number", value:"80.426"}},
+    {page:15,id:"15-5f",label:"5(f)",kind:"single", answer:{type:"number", value:"70.603"}},
+    {page:15,id:"15-5g",label:"5(g)",kind:"single", answer:{type:"number", value:"0.08"}},
+    {page:15,id:"15-5h",label:"5(h)",kind:"single", answer:{type:"number", value:"0.02"}},
+
+    {page:16,id:"16-6a",label:"6(a)",kind:"numberline",
+      line:{min:0.03,max:0.06,major:[0.03,0.04,0.05,0.06],minorStep:0.001},
+      answers:["0.034","0.042","0.057"]},
+    {page:16,id:"16-6b",label:"6(b)",kind:"numberline",
+      line:{min:3.46,max:3.49,major:[3.46,3.47,3.48,3.49],minorStep:0.001},
+      answers:["3.468","3.475","3.489"]},
+    {page:16,id:"16-7",label:"7",kind:"numberline",
+      line:{min:5.2,max:5.5,major:[5.2,5.3,5.4,5.5],minorStep:0.01},
+      answers:["5.23","5.41","5.495"]}
+  ];
+
+  const roman = ["i","ii","iii","iv","v","vi","vii","viii","ix","x","xi","xii"];
+  const app = document.getElementById("app");
+  const finalMessage = document.getElementById("finalMessage");
+
+  function cleanText(s){
+    return s.trim().toLowerCase().replace(/\s+/g," ");
+  }
+
+  function parsePlainDecimal(raw){
+    const s = raw.trim();
+    if (!s) return null;
+    if (!/^[+-]?(?:0|[1-9]\d*)(?:\.\d+)?$/.test(s)) return null;
+    const signless = s.replace(/^[+-]/,"");
+    if (/^0\d/.test(signless)) return null;
+    return s;
+  }
+
+  function canonNumber(raw){
+    const parsed = parsePlainDecimal(raw);
+    if (parsed === null) return null;
+    let sign = "";
+    let s = parsed;
+    if (s[0] === "+" || s[0] === "-"){
+      sign = s[0] === "-" ? "-" : "";
+      s = s.slice(1);
+    }
+    let [intPart, fracPart=""] = s.split(".");
+    fracPart = fracPart.replace(/0+$/,"");
+    if (fracPart === "") {
+      const v = intPart === "0" ? "0" : intPart;
+      return sign === "-" && v !== "0" ? "-" + v : v;
+    }
+    return sign + intPart + "." + fracPart;
+  }
+
+  function numberMatches(raw, expected){
+    const a = canonNumber(raw);
+    const b = canonNumber(expected);
+    return a !== null && b !== null && a === b;
+  }
+
+  function validateAnswer(raw, spec){
+    if (spec.type === "number") return numberMatches(raw, spec.value);
+    if (spec.type === "digit") return /^[0-9]$/.test(raw.trim()) && raw.trim() === spec.value;
+    if (spec.type === "text") {
+      const v = cleanText(raw);
+      return spec.values.some(x => v === cleanText(x));
+    }
+    if (spec.type === "either") {
+      if (numberMatches(raw, spec.numeric)) return true;
+      const v = cleanText(raw);
+      return spec.text.some(x => v === cleanText(x));
+    }
+    return false;
+  }
+
+  function fieldSpecFor(item, index){
+    if (item.kind === "place") return {type:"digit", value:item.answers[index]};
+    if (item.kind === "group" || item.kind === "numberline") return {type:"number", value:item.answers[index]};
+    return item.answer;
+  }
+
+  function makeInput(id, labelText){
+    const input = document.createElement("input");
+    input.type = "text";
+    input.id = id;
+    input.autocomplete = "off";
+    input.spellcheck = false;
+    input.setAttribute("aria-label", labelText);
+    input.dataset.checked = "0";
+    input.addEventListener("input", () => {
+      if (input.dataset.checked === "1"){
+        clearFieldState(input);
+        const q = input.closest(".q");
+        clearStatus(q);
+      }
+      finalMessage.textContent = "";
+    });
+    input.addEventListener("blur", () => ordinaryCheck(input));
+    input.addEventListener("change", () => ordinaryCheck(input));
+    return input;
+  }
+
+  function clearFieldState(input){
+    input.classList.remove("correct","incorrect");
+    input.dataset.checked = "0";
+    input.removeAttribute("aria-invalid");
+  }
+
+  function setFieldState(input, ok){
+    input.classList.toggle("correct", ok);
+    input.classList.toggle("incorrect", !ok);
+    input.dataset.checked = "1";
+    input.setAttribute("aria-invalid", ok ? "false" : "true");
+  }
+
+  function setStatus(q, ok){
+    const s = q.querySelector(".status");
+    s.textContent = ok ? "Correct!" : "Not quite. Try again.";
+    s.className = "status " + (ok ? "correct" : "incorrect");
+  }
+
+  function clearStatus(q){
+    const s = q.querySelector(".status");
+    if (s){ s.textContent = ""; s.className = "status"; }
+  }
+
+  function inputsForItem(item){
+    return Array.from(document.querySelectorAll(`[data-item="${item.id}"]`));
+  }
+
+  function ordinaryCheck(input){
+    const item = items.find(x => x.id === input.dataset.item);
+    if (!item) return;
+    const groupInputs = inputsForItem(item);
+
+    if (item.kind === "group" || item.kind === "place" || item.kind === "numberline"){
+      if (groupInputs.some(i => i.value.trim() === "")) return;
+      let all = true;
+      groupInputs.forEach((i, idx) => {
+        const ok = validateAnswer(i.value, fieldSpecFor(item, idx));
+        setFieldState(i, ok);
+        all = all && ok;
+      });
+      setStatus(input.closest(".q"), all);
+      return;
+    }
+
+    if (input.value.trim() === "") return;
+    const ok = validateAnswer(input.value, item.answer);
+    setFieldState(input, ok);
+    setStatus(input.closest(".q"), ok);
+  }
+
+  function renderFieldGroup(item){
+    const q = document.createElement("section");
+    q.className = "q";
+    q.dataset.qid = item.id;
+    q.innerHTML = `<h3>${item.label}</h3>`;
+    const grid = document.createElement("div");
+    grid.className = "field-grid";
+    item.answers.forEach((_,idx) => {
+      const f = document.createElement("div");
+      f.className = "field";
+      const sub = roman[idx] || String(idx+1);
+      const label = document.createElement("label");
+      const inputId = `${item.id}-${idx}`;
+      label.htmlFor = inputId;
+      label.textContent = `${item.label}(${sub})`;
+      const input = makeInput(inputId, `${item.label} part ${sub}`);
+      input.dataset.item = item.id;
+      input.dataset.index = String(idx);
+      f.append(label,input);
+      grid.appendChild(f);
+    });
+    q.appendChild(grid);
+    q.insertAdjacentHTML("beforeend",`<div class="status" role="status" aria-live="polite"></div>`);
+    return q;
+  }
+
+  function renderPlace(item){
+    const q = document.createElement("section");
+    q.className = "q";
+    q.dataset.qid = item.id;
+    q.innerHTML = `<h3>${item.label}</h3>`;
+    const table = document.createElement("div");
+    table.className = `place-table cols-${item.heads.length}`;
+    table.setAttribute("role","group");
+    table.setAttribute("aria-label",`${item.label} place-value table`);
+    item.heads.forEach(h => {
+      const cell=document.createElement("div");
+      cell.className="place-head";
+      cell.textContent=h;
+      table.appendChild(cell);
+    });
+    item.heads.forEach((h,idx) => {
+      const cell=document.createElement("div");
+      cell.className="place-cell";
+      const input = makeInput(`${item.id}-${idx}`,`${item.label} ${h}`);
+      input.dataset.item=item.id;
+      input.dataset.index=String(idx);
+      input.inputMode="numeric";
+      input.maxLength=1;
+      cell.appendChild(input);
+      table.appendChild(cell);
+    });
+    q.appendChild(table);
+    q.insertAdjacentHTML("beforeend",`<div class="status" role="status" aria-live="polite"></div>`);
+    return q;
+  }
+
+  function renderSingle(item){
+    const q = document.createElement("section");
+    q.className = "q";
+    q.dataset.qid = item.id;
+    const h = document.createElement("h3");
+    h.textContent = item.label;
+    const f = document.createElement("div");
+    f.className = "field";
+    const lab = document.createElement("label");
+    lab.htmlFor = `${item.id}-0`;
+    lab.textContent = item.label;
+    const input = makeInput(`${item.id}-0`,item.label);
+    input.dataset.item=item.id;
+    input.dataset.index="0";
+    f.append(lab,input);
+    q.append(h,f);
+    q.insertAdjacentHTML("beforeend",`<div class="status" role="status" aria-live="polite"></div>`);
+    return q;
+  }
+
+  function formatMajor(v){
+    return String(v);
+  }
+
+  function renderNumberLine(item){
+    const q = document.createElement("section");
+    q.className="q";
+    q.dataset.qid=item.id;
+    q.innerHTML=`<h3>${item.label}</h3>`;
+    const wrap=document.createElement("div");
+    wrap.className="numberline-wrap";
+    const box=document.createElement("div");
+    box.className="numberline";
+
+    const W=760,H=170,L=40,R=720,Y=105;
+    const span=item.line.max-item.line.min;
+    const px=v => L + (v-item.line.min)/span*(R-L);
+
+    const svgNS="http://www.w3.org/2000/svg";
+    const svg=document.createElementNS(svgNS,"svg");
+    svg.setAttribute("viewBox",`0 0 ${W} ${H}`);
+    svg.setAttribute("role","img");
+    svg.setAttribute("aria-label",`${item.label} number line`);
+
+    const axis=document.createElementNS(svgNS,"line");
+    axis.setAttribute("x1",L-8); axis.setAttribute("y1",Y);
+    axis.setAttribute("x2",R+8); axis.setAttribute("y2",Y);
+    axis.setAttribute("stroke","currentColor"); axis.setAttribute("stroke-width","2");
+    svg.appendChild(axis);
+
+    const leftArrow=document.createElementNS(svgNS,"path");
+    leftArrow.setAttribute("d",`M ${L-8} ${Y} l 9 -5 v 10 z`);
+    leftArrow.setAttribute("fill","currentColor");
+    svg.appendChild(leftArrow);
+    const rightArrow=document.createElementNS(svgNS,"path");
+    rightArrow.setAttribute("d",`M ${R+8} ${Y} l -9 -5 v 10 z`);
+    rightArrow.setAttribute("fill","currentColor");
+    svg.appendChild(rightArrow);
+
+    const count=Math.round(span/item.line.minorStep);
+    for(let i=0;i<=count;i++){
+      const v=item.line.min+i*item.line.minorStep;
+      const x=px(v);
+      const isMajor=item.line.major.some(m=>Math.abs(m-v)<1e-9);
+      const tick=document.createElementNS(svgNS,"line");
+      tick.setAttribute("x1",x); tick.setAttribute("x2",x);
+      tick.setAttribute("y1",Y-(isMajor?14:7));
+      tick.setAttribute("y2",Y+(isMajor?14:7));
+      tick.setAttribute("stroke","currentColor");
+      tick.setAttribute("stroke-width",isMajor?"2.5":"1.5");
+      svg.appendChild(tick);
+    }
+
+    item.line.major.forEach(v=>{
+      const t=document.createElementNS(svgNS,"text");
+      t.setAttribute("x",px(v)); t.setAttribute("y",Y+36);
+      t.setAttribute("text-anchor","middle");
+      t.setAttribute("font-size","16");
+      t.textContent=formatMajor(v);
+      svg.appendChild(t);
+    });
+
+    item.answers.forEach((ans,idx)=>{
+      const x=px(Number(ans));
+      const arrow=document.createElementNS(svgNS,"path");
+      arrow.setAttribute("d",`M ${x} 72 L ${x} 92 M ${x-5} 84 L ${x} 92 L ${x+5} 84`);
+      arrow.setAttribute("fill","none");
+      arrow.setAttribute("stroke","currentColor");
+      arrow.setAttribute("stroke-width","2");
+      arrow.setAttribute("stroke-linecap","round");
+      arrow.setAttribute("stroke-linejoin","round");
+      svg.appendChild(arrow);
+    });
+
+    box.appendChild(svg);
+    const layer=document.createElement("div");
+    layer.className="line-inputs";
+    item.answers.forEach((ans,idx)=>{
+      const holder=document.createElement("div");
+      holder.className="line-input";
+      const pct=px(Number(ans))/W*100;
+      holder.style.left=pct+"%";
+      holder.style.top="8px";
+      const sub=roman[idx] || String(idx+1);
+      const lab=document.createElement("label");
+      lab.htmlFor=`${item.id}-${idx}`;
+      lab.textContent=`${item.label}(${sub})`;
+      const input=makeInput(`${item.id}-${idx}`,`${item.label} part ${sub}`);
+      input.dataset.item=item.id;
+      input.dataset.index=String(idx);
+      holder.append(lab,input);
+      layer.appendChild(holder);
+    });
+    box.appendChild(layer);
+    wrap.appendChild(box);
+    q.appendChild(wrap);
+    q.insertAdjacentHTML("beforeend",`<div class="status" role="status" aria-live="polite"></div>`);
+    return q;
+  }
+
+  function render(){
+    const byPage = new Map();
+    items.forEach(item => {
+      if(!byPage.has(item.page)) byPage.set(item.page,[]);
+      byPage.get(item.page).push(item);
+    });
+    [...byPage.entries()].forEach(([page,pageItems])=>{
+      const sec=document.createElement("section");
+      sec.className="page";
+      sec.innerHTML=`<h2>Checking answers for page ${page}</h2>`;
+      pageItems.forEach(item=>{
+        let node;
+        if(item.kind==="group") node=renderFieldGroup(item);
+        else if(item.kind==="place") node=renderPlace(item);
+        else if(item.kind==="single") node=renderSingle(item);
+        else node=renderNumberLine(item);
+        sec.appendChild(node);
+      });
+      app.appendChild(sec);
+    });
+  }
+
+  function submitAll(){
+    let everythingCorrect=true;
+    items.forEach(item=>{
+      const group=inputsForItem(item);
+      let itemCorrect=true;
+      group.forEach((input,idx)=>{
+        const raw=input.value;
+        const ok = raw.trim() !== "" && validateAnswer(raw, fieldSpecFor(item,idx));
+        setFieldState(input,ok);
+        itemCorrect=itemCorrect && ok;
+      });
+      setStatus(group[0].closest(".q"),itemCorrect);
+      everythingCorrect=everythingCorrect && itemCorrect;
+    });
+    finalMessage.textContent = everythingCorrect
+      ? "You got it all correct! Good job!"
+      : "Keep going — check the red answers and try again.";
+    finalMessage.scrollIntoView({behavior:"smooth",block:"nearest"});
+  }
+
+  function resetAll(){
+    document.querySelectorAll('input[type="text"]').forEach(input=>{
+      input.value="";
+      clearFieldState(input);
+    });
+    document.querySelectorAll(".status").forEach(s=>{
+      s.textContent="";
+      s.className="status";
+    });
+    finalMessage.textContent="";
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+
+  render();
+  document.getElementById("submitAll").addEventListener("click",submitAll);
+  document.getElementById("resetAll").addEventListener("click",resetAll);
+})();
+</script>
+</body>
+</html>
