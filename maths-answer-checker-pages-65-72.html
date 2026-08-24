@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maths Answer Checker — Pages 65–72</title>
+<style>
+  :root{
+    --ink:#1f2937;
+    --muted:#64748b;
+    --line:#dbe5ef;
+    --panel:#f8fbff;
+    --accent:#0f75bc;
+    --accent-dark:#075a92;
+    --ok-bg:#e9f8ee;
+    --ok-border:#2e8b57;
+    --bad-bg:#fff0f0;
+    --bad-border:#c53a3a;
+    --focus:#7dd3fc;
+    --white:#ffffff;
+  }
+  *{box-sizing:border-box}
+  html{background:#eef5fb}
+  body{
+    margin:0;
+    font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    color:var(--ink);
+    background:#eef5fb;
+    line-height:1.45;
+  }
+  .app{
+    width:min(900px,100%);
+    margin:0 auto;
+    min-height:100vh;
+    background:var(--white);
+    padding:24px clamp(16px,4vw,40px) 48px;
+    box-shadow:0 0 30px rgba(15,23,42,.08);
+  }
+  header{
+    display:flex;
+    gap:16px;
+    align-items:flex-start;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+  }
+  h1{
+    margin:0;
+    color:var(--accent-dark);
+    font-size:clamp(1.45rem,4vw,2rem);
+    line-height:1.2;
+  }
+  .top-actions{display:flex;gap:10px;flex-wrap:wrap}
+  button{
+    appearance:none;
+    border:0;
+    border-radius:12px;
+    min-height:46px;
+    padding:10px 16px;
+    font:inherit;
+    font-weight:700;
+    cursor:pointer;
+  }
+  button:focus-visible,input:focus-visible{
+    outline:3px solid var(--focus);
+    outline-offset:2px;
+  }
+  .secondary{
+    background:#e7f1f8;
+    color:var(--accent-dark);
+  }
+  .primary{
+    background:var(--accent);
+    color:white;
+  }
+  .page{
+    border-top:4px solid var(--accent);
+    padding-top:18px;
+    margin-top:28px;
+  }
+  .page:first-of-type{margin-top:8px}
+  .page h2{
+    margin:0 0 14px;
+    font-size:1.15rem;
+    color:var(--accent-dark);
+  }
+  .q{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:16px;
+    margin:12px 0;
+  }
+  .q-title{
+    font-weight:800;
+    margin-bottom:10px;
+  }
+  .field-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  label{
+    font-weight:700;
+  }
+  input{
+    width:min(190px,100%);
+    min-height:46px;
+    border:2px solid #9fb4c8;
+    border-radius:10px;
+    background:white;
+    color:var(--ink);
+    font:inherit;
+    padding:9px 11px;
+    transition:background .15s,border-color .15s,box-shadow .15s;
+  }
+  input.correct{
+    background:var(--ok-bg);
+    border-color:var(--ok-border);
+  }
+  input.incorrect{
+    background:var(--bad-bg);
+    border-color:var(--bad-border);
+  }
+  .feedback{
+    min-height:1.35em;
+    font-weight:800;
+  }
+  .feedback.ok{color:#216e46}
+  .feedback.bad{color:#a72f2f}
+  .multi-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(110px,1fr));
+    gap:14px;
+  }
+  .subfield{min-width:0}
+  .subfield input{width:100%}
+  .fraction-wrap{
+    display:inline-grid;
+    grid-template-rows:auto 2px auto;
+    width:110px;
+    gap:7px;
+    vertical-align:middle;
+  }
+  .fraction-wrap input{
+    width:100%;
+    text-align:center;
+  }
+  .fraction-bar{
+    background:var(--ink);
+    width:100%;
+    height:2px;
+  }
+  .bottom-actions{
+    margin-top:28px;
+    display:flex;
+    justify-content:flex-end;
+  }
+  #summary{
+    margin-top:16px;
+    min-height:1.6em;
+    font-weight:800;
+    font-size:1.05rem;
+  }
+  #summary.success{color:#216e46}
+  #summary.encourage{color:var(--accent-dark)}
+  .sr-only{
+    position:absolute!important;
+    width:1px!important;
+    height:1px!important;
+    padding:0!important;
+    margin:-1px!important;
+    overflow:hidden!important;
+    clip:rect(0,0,0,0)!important;
+    white-space:nowrap!important;
+    border:0!important;
+  }
+  @media (max-width:620px){
+    .multi-grid{grid-template-columns:1fr}
+    .bottom-actions button{width:100%}
+    .top-actions{width:100%}
+    .top-actions button{flex:1}
+  }
+</style>
+</head>
+<body>
+<main class="app">
+  <header>
+    <h1>Checking answers for pages 65–72</h1>
+    <div class="top-actions">
+      <button id="resetAll" class="secondary" type="button">Reset all</button>
+    </div>
+  </header>
+
+  <section class="page" aria-labelledby="page65">
+    <h2 id="page65">Page 65</h2>
+
+    <div class="q" data-item="q1">
+      <div class="q-title">Question 1</div>
+      <div class="field-row">
+        <label for="q1">Answer</label>
+        <input id="q1" autocomplete="off" inputmode="text">
+        <span class="feedback" id="q1-feedback" aria-live="polite"></span>
+      </div>
+    </div>
+
+    <div class="q" data-item="q2">
+      <div class="q-title">Question 2</div>
+      <div class="field-row">
+        <label for="q2">Answer</label>
+        <input id="q2" autocomplete="off" inputmode="numeric">
+        <span class="feedback" id="q2-feedback" aria-live="polite"></span>
+      </div>
+    </div>
+
+    <div class="q" data-item="q3">
+      <div class="q-title">Question 3</div>
+      <div class="field-row">
+        <label for="q3">Answer</label>
+        <input id="q3" autocomplete="off" inputmode="decimal">
+        <span class="feedback" id="q3-feedback" aria-live="polite"></span>
+      </div>
+    </div>
+
+    <div class="q" data-item="q4">
+      <div class="q-title">Question 4</div>
+      <div class="field-row">
+        <label for="q4">Answer</label>
+        <input id="q4" autocomplete="off" inputmode="decimal">
+        <span class="feedback" id="q4-feedback" aria-live="polite"></span>
+      </div>
+    </div>
+
+    <div class="q" data-item="q5">
+      <div class="q-title">Question 5</div>
+      <div class="field-row">
+        <label for="q5">Answer</label>
+        <input id="q5" autocomplete="off" inputmode="decimal">
+        <span class="feedback" id="q5-feedback" aria-live="polite"></span>
+      </div>
+    </div>
+
+    <div class="q" data-item="q6">
+      <div class="q-title">Question 6</div>
+      <div class="multi-grid">
+        <div class="subfield">
+          <label for="q6a">6(i)</label>
+          <input id="q6a" autocomplete="off" inputmode="decimal">
+          <div class="feedback" id="q6a-feedback" aria-live="polite"></div>
+        </div>
+        <div class="subfield">
+          <label for="q6b">6(ii)</label>
+          <input id="q6b" autocomplete="off" inputmode="decimal">
+          <div class="feedback" id="q6b-feedback" aria-live="polite"></div>
+        </div>
+        <div class="subfield">
+          <label for="q6c">6(iii)</label>
+          <input id="q6c" autocomplete="off" inputmode="decimal">
+          <div class="feedback" id="q6c-feedback" aria-live="polite"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" aria-labelledby="page66">
+    <h2 id="page66">Page 66</h2>
+
+    <div class="q" data-item="q7">
+      <div class="q-title">Question 7</div>
+      <div class="field-row">
+        <label for="q7">Answer</label>
+        <input id="q7" autocomplete="off" inputmode="decimal">
+        <span class="feedback" id="q7-feedback" aria-live="polite"></span>
+      </div>
+    </div>
+
+    <div class="q" data-item="q8">
+      <div class="q-title">Question 8</div>
+      <div class="field-row">
+        <label for="q8">Answer</label>
+        <input id="q8" autocomplete="off" inputmode="numeric">
+        <span class="feedback" id="q8-feedback" aria-live="polite"></span>
+      </div>
+    </div>
+
+    <div class="q" data-item="q9">
+      <div class="q-title">Question 9</div>
+      <div class="field-row">
+        <label for="q9">Answer</label>
+        <input id="q9" autocomplete="off" inputmode="decimal">
+        <span class="feedback" id="q9-feedback" aria-live="polite"></span>
+      </div>
+    </div>
+
+    <div class="q" data-item="q10">
+      <div class="q-title">Question 10</div>
+      <div class="field-row">
+        <label id="q10-label">Answer</label>
+        <div class="fraction-wrap" role="group" aria-labelledby="q10-label">
+          <input id="q10n" aria-label="Question 10 numerator" autocomplete="off" inputmode="numeric">
+          <div class="fraction-bar" aria-hidden="true"></div>
+          <input id="q10d" aria-label="Question 10 denominator" autocomplete="off" inputmode="numeric">
+        </div>
+        <span class="feedback" id="q10-feedback" aria-live="polite"></span>
+      </div>
+    </div>
+
+    <div class="q" data-item="q11">
+      <div class="q-title">Question 11</div>
+      <div class="field-row">
+        <label for="q11">Answer</label>
+        <input id="q11" autocomplete="off" inputmode="decimal">
+        <span class="feedback" id="q11-feedback" aria-live="polite"></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" aria-labelledby="page67">
+    <h2 id="page67">Page 67</h2>
+
+    <div class="q" data-item="q12">
+      <div class="q-title">Question 12</div>
+      <div class="field-row">
+        <label for="q12">Answer</label>
+        <input id="q12" autocomplete="off" inputmode="decimal">
+        <span class="feedback" id="q12-feedback" aria-live="polite"></span>
+      </div>
+    </div>
+
+    <div class="q" data-item="q13">
+      <div class="q-title">Question 13</div>
+      <div class="field-row">
+        <label for="q13">Answer</label>
+        <input id="q13" autocomplete="off" inputmode="decimal">
+        <span class="feedback" id="q13-feedback" aria-live="polite"></span>
+      </div>
+    </div>
+
+    <div class="q" data-item="q14">
+      <div class="q-title">Question 14</div>
+      <div class="field-row">
+        <label for="q14">Answer</label>
+        <input id="q14" autocomplete="off" inputmode="decimal">
+        <span class="feedback" id="q14-feedback" aria-live="polite"></span>
+      </div>
+    </div>
+
+    <div class="q" data-item="q15">
+      <div class="q-title">Question 15</div>
+      <div class="field-row">
+        <label for="q15">Answer</label>
+        <input id="q15" autocomplete="off" inputmode="decimal">
+        <span class="feedback" id="q15-feedback" aria-live="polite"></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" aria-labelledby="page68">
+    <h2 id="page68">Page 68</h2>
+
+    <div class="q" data-item="q16">
+      <div class="q-title">Question 16</div>
+      <div class="field-row">
+        <label for="q16">Answer</label>
+        <input id="q16" autocomplete="off" inputmode="decimal">
+        <span class="feedback" id="q16-feedback" aria-live="polite"></span>
+      </div>
+    </div>
+
+    <div class="q" data-item="q17">
+      <div class="q-title">Question 17</div>
+      <div class="field-row">
+        <label for="q17">Answer</label>
+        <input id="q17" autocomplete="off" inputmode="decimal">
+        <span class="feedback" id="q17-feedback" aria-live="polite"></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" aria-labelledby="page69">
+    <h2 id="page69">Page 69</h2>
+
+    <div class="q" data-item="q18">
+      <div class="q-title">Question 18</div>
+      <div class="multi-grid" style="grid-template-columns:repeat(2,minmax(150px,1fr))">
+        <div class="subfield">
+          <label for="q18a">18(a)</label>
+          <input id="q18a" autocomplete="off" inputmode="decimal">
+          <div class="feedback" id="q18a-feedback" aria-live="polite"></div>
+        </div>
+        <div class="subfield">
+          <label for="q18b">18(b)</label>
+          <input id="q18b" autocomplete="off" inputmode="decimal">
+          <div class="feedback" id="q18b-feedback" aria-live="polite"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" aria-labelledby="page70">
+    <h2 id="page70">Page 70</h2>
+
+    <div class="q" data-item="q19">
+      <div class="q-title">Question 19</div>
+      <div class="field-row">
+        <label for="q19">Answer</label>
+        <input id="q19" autocomplete="off" inputmode="decimal">
+        <span class="feedback" id="q19-feedback" aria-live="polite"></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" aria-labelledby="page71">
+    <h2 id="page71">Page 71</h2>
+
+    <div class="q" data-item="q20">
+      <div class="q-title">Question 20</div>
+      <div class="field-row">
+        <label for="q20">Answer</label>
+        <input id="q20" autocomplete="off" inputmode="decimal">
+        <span class="feedback" id="q20-feedback" aria-live="polite"></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" aria-labelledby="page72">
+    <h2 id="page72">Page 72</h2>
+
+    <div class="q" data-item="q21">
+      <div class="q-title">Question 21</div>
+      <div class="field-row">
+        <label for="q21">Answer</label>
+        <input id="q21" autocomplete="off" inputmode="decimal">
+        <span class="feedback" id="q21-feedback" aria-live="polite"></span>
+      </div>
+    </div>
+  </section>
+
+  <div class="bottom-actions">
+    <button id="submitAll" class="primary" type="button">Submit all</button>
+  </div>
+  <div id="summary" aria-live="polite"></div>
+</main>
+
+<script>
+"use strict";
+
+const byId = id => document.getElementById(id);
+
+function normalizeText(raw){
+  return raw.trim().replace(/\s+/g," ").toLowerCase();
+}
+
+function hasBadLeadingZero(numText){
+  const s = numText.trim();
+  const m = s.match(/^([+-]?)(\d+)(?:\.(\d+))?$/);
+  if(!m) return true;
+  const intPart = m[2];
+  return intPart.length > 1 && intPart.startsWith("0");
+}
+
+function decimalParts(raw){
+  const s = raw.trim();
+  if(!/^\d+(?:\.\d+)?$/.test(s)) return null;
+  if(hasBadLeadingZero(s)) return null;
+  const [i, f=""] = s.split(".");
+  return {digits: BigInt(i + f), scale: 10n ** BigInt(f.length)};
+}
+
+function equalDecimal(raw, expected){
+  const a = decimalParts(raw);
+  const b = decimalParts(expected);
+  if(!a || !b) return false;
+  return a.digits * b.scale === b.digits * a.scale;
+}
+
+function integerExact(raw, expected){
+  const s = raw.trim();
+  if(!/^\d+$/.test(s)) return false;
+  if(s.length > 1 && s.startsWith("0")) return false;
+  return s === String(expected);
+}
+
+function fixedDecimal(raw, expected, places){
+  const s = raw.trim();
+  const m = s.match(/^(\d+)\.(\d+)$/);
+  if(!m || m[2].length !== places) return false;
+  if(hasBadLeadingZero(s)) return false;
+  return equalDecimal(s, expected);
+}
+
+function stripRequiredUnit(raw, unit){
+  const s = raw.trim();
+  const lower = s.toLowerCase();
+  const wanted = unit.toLowerCase();
+  if(!lower.endsWith(wanted)) return null;
+  return s.slice(0, s.length - unit.length).trim();
+}
+
+function decimalWithUnit(raw, expected, unit){
+  const numberPart = stripRequiredUnit(raw, unit);
+  return numberPart !== null && equalDecimal(numberPart, expected);
+}
+
+function stripRequiredDollar(raw){
+  const s = raw.trim();
+  const m = s.match(/^\$\s*(.+)$/);
+  return m ? m[1].trim() : null;
+}
+
+function moneyCents(raw, expected){
+  const numberPart = stripRequiredDollar(raw);
+  if(numberPart === null) return false;
+  if(!/^\d+\.\d{2}$/.test(numberPart)) return false;
+  if(hasBadLeadingZero(numberPart)) return false;
+  return equalDecimal(numberPart, expected);
+}
+
+function moneyWhole(raw, expected){
+  const numberPart = stripRequiredDollar(raw);
+  if(numberPart === null) return false;
+  return integerExact(numberPart, expected);
+}
+
+function gcd(a,b){
+  a = Math.abs(a); b = Math.abs(b);
+  while(b){ const t=b; b=a%b; a=t; }
+  return a;
+}
+
+function simplePositiveFraction(nRaw,dRaw,targetN,targetD){
+  const n = nRaw.trim();
+  const d = dRaw.trim();
+  if(!/^\d+$/.test(n) || !/^\d+$/.test(d)) return false;
+  if((n.length>1 && n.startsWith("0")) || (d.length>1 && d.startsWith("0"))) return false;
+  const ni = Number(n), di = Number(d);
+  if(ni <= 0 || di <= 0) return false;
+  if(gcd(ni,di) !== 1) return false;
+  return ni * targetD === targetN * di;
+}
+
+const singleItems = {
+  q1:  { validate:v => normalizeText(v) === "tenths" },
+  q2:  { validate:v => integerExact(v,3) },
+  q3:  { validate:v => decimalWithUnit(v,"8.6","cm") },
+  q4:  { validate:v => equalDecimal(v,"0.89") },
+  q5:  { validate:v => equalDecimal(v,"4.28") },
+  q7:  { validate:v => equalDecimal(v,"6.014") },
+  q8:  { validate:v => integerExact(v,39) },
+  q9:  { validate:v => fixedDecimal(v,"25.7",1) },
+  q11: { validate:v => equalDecimal(v,"112.98") },
+  q12: { validate:v => equalDecimal(v,"6.91") },
+  q13: { validate:v => equalDecimal(v,"8.32") },
+  q14: { validate:v => equalDecimal(v,"40.81") },
+  q15: { validate:v => moneyWhole(v,30) },
+  q16: { validate:v => moneyCents(v,"97.65") },
+  q17: { validate:v => decimalWithUnit(v,"0.9","kg") },
+  q19: { validate:v => moneyCents(v,"40.25") },
+  q20: { validate:v => moneyCents(v,"265.60") },
+  q21: { validate:v => moneyCents(v,"20.75") }
+};
+
+function setFieldState(input, feedback, state){
+  input.classList.remove("correct","incorrect");
+  feedback.classList.remove("ok","bad");
+  feedback.textContent = "";
+  if(state === "correct"){
+    input.classList.add("correct");
+    feedback.classList.add("ok");
+    feedback.textContent = "Correct!";
+  }else if(state === "incorrect"){
+    input.classList.add("incorrect");
+    feedback.classList.add("bad");
+    feedback.textContent = "Not quite. Try again.";
+  }
+}
+
+function isBlank(input){ return input.value.trim() === ""; }
+
+function checkSingle(id, force=false){
+  const input = byId(id);
+  const feedback = byId(id+"-feedback");
+  if(isBlank(input)){
+    if(force) setFieldState(input,feedback,"incorrect");
+    else setFieldState(input,feedback,"");
+    return false;
+  }
+  const ok = singleItems[id].validate(input.value);
+  setFieldState(input,feedback,ok ? "correct" : "incorrect");
+  return ok;
+}
+
+Object.keys(singleItems).forEach(id=>{
+  const input = byId(id);
+  input.addEventListener("input",()=>setFieldState(input,byId(id+"-feedback"),""));
+  input.addEventListener("blur",()=>checkSingle(id,false));
+});
+
+const q6ids = ["q6a","q6b","q6c"];
+const q6validators = [
+  v=>equalDecimal(v,"0.75"),
+  v=>equalDecimal(v,"7.05"),
+  v=>equalDecimal(v,"7.5")
+];
+
+function clearGroupFields(ids){
+  ids.forEach(id=>setFieldState(byId(id),byId(id+"-feedback"),""));
+}
+
+function checkQ6(force=false){
+  const inputs = q6ids.map(byId);
+  const allPresent = inputs.every(i=>!isBlank(i));
+  if(!allPresent && !force){
+    clearGroupFields(q6ids);
+    return false;
+  }
+  let allOk = true;
+  inputs.forEach((input,idx)=>{
+    const fb = byId(q6ids[idx]+"-feedback");
+    if(isBlank(input)){
+      setFieldState(input,fb,"incorrect");
+      allOk = false;
+    }else{
+      const ok = q6validators[idx](input.value);
+      setFieldState(input,fb,ok ? "correct" : "incorrect");
+      if(!ok) allOk = false;
+    }
+  });
+  return allOk;
+}
+
+q6ids.forEach(id=>{
+  byId(id).addEventListener("input",()=>setFieldState(byId(id),byId(id+"-feedback"),""));
+  byId(id).addEventListener("blur",()=>checkQ6(false));
+});
+
+const q18ids = ["q18a","q18b"];
+const q18validators = [
+  v=>decimalWithUnit(v,"0.68","kg"),
+  v=>decimalWithUnit(v,"4.08","kg")
+];
+
+function checkQ18(force=false){
+  const inputs = q18ids.map(byId);
+  const allPresent = inputs.every(i=>!isBlank(i));
+  if(!allPresent && !force){
+    clearGroupFields(q18ids);
+    return false;
+  }
+  let allOk = true;
+  inputs.forEach((input,idx)=>{
+    const fb = byId(q18ids[idx]+"-feedback");
+    if(isBlank(input)){
+      setFieldState(input,fb,"incorrect");
+      allOk = false;
+    }else{
+      const ok = q18validators[idx](input.value);
+      setFieldState(input,fb,ok ? "correct" : "incorrect");
+      if(!ok) allOk = false;
+    }
+  });
+  return allOk;
+}
+
+q18ids.forEach(id=>{
+  byId(id).addEventListener("input",()=>setFieldState(byId(id),byId(id+"-feedback"),""));
+  byId(id).addEventListener("blur",()=>checkQ18(false));
+});
+
+function setFractionState(state){
+  const n=byId("q10n"), d=byId("q10d"), fb=byId("q10-feedback");
+  [n,d].forEach(el=>el.classList.remove("correct","incorrect"));
+  fb.classList.remove("ok","bad");
+  fb.textContent="";
+  if(state==="correct"){
+    [n,d].forEach(el=>el.classList.add("correct"));
+    fb.classList.add("ok");
+    fb.textContent="Correct!";
+  }else if(state==="incorrect"){
+    [n,d].forEach(el=>el.classList.add("incorrect"));
+    fb.classList.add("bad");
+    fb.textContent="Not quite. Try again.";
+  }
+}
+
+function checkQ10(force=false){
+  const n=byId("q10n"), d=byId("q10d");
+  if(isBlank(n) || isBlank(d)){
+    if(force) setFractionState("incorrect");
+    else setFractionState("");
+    return false;
+  }
+  const ok=simplePositiveFraction(n.value,d.value,1,25);
+  setFractionState(ok ? "correct" : "incorrect");
+  return ok;
+}
+["q10n","q10d"].forEach(id=>{
+  byId(id).addEventListener("input",()=>setFractionState(""));
+  byId(id).addEventListener("blur",()=>checkQ10(false));
+});
+
+function allInputs(){
+  return Array.from(document.querySelectorAll("input"));
+}
+
+byId("resetAll").addEventListener("click",()=>{
+  allInputs().forEach(input=>{
+    input.value="";
+    input.classList.remove("correct","incorrect");
+  });
+  document.querySelectorAll(".feedback").forEach(fb=>{
+    fb.textContent="";
+    fb.classList.remove("ok","bad");
+  });
+  const summary=byId("summary");
+  summary.textContent="";
+  summary.className="";
+  byId("q1").focus();
+});
+
+byId("submitAll").addEventListener("click",()=>{
+  const results = [];
+  Object.keys(singleItems).forEach(id=>results.push(checkSingle(id,true)));
+  results.push(checkQ6(true));
+  results.push(checkQ10(true));
+  results.push(checkQ18(true));
+
+  const summary=byId("summary");
+  if(results.every(Boolean)){
+    summary.textContent="You got it all correct! Good job!";
+    summary.className="success";
+  }else{
+    summary.textContent="Keep going—you’re making progress!";
+    summary.className="encourage";
+    const firstBad=document.querySelector("input.incorrect");
+    if(firstBad) firstBad.focus();
+  }
+});
+</script>
+</body>
+</html>
