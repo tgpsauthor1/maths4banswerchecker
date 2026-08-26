@@ -1,0 +1,1096 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maths Answer Checker — Pages 125–130</title>
+<style>
+  :root{
+    color-scheme:light;
+    --ink:#1f2933;
+    --muted:#52606d;
+    --blue:#0b73b8;
+    --blue-dark:#075487;
+    --grid:#b8c2cc;
+    --panel:#ffffff;
+    --bg:#f6f9fc;
+    --user:#243b53;
+    --given:#92afd4;
+    --selected:#dbeafe;
+    --correct-bg:#e7f7eb;
+    --correct-border:#2b8a3e;
+    --wrong-bg:#fdebec;
+    --wrong-border:#c92a2a;
+    --focus:#7c3aed;
+  }
+
+  *{box-sizing:border-box}
+
+  body{
+    margin:0;
+    font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    color:var(--ink);
+    background:var(--bg);
+    line-height:1.45;
+  }
+
+  .app{
+    width:min(1060px,calc(100% - 20px));
+    margin:0 auto;
+    padding:22px 0 44px;
+  }
+
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    flex-wrap:wrap;
+    margin-bottom:22px;
+  }
+
+  h1{
+    margin:0;
+    color:var(--blue-dark);
+    font-size:clamp(1.45rem,3vw,2rem);
+  }
+
+  h2{
+    margin:0 0 16px;
+    font-size:1.3rem;
+  }
+
+  h3{
+    margin:0 0 10px;
+    font-size:1.08rem;
+  }
+
+  button{
+    appearance:none;
+    border:2px solid var(--blue);
+    background:var(--blue);
+    color:white;
+    border-radius:12px;
+    padding:10px 16px;
+    min-height:44px;
+    font:inherit;
+    font-weight:750;
+    cursor:pointer;
+    touch-action:manipulation;
+  }
+
+  button:hover{background:var(--blue-dark);border-color:var(--blue-dark)}
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  .draw-svg:focus-visible,
+  .shade-cell:focus-visible{
+    outline:3px solid var(--focus);
+    outline-offset:3px;
+  }
+
+  .secondary{
+    background:white;
+    color:var(--blue-dark);
+  }
+
+  .secondary:hover{
+    background:#eef7fd;
+    color:var(--blue-dark);
+  }
+
+  .page{
+    background:var(--panel);
+    border:2px solid #d6dee6;
+    border-radius:18px;
+    padding:clamp(16px,3vw,26px);
+    margin-bottom:24px;
+  }
+
+  .question,
+  .part{
+    border:2px solid #d6dee6;
+    border-radius:16px;
+    padding:16px;
+    margin-top:14px;
+    background:white;
+    transition:background .15s,border-color .15s;
+  }
+
+  .question.correct,
+  .part.correct{
+    background:var(--correct-bg);
+    border-color:var(--correct-border);
+  }
+
+  .question.incorrect,
+  .part.incorrect{
+    background:var(--wrong-bg);
+    border-color:var(--wrong-border);
+  }
+
+  .parts{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:18px;
+  }
+
+  .choices{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(105px,1fr));
+    gap:10px;
+    margin:10px 0 14px;
+  }
+
+  .choice{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    min-height:50px;
+    padding:10px 12px;
+    border:1px solid #c9d5df;
+    border-radius:12px;
+    background:white;
+    font-weight:650;
+    cursor:pointer;
+  }
+
+  .choice:hover{border-color:var(--blue)}
+
+  input[type="checkbox"]{
+    width:22px;
+    height:22px;
+    margin:0;
+    accent-color:var(--blue);
+  }
+
+  .helper{
+    margin:0 0 10px;
+    color:var(--muted);
+    font-size:.93rem;
+  }
+
+  .actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    align-items:center;
+  }
+
+  .actions button{
+    min-height:40px;
+    padding:8px 13px;
+  }
+
+  .result{
+    min-height:1.4em;
+    margin-top:10px;
+    font-weight:800;
+  }
+
+  .result.ok{color:#1e6f32}
+  .result.no{color:#a61e1e}
+
+  .draw-wrap,
+  .shade-wrap{
+    display:flex;
+    justify-content:center;
+    margin:8px 0 14px;
+  }
+
+  .draw-svg{
+    width:min(100%,360px);
+    aspect-ratio:1;
+    background:white;
+    border-radius:10px;
+    touch-action:none;
+  }
+
+  .shade-grid{
+    --cell:min(5.2vw,40px);
+    position:relative;
+    display:grid;
+    border-left:1px solid var(--grid);
+    border-top:1px solid var(--grid);
+    background:white;
+  }
+
+  .shade-cell{
+    width:var(--cell);
+    height:var(--cell);
+    min-height:0;
+    padding:0;
+    border:0;
+    border-radius:0;
+    border-right:1px solid var(--grid);
+    border-bottom:1px solid var(--grid);
+    background:white;
+    position:relative;
+    z-index:1;
+  }
+
+  .shade-cell:hover{
+    background:#eef5fa;
+    border-color:var(--grid);
+  }
+
+  .shade-cell.given{
+    background:var(--given);
+    cursor:default;
+  }
+
+  .shade-cell.given:hover{background:var(--given)}
+
+  .shade-cell.student{
+    background:var(--selected);
+  }
+
+  .shade-cell.student:hover{background:var(--selected)}
+
+  .axis-overlay{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    z-index:3;
+    pointer-events:none;
+    overflow:visible;
+  }
+
+  .matching-grid{
+    display:grid;
+    grid-template-columns:auto minmax(170px,280px);
+    gap:10px 14px;
+    align-items:center;
+    margin-top:10px;
+  }
+
+  select,
+  input[type="text"]{
+    width:100%;
+    min-height:44px;
+    border:2px solid #c9d5df;
+    border-radius:10px;
+    padding:8px 10px;
+    background:white;
+    color:var(--ink);
+    font:inherit;
+  }
+
+  .text-row{
+    display:grid;
+    grid-template-columns:minmax(100px,180px);
+    gap:8px;
+    margin:10px 0 0;
+  }
+
+  .submit-box{
+    background:white;
+    border:2px solid #d6dee6;
+    border-radius:18px;
+    padding:20px;
+  }
+
+  #submitAll{
+    width:100%;
+    font-size:1.05rem;
+  }
+
+  #overall{
+    min-height:1.5em;
+    margin:14px 0 0;
+    text-align:center;
+    font-weight:850;
+  }
+
+  @media(max-width:760px){
+    .parts{grid-template-columns:1fr}
+    .shade-grid{--cell:min(10.2vw,43px)}
+  }
+
+  @media(max-width:480px){
+    .app{width:min(100% - 12px,1060px);padding-top:12px}
+    header{align-items:stretch}
+    header button{width:100%}
+    .question,.part{padding:12px}
+    .matching-grid{grid-template-columns:1fr}
+    .shade-grid{--cell:min(10vw,40px)}
+  }
+</style>
+</head>
+<body>
+<main class="app">
+  <header>
+    <h1>Checking answers for pages 125–130</h1>
+    <button type="button" id="resetAll" class="secondary">Reset all</button>
+  </header>
+
+  <section class="page" aria-labelledby="p125">
+    <h2 id="p125">Checking answers for page 125</h2>
+
+    <article class="question" data-set-id="125-1">
+      <h3>1</h3>
+      <div class="choices" role="group" aria-label="Question 1 choices">
+        <label class="choice"><input type="checkbox" value="a">1(a)</label>
+        <label class="choice"><input type="checkbox" value="b">1(b)</label>
+        <label class="choice"><input type="checkbox" value="c">1(c)</label>
+      </div>
+      <div class="actions"><button type="button" class="check-set">Check</button></div>
+      <div class="result" aria-live="polite"></div>
+    </article>
+
+    <article class="question" data-set-id="125-2">
+      <h3>2</h3>
+      <div class="choices" role="group" aria-label="Question 2 choices">
+        <label class="choice"><input type="checkbox" value="a">2(a)</label>
+        <label class="choice"><input type="checkbox" value="b">2(b)</label>
+        <label class="choice"><input type="checkbox" value="c">2(c)</label>
+      </div>
+      <div class="actions"><button type="button" class="check-set">Check</button></div>
+      <div class="result" aria-live="polite"></div>
+    </article>
+
+    <article class="question" data-set-id="125-3">
+      <h3>3</h3>
+      <div class="choices" role="group" aria-label="Question 3 choices">
+        <label class="choice"><input type="checkbox" value="a">3(a)</label>
+        <label class="choice"><input type="checkbox" value="b">3(b)</label>
+        <label class="choice"><input type="checkbox" value="c">3(c)</label>
+      </div>
+      <div class="actions"><button type="button" class="check-set">Check</button></div>
+      <div class="result" aria-live="polite"></div>
+    </article>
+  </section>
+
+  <section class="page" aria-labelledby="p126">
+    <h2 id="p126">Checking answers for page 126</h2>
+    <div class="parts" id="drawParts"></div>
+    <div class="parts" id="shadeParts126"></div>
+  </section>
+
+  <section class="page" aria-labelledby="p127">
+    <h2 id="p127">Checking answers for page 127</h2>
+    <article class="question" id="q6">
+      <h3>6</h3>
+      <div class="matching-grid">
+        <label for="q6-1">6(i)</label><select id="q6-1"></select>
+        <label for="q6-2">6(ii)</label><select id="q6-2"></select>
+        <label for="q6-3">6(iii)</label><select id="q6-3"></select>
+        <label for="q6-4">6(iv)</label><select id="q6-4"></select>
+        <label for="q6-5">6(v)</label><select id="q6-5"></select>
+        <label for="q6-6">6(vi)</label><select id="q6-6"></select>
+      </div>
+      <div class="result" aria-live="polite"></div>
+    </article>
+  </section>
+
+  <section class="page" aria-labelledby="p128">
+    <h2 id="p128">Checking answers for page 128</h2>
+    <article class="question" data-set-id="128-7">
+      <h3>7</h3>
+      <div class="choices" role="group" aria-label="Question 7 choices in reading order">
+        <label class="choice"><input type="checkbox" value="1">7(i)</label>
+        <label class="choice"><input type="checkbox" value="2">7(ii)</label>
+        <label class="choice"><input type="checkbox" value="3">7(iii)</label>
+        <label class="choice"><input type="checkbox" value="4">7(iv)</label>
+      </div>
+      <div class="actions"><button type="button" class="check-set">Check</button></div>
+      <div class="result" aria-live="polite"></div>
+    </article>
+  </section>
+
+  <section class="page" aria-labelledby="p129">
+    <h2 id="p129">Checking answers for page 129</h2>
+
+    <article class="question" id="q8text">
+      <h3>8(i)</h3>
+      <div class="text-row">
+        <label for="q8-name">Answer</label>
+        <input id="q8-name" type="text" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="result" aria-live="polite"></div>
+    </article>
+
+    <article class="question" data-set-id="129-8">
+      <h3>8(ii)</h3>
+      <div class="choices" role="group" aria-label="Question 8 net choices in reading order">
+        <label class="choice"><input type="checkbox" value="1">8(ii)(i)</label>
+        <label class="choice"><input type="checkbox" value="2">8(ii)(ii)</label>
+        <label class="choice"><input type="checkbox" value="3">8(ii)(iii)</label>
+        <label class="choice"><input type="checkbox" value="4">8(ii)(iv)</label>
+      </div>
+      <div class="actions"><button type="button" class="check-set">Check</button></div>
+      <div class="result" aria-live="polite"></div>
+    </article>
+  </section>
+
+  <section class="page" aria-labelledby="p130">
+    <h2 id="p130">Checking answers for page 130</h2>
+    <div class="parts" id="shadeParts130"></div>
+  </section>
+
+  <section class="submit-box" aria-label="Submit all answers">
+    <button type="button" id="submitAll">Submit all</button>
+    <p id="overall" aria-live="polite"></p>
+  </section>
+</main>
+
+<script>
+(() => {
+  "use strict";
+
+  const decode = s => atob(s).split(",");
+  const setKeys = {
+    "125-1":"Yixj",
+    "125-2":"Yg==",
+    "125-3":"Yixj",
+    "128-7":"NA==",
+    "129-8":"MSwyLDM="
+  };
+
+  const drawItems = [
+    {
+      id:"126-4a", label:"4(a)", n:8, axis:{kind:"v",value:4},
+      given:[
+        [[4,1],[1,1]], [[1,1],[1,2]], [[1,2],[3,3]],
+        [[3,3],[1,6]], [[1,6],[4,6]]
+      ]
+    },
+    {
+      id:"126-4b", label:"4(b)", n:8, axis:{kind:"h",value:4},
+      given:[
+        [[1,4],[3,2]], [[3,2],[4,2]], [[4,2],[5,3]],
+        [[5,3],[6,2]], [[6,2],[6,4]]
+      ]
+    },
+    {
+      id:"126-4c", label:"4(c)", n:8, axis:{kind:"main"},
+      given:[
+        [[2,2],[1,3]], [[1,3],[1,5]], [[1,5],[5,5]],
+        [[5,5],[5,7]], [[5,7],[6,6]]
+      ]
+    },
+    {
+      id:"126-4d", label:"4(d)", n:8, axis:{kind:"anti",value:8},
+      given:[
+        [[6,2],[6,4]], [[6,4],[7,5]], [[7,5],[5,7]],
+        [[5,7],[1,7]]
+      ]
+    }
+  ];
+
+  const shadeItems = [
+    {
+      id:"126-5a", label:"5(a)", target:"shadeParts126", rows:6, cols:6,
+      axis:{kind:"main",value:7},
+      given:[[2,3],[3,2],[3,4],[4,4],[5,4]],
+      validator:"reflect"
+    },
+    {
+      id:"126-5b", label:"5(b)", target:"shadeParts126", rows:6, cols:6,
+      axis:{kind:"anti",value:7},
+      given:[[2,4],[2,5],[3,2],[3,3],[3,4],[4,2],[4,3],[4,4],[5,2],[5,3]],
+      validator:"reflect"
+    },
+    {
+      id:"130-9a", label:"9(a)", target:"shadeParts130", rows:6, cols:5,
+      given:[[2,3],[3,3],[4,3],[5,3]],
+      validator:"cube"
+    },
+    {
+      id:"130-9b", label:"9(b)", target:"shadeParts130", rows:6, cols:5,
+      given:[[2,3],[3,3],[4,3],[5,3]],
+      validator:"cube"
+    },
+    {
+      id:"130-10", label:"10", target:"shadeParts130", rows:7, cols:7,
+      given:[
+        [2,3],[2,4],[2,5],
+        [3,3],[3,4],[3,5],
+        [4,3],[4,4],[4,5]
+      ],
+      validator:"cuboid"
+    }
+  ];
+
+  const drawState = new Map();
+  const shadeState = new Map();
+
+  function normalizeText(s){
+    return s.trim().toLowerCase().replace(/\s+/g," ");
+  }
+
+  function setPanelState(panel, correct){
+    panel.classList.toggle("correct",correct);
+    panel.classList.toggle("incorrect",!correct);
+    const result=panel.querySelector(".result");
+    result.textContent=correct ? "Correct!" : "Not quite. Try again.";
+    result.className=`result ${correct ? "ok" : "no"}`;
+  }
+
+  function clearPanelState(panel){
+    panel.classList.remove("correct","incorrect");
+    const result=panel.querySelector(".result");
+    result.textContent="";
+    result.className="result";
+    document.getElementById("overall").textContent="";
+  }
+
+  function selectedSet(panel){
+    return [...panel.querySelectorAll('input[type="checkbox"]:checked')]
+      .map(el=>el.value)
+      .sort();
+  }
+
+  function arraysEqual(a,b){
+    return a.length===b.length && a.every((v,i)=>v===b[i]);
+  }
+
+  function checkChoiceSet(panel){
+    const id=panel.dataset.setId;
+    const expected=decode(setKeys[id]).sort();
+    const actual=selectedSet(panel);
+    const correct=arraysEqual(actual,expected);
+    setPanelState(panel,correct);
+    return correct;
+  }
+
+  document.querySelectorAll("[data-set-id]").forEach(panel=>{
+    panel.querySelector(".check-set").addEventListener("click",()=>checkChoiceSet(panel));
+    panel.querySelectorAll('input[type="checkbox"]').forEach(input=>{
+      input.addEventListener("change",()=>clearPanelState(panel));
+    });
+  });
+
+  function reflectPoint([x,y],axis){
+    if(axis.kind==="v") return [2*axis.value-x,y];
+    if(axis.kind==="h") return [x,2*axis.value-y];
+    if(axis.kind==="main") return [y,x];
+    return [axis.value-y,axis.value-x];
+  }
+
+  function gcd(a,b){
+    a=Math.abs(a); b=Math.abs(b);
+    while(b){const t=b;b=a%b;a=t;}
+    return a;
+  }
+
+  function pointKey(p){return `${p[0]},${p[1]}`;}
+
+  function edgeKey(a,b){
+    const ka=pointKey(a), kb=pointKey(b);
+    return ka<kb ? `${ka}|${kb}` : `${kb}|${ka}`;
+  }
+
+  function segmentEdges(seg){
+    const [[x1,y1],[x2,y2]]=seg;
+    const dx=x2-x1, dy=y2-y1;
+    const steps=gcd(dx,dy);
+    if(steps===0) return [];
+    const sx=dx/steps, sy=dy/steps;
+    const edges=[];
+    for(let i=0;i<steps;i++){
+      const a=[x1+i*sx,y1+i*sy];
+      const b=[x1+(i+1)*sx,y1+(i+1)*sy];
+      edges.push(edgeKey(a,b));
+    }
+    return edges;
+  }
+
+  function edgeSet(segments){
+    const out=new Set();
+    segments.forEach(seg=>segmentEdges(seg).forEach(e=>out.add(e)));
+    return out;
+  }
+
+  function setsEqual(a,b){
+    if(a.size!==b.size) return false;
+    for(const v of a) if(!b.has(v)) return false;
+    return true;
+  }
+
+  function axisCoords(axis,n,pad,scale){
+    const p=v=>pad+v*scale;
+    if(axis.kind==="v") return [p(axis.value),p(0),p(axis.value),p(n)];
+    if(axis.kind==="h") return [p(0),p(axis.value),p(n),p(axis.value)];
+    if(axis.kind==="main") return [p(0),p(0),p(n),p(n)];
+    return [p(0),p(axis.value),p(axis.value),p(0)];
+  }
+
+  function renderDraw(item){
+    const host=document.getElementById("drawParts");
+    const part=document.createElement("article");
+    part.className="part";
+    part.dataset.item=item.id;
+    part.innerHTML=`
+      <h3>${item.label}</h3>
+      <p class="helper">Tap two grid intersections to add a segment. Keyboard: arrow keys + Enter.</p>
+      <div class="draw-wrap"></div>
+      <div class="actions">
+        <button type="button" class="secondary undo">Undo</button>
+        <button type="button" class="secondary clear">Clear</button>
+        <button type="button" class="check">Check</button>
+      </div>
+      <div class="result" aria-live="polite"></div>
+    `;
+    host.appendChild(part);
+
+    const NS="http://www.w3.org/2000/svg";
+    const pad=16, scale=32, n=item.n, size=pad*2+scale*n;
+    const svg=document.createElementNS(NS,"svg");
+    svg.setAttribute("viewBox",`0 0 ${size} ${size}`);
+    svg.setAttribute("class","draw-svg");
+    svg.setAttribute("tabindex","0");
+    svg.setAttribute("role","application");
+    svg.setAttribute("aria-label",`${item.label} drawing grid`);
+    part.querySelector(".draw-wrap").appendChild(svg);
+
+    for(let i=0;i<=n;i++){
+      const pos=pad+i*scale;
+      for(const coords of [[pad,pos,pad+n*scale,pos],[pos,pad,pos,pad+n*scale]]){
+        const line=document.createElementNS(NS,"line");
+        ["x1","y1","x2","y2"].forEach((name,j)=>line.setAttribute(name,coords[j]));
+        line.setAttribute("stroke","#b8c2cc");
+        line.setAttribute("stroke-width","1");
+        svg.appendChild(line);
+      }
+    }
+
+    const ax=axisCoords(item.axis,n,pad,scale);
+    const axis=document.createElementNS(NS,"line");
+    ["x1","y1","x2","y2"].forEach((name,j)=>axis.setAttribute(name,ax[j]));
+    axis.setAttribute("stroke","#1f2933");
+    axis.setAttribute("stroke-width","2");
+    axis.setAttribute("stroke-dasharray","6 6");
+    svg.appendChild(axis);
+
+    const givenGroup=document.createElementNS(NS,"g");
+    item.given.forEach(seg=>{
+      const line=document.createElementNS(NS,"line");
+      line.setAttribute("x1",pad+seg[0][0]*scale);
+      line.setAttribute("y1",pad+seg[0][1]*scale);
+      line.setAttribute("x2",pad+seg[1][0]*scale);
+      line.setAttribute("y2",pad+seg[1][1]*scale);
+      line.setAttribute("stroke","#0b73b8");
+      line.setAttribute("stroke-width","4");
+      line.setAttribute("stroke-linecap","round");
+      givenGroup.appendChild(line);
+    });
+    svg.appendChild(givenGroup);
+
+    const userGroup=document.createElementNS(NS,"g");
+    svg.appendChild(userGroup);
+
+    const marker=document.createElementNS(NS,"circle");
+    marker.setAttribute("r","5");
+    marker.setAttribute("fill","#7c3aed");
+    marker.setAttribute("visibility","hidden");
+    svg.appendChild(marker);
+
+    const cursor=document.createElementNS(NS,"circle");
+    cursor.setAttribute("r","6");
+    cursor.setAttribute("fill","none");
+    cursor.setAttribute("stroke","#7c3aed");
+    cursor.setAttribute("stroke-width","2");
+    cursor.setAttribute("visibility","hidden");
+    svg.appendChild(cursor);
+
+    const state={item,part,svg,userGroup,marker,cursor,segments:[],first:null,cursorPoint:[0,0],pad,scale,size};
+    drawState.set(item.id,state);
+
+    function redraw(){
+      userGroup.replaceChildren();
+      state.segments.forEach(seg=>{
+        const line=document.createElementNS(NS,"line");
+        line.setAttribute("x1",pad+seg[0][0]*scale);
+        line.setAttribute("y1",pad+seg[0][1]*scale);
+        line.setAttribute("x2",pad+seg[1][0]*scale);
+        line.setAttribute("y2",pad+seg[1][1]*scale);
+        line.setAttribute("stroke","#243b53");
+        line.setAttribute("stroke-width","4");
+        line.setAttribute("stroke-linecap","round");
+        userGroup.appendChild(line);
+      });
+      if(state.first){
+        marker.setAttribute("cx",pad+state.first[0]*scale);
+        marker.setAttribute("cy",pad+state.first[1]*scale);
+        marker.setAttribute("visibility","visible");
+      }else{
+        marker.setAttribute("visibility","hidden");
+      }
+    }
+
+    function choosePoint(point){
+      if(!state.first){
+        state.first=point;
+      }else{
+        if(state.first[0]!==point[0] || state.first[1]!==point[1]){
+          state.segments.push([state.first,point]);
+        }
+        state.first=null;
+      }
+      clearPanelState(part);
+      redraw();
+    }
+
+    svg.addEventListener("pointerdown",ev=>{
+      ev.preventDefault();
+      const rect=svg.getBoundingClientRect();
+      const vx=(ev.clientX-rect.left)/rect.width*size;
+      const vy=(ev.clientY-rect.top)/rect.height*size;
+      const gx=Math.max(0,Math.min(n,Math.round((vx-pad)/scale)));
+      const gy=Math.max(0,Math.min(n,Math.round((vy-pad)/scale)));
+      state.cursorPoint=[gx,gy];
+      choosePoint([gx,gy]);
+      svg.focus();
+    });
+
+    svg.addEventListener("focus",()=>{
+      cursor.setAttribute("visibility","visible");
+      cursor.setAttribute("cx",pad+state.cursorPoint[0]*scale);
+      cursor.setAttribute("cy",pad+state.cursorPoint[1]*scale);
+    });
+
+    svg.addEventListener("blur",()=>cursor.setAttribute("visibility","hidden"));
+
+    svg.addEventListener("keydown",ev=>{
+      let [x,y]=state.cursorPoint;
+      if(ev.key==="ArrowLeft") x=Math.max(0,x-1);
+      else if(ev.key==="ArrowRight") x=Math.min(n,x+1);
+      else if(ev.key==="ArrowUp") y=Math.max(0,y-1);
+      else if(ev.key==="ArrowDown") y=Math.min(n,y+1);
+      else if(ev.key==="Enter" || ev.key===" "){
+        ev.preventDefault();
+        choosePoint([x,y]);
+        return;
+      }else return;
+      ev.preventDefault();
+      state.cursorPoint=[x,y];
+      cursor.setAttribute("cx",pad+x*scale);
+      cursor.setAttribute("cy",pad+y*scale);
+    });
+
+    part.querySelector(".undo").addEventListener("click",()=>{
+      if(state.first) state.first=null;
+      else state.segments.pop();
+      clearPanelState(part);
+      redraw();
+    });
+
+    part.querySelector(".clear").addEventListener("click",()=>{
+      state.first=null;
+      state.segments=[];
+      clearPanelState(part);
+      redraw();
+    });
+
+    part.querySelector(".check").addEventListener("click",()=>checkDraw(item.id));
+  }
+
+  function checkDraw(id){
+    const state=drawState.get(id);
+    const expected=state.item.given.map(seg=>[
+      reflectPoint(seg[0],state.item.axis),
+      reflectPoint(seg[1],state.item.axis)
+    ]);
+    const correct=setsEqual(edgeSet(state.segments),edgeSet(expected));
+    setPanelState(state.part,correct);
+    return correct;
+  }
+
+  function reflectCell([r,c],axis){
+    if(axis.kind==="main") return [c,r];
+    if(axis.kind==="anti") return [axis.value-c,axis.value-r];
+    if(axis.kind==="v") return [r,(2*axis.value+1)-c];
+    return [(2*axis.value+1)-r,c];
+  }
+
+  function cellKey([r,c]){return `${r},${c}`;}
+
+  function vneg(v){return [-v[0],-v[1],-v[2]];}
+  function vkey(v){return v.join(",");}
+  function orientationKey(o){return `${vkey(o.n)}|${vkey(o.u)}|${vkey(o.r)}`;}
+
+  function cubeNetValid(cells){
+    if(cells.size!==6) return false;
+    const first=[...cells][0];
+    const orientation=new Map();
+    orientation.set(first,{n:[0,0,1],u:[0,-1,0],r:[1,0,0]});
+    const queue=[first];
+
+    while(queue.length){
+      const key=queue.shift();
+      const [row,col]=key.split(",").map(Number);
+      const o=orientation.get(key);
+      const neighbors=[
+        [row,col+1,"E"],[row,col-1,"W"],
+        [row+1,col,"S"],[row-1,col,"N"]
+      ];
+      for(const [nr,nc,dir] of neighbors){
+        const nk=`${nr},${nc}`;
+        if(!cells.has(nk)) continue;
+        let no;
+        if(dir==="E") no={n:o.r,u:o.u,r:vneg(o.n)};
+        else if(dir==="W") no={n:vneg(o.r),u:o.u,r:o.n};
+        else if(dir==="S") no={n:vneg(o.u),u:o.n,r:o.r};
+        else no={n:o.u,u:vneg(o.n),r:o.r};
+
+        if(orientation.has(nk)){
+          if(orientationKey(orientation.get(nk))!==orientationKey(no)) return false;
+        }else{
+          orientation.set(nk,no);
+          queue.push(nk);
+        }
+      }
+    }
+
+    if(orientation.size!==6) return false;
+    const normals=new Set([...orientation.values()].map(o=>vkey(o.n)));
+    return normals.size===6;
+  }
+
+  function cuboidCompletionValid(selected){
+    if(selected.size!==5) return false;
+    const patterns=[];
+    for(const stripRow of [1,5]){
+      const levels=stripRow===1 ? [1,2,3,4] : [2,3,4,5];
+      for(const leftRow of levels){
+        for(const rightRow of levels){
+          const p=new Set([
+            `${stripRow},3`,`${stripRow},4`,`${stripRow},5`,
+            `${leftRow},2`,`${rightRow},6`
+          ]);
+          patterns.push(p);
+        }
+      }
+    }
+    return patterns.some(p=>setsEqual(p,selected));
+  }
+
+  function renderShade(item){
+    const host=document.getElementById(item.target);
+    const part=document.createElement("article");
+    part.className="part";
+    part.dataset.item=item.id;
+    part.innerHTML=`
+      <h3>${item.label}</h3>
+      <p class="helper">Tap squares to shade or unshade them.</p>
+      <div class="shade-wrap"></div>
+      <div class="actions">
+        <button type="button" class="secondary clear">Clear</button>
+        <button type="button" class="check">Check</button>
+      </div>
+      <div class="result" aria-live="polite"></div>
+    `;
+    host.appendChild(part);
+
+    const grid=document.createElement("div");
+    grid.className="shade-grid";
+    grid.style.gridTemplateColumns=`repeat(${item.cols},var(--cell))`;
+    grid.style.gridTemplateRows=`repeat(${item.rows},var(--cell))`;
+    grid.style.width=`calc(var(--cell) * ${item.cols})`;
+    grid.style.height=`calc(var(--cell) * ${item.rows})`;
+    grid.setAttribute("role","group");
+    grid.setAttribute("aria-label",`${item.label} shading grid`);
+    part.querySelector(".shade-wrap").appendChild(grid);
+
+    const givenSet=new Set(item.given.map(cellKey));
+    const selected=new Set();
+
+    for(let r=1;r<=item.rows;r++){
+      for(let c=1;c<=item.cols;c++){
+        const key=`${r},${c}`;
+        const cell=document.createElement("button");
+        cell.type="button";
+        cell.className="shade-cell";
+        cell.setAttribute("aria-label",`Row ${r}, column ${c}`);
+        if(givenSet.has(key)){
+          cell.classList.add("given");
+          cell.disabled=true;
+          cell.setAttribute("aria-label",`Row ${r}, column ${c}, given`);
+        }else{
+          cell.setAttribute("aria-pressed","false");
+          cell.addEventListener("click",()=>{
+            if(selected.has(key)){
+              selected.delete(key);
+              cell.classList.remove("student");
+              cell.setAttribute("aria-pressed","false");
+            }else{
+              selected.add(key);
+              cell.classList.add("student");
+              cell.setAttribute("aria-pressed","true");
+            }
+            clearPanelState(part);
+          });
+        }
+        grid.appendChild(cell);
+      }
+    }
+
+    if(item.axis){
+      const NS="http://www.w3.org/2000/svg";
+      const overlay=document.createElementNS(NS,"svg");
+      overlay.setAttribute("class","axis-overlay");
+      overlay.setAttribute("viewBox",`0 0 ${item.cols} ${item.rows}`);
+      overlay.setAttribute("preserveAspectRatio","none");
+      const line=document.createElementNS(NS,"line");
+      let coords;
+      if(item.axis.kind==="main") coords=[0,0,item.cols,item.rows];
+      else if(item.axis.kind==="anti") coords=[0,item.rows,item.cols,0];
+      else if(item.axis.kind==="v") coords=[item.axis.value,0,item.axis.value,item.rows];
+      else coords=[0,item.axis.value,item.cols,item.axis.value];
+      ["x1","y1","x2","y2"].forEach((name,i)=>line.setAttribute(name,coords[i]));
+      line.setAttribute("stroke","#1f2933");
+      line.setAttribute("stroke-width",".06");
+      line.setAttribute("stroke-dasharray",".18 .14");
+      line.setAttribute("vector-effect","non-scaling-stroke");
+      overlay.appendChild(line);
+      grid.appendChild(overlay);
+    }
+
+    const state={item,part,grid,givenSet,selected};
+    shadeState.set(item.id,state);
+
+    part.querySelector(".clear").addEventListener("click",()=>{
+      selected.clear();
+      grid.querySelectorAll(".shade-cell.student").forEach(cell=>{
+        cell.classList.remove("student");
+        cell.setAttribute("aria-pressed","false");
+      });
+      clearPanelState(part);
+    });
+
+    part.querySelector(".check").addEventListener("click",()=>checkShade(item.id));
+  }
+
+  function checkShade(id){
+    const state=shadeState.get(id);
+    let correct=false;
+
+    if(state.item.validator==="reflect"){
+      const expected=new Set();
+      state.item.given.forEach(cell=>{
+        const reflected=cellKey(reflectCell(cell,state.item.axis));
+        if(!state.givenSet.has(reflected)) expected.add(reflected);
+      });
+      correct=setsEqual(state.selected,expected);
+    }else if(state.item.validator==="cube"){
+      if(state.selected.size===2){
+        const all=new Set([...state.givenSet,...state.selected]);
+        correct=cubeNetValid(all);
+      }
+    }else if(state.item.validator==="cuboid"){
+      correct=cuboidCompletionValid(state.selected);
+    }
+
+    setPanelState(state.part,correct);
+    return correct;
+  }
+
+  drawItems.forEach(renderDraw);
+  shadeItems.forEach(renderShade);
+
+  const solidOptions=["prism","cone","cube","pyramid","cuboid","cylinder"];
+  const q6Selects=[...document.querySelectorAll("#q6 select")];
+  q6Selects.forEach(select=>{
+    const blank=document.createElement("option");
+    blank.value="";
+    blank.textContent="";
+    select.appendChild(blank);
+    solidOptions.forEach(value=>{
+      const option=document.createElement("option");
+      option.value=value;
+      option.textContent=value;
+      select.appendChild(option);
+    });
+  });
+
+  const q6Encoded=["cHJpc20=","Y29uZQ==","cHlyYW1pZA==","Y3Vib2lk","Y3ViZQ==","Y3lsaW5kZXI="];
+
+  function checkQ6(force=false){
+    const panel=document.getElementById("q6");
+    const values=q6Selects.map(s=>s.value);
+    if(!force && values.some(v=>v==="")){
+      clearPanelState(panel);
+      return null;
+    }
+    const expected=q6Encoded.map(v=>atob(v));
+    const correct=arraysEqual(values,expected);
+    setPanelState(panel,correct);
+    return correct;
+  }
+
+  q6Selects.forEach(select=>{
+    select.addEventListener("change",()=>{
+      clearPanelState(document.getElementById("q6"));
+      checkQ6(false);
+    });
+  });
+
+  const q8Panel=document.getElementById("q8text");
+  const q8Input=document.getElementById("q8-name");
+  const q8Encoded=["cHJpc20=","dHJpYW5ndWxhciBwcmlzbQ=="];
+
+  function checkQ8Text(force=false){
+    const value=normalizeText(q8Input.value);
+    if(!force && value===""){
+      clearPanelState(q8Panel);
+      return null;
+    }
+    const valid=q8Encoded.map(v=>atob(v));
+    const correct=valid.includes(value);
+    setPanelState(q8Panel,correct);
+    return correct;
+  }
+
+  q8Input.addEventListener("input",()=>clearPanelState(q8Panel));
+  q8Input.addEventListener("blur",()=>checkQ8Text(false));
+
+  document.getElementById("resetAll").addEventListener("click",()=>{
+    document.querySelectorAll('input[type="checkbox"]').forEach(input=>input.checked=false);
+    document.querySelectorAll("[data-set-id]").forEach(clearPanelState);
+
+    drawState.forEach(state=>{
+      state.segments=[];
+      state.first=null;
+      state.userGroup.replaceChildren();
+      state.marker.setAttribute("visibility","hidden");
+      clearPanelState(state.part);
+    });
+
+    shadeState.forEach(state=>{
+      state.selected.clear();
+      state.grid.querySelectorAll(".shade-cell.student").forEach(cell=>{
+        cell.classList.remove("student");
+        cell.setAttribute("aria-pressed","false");
+      });
+      clearPanelState(state.part);
+    });
+
+    q6Selects.forEach(select=>select.value="");
+    clearPanelState(document.getElementById("q6"));
+
+    q8Input.value="";
+    clearPanelState(q8Panel);
+
+    document.getElementById("overall").textContent="";
+  });
+
+  document.getElementById("submitAll").addEventListener("click",()=>{
+    const results=[
+      ...[...document.querySelectorAll("[data-set-id]")].map(checkChoiceSet),
+      ...drawItems.map(item=>checkDraw(item.id)),
+      ...shadeItems.map(item=>checkShade(item.id)),
+      checkQ6(true),
+      checkQ8Text(true)
+    ];
+
+    document.getElementById("overall").textContent=
+      results.every(Boolean)
+        ? "You got it all correct! Good job!"
+        : "Keep going — check each question and try again.";
+  });
+})();
+</script>
+</body>
+</html>
