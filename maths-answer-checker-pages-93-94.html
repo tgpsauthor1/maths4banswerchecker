@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maths Answer Checker — Pages 93–94</title>
+<style>
+:root{--blue:#0b74b8;--blue-dark:#075783;--text:#172033;--muted:#5b6472;--border:#cbd5e1;--panel:#f8fafc;--green-bg:#dcfce7;--green-border:#16a34a;--red-bg:#fee2e2;--red-border:#dc2626}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:#eef5fa;line-height:1.45}
+.app{width:min(900px,calc(100% - 24px));margin:24px auto 48px;background:#fff;border-radius:22px;overflow:hidden;box-shadow:0 10px 28px rgba(0,52,88,.10)}
+header{background:var(--blue);color:#fff;padding:24px clamp(18px,4vw,34px)}
+h1{margin:0 0 6px;font-size:clamp(1.45rem,3vw,2rem)} header p{margin:0;opacity:.96}
+.top-actions{padding:18px clamp(18px,4vw,34px) 0}
+button{min-height:46px;border:0;border-radius:12px;padding:10px 18px;font:inherit;font-weight:800;cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #f59e0b;outline-offset:2px}
+.reset{background:#e8eef4;color:#263445}
+main{padding:8px clamp(18px,4vw,34px) 30px}
+.page{margin-top:22px}
+.page+.page{border-top:2px solid #dbe7ef;padding-top:28px;margin-top:32px}
+.page h2{margin:0 0 16px;color:var(--blue-dark);font-size:1.25rem}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.question{background:var(--panel);border:2px solid #e3e9ef;border-radius:16px;padding:18px;transition:border-color .15s ease,background .15s ease}
+.question.correct-panel{border-color:var(--green-border);background:#f3fff6}
+.question.wrong-panel{border-color:var(--red-border);background:#fff7f7}
+.q-label{margin:0 0 12px;font-weight:900;font-size:1.06rem}
+.answer-row{display:grid;grid-template-columns:1fr minmax(120px,.8fr);gap:10px;align-items:end}
+.control label{display:block;margin-bottom:6px;font-weight:800;color:var(--muted);font-size:.92rem}
+input,select{width:100%;min-height:50px;background:#fff;border:2px solid var(--border);border-radius:12px;padding:10px 12px;font:inherit;font-size:1.05rem;color:var(--text)}
+input.correct,select.correct{background:var(--green-bg);border-color:var(--green-border)}
+input.wrong,select.wrong{background:var(--red-bg);border-color:var(--red-border)}
+.feedback{min-height:1.6em;margin:10px 0 0;font-weight:800}
+.feedback.correct-text{color:#15803d} .feedback.wrong-text{color:#b91c1c}
+.bottom-actions{margin-top:30px;display:flex;justify-content:center}
+.submit{width:min(360px,100%);background:var(--blue);color:#fff;font-size:1.08rem}
+.submit:hover{background:var(--blue-dark)}
+#summary{min-height:2em;margin:18px 0 0;text-align:center;font-weight:900;font-size:1.05rem}
+@media(max-width:700px){.grid{grid-template-columns:1fr}}
+@media(max-width:440px){.answer-row{grid-template-columns:1fr}.app{width:min(100% - 12px,900px);margin-top:6px;border-radius:14px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>Checking answers for pages 93–94</h1>
+    <p>Enter each area and choose its unit.</p>
+  </header>
+
+  <div class="top-actions">
+    <button type="button" class="reset" id="resetAll">Reset all</button>
+  </div>
+
+  <main>
+    <section class="page" aria-labelledby="page93">
+      <h2 id="page93">Page 93</h2>
+      <div class="grid">
+    <div class="question" data-item="p93q1a">
+      <p class="q-label">1(a)</p>
+      <div class="answer-row">
+        <div class="control">
+          <label for="p93q1a-value">Area</label>
+          <input id="p93q1a-value" type="text" inputmode="decimal" autocomplete="off" aria-describedby="p93q1a-feedback">
+        </div>
+        <div class="control">
+          <label for="p93q1a-unit">Unit</label>
+          <select id="p93q1a-unit" aria-describedby="p93q1a-feedback">
+            <option value=""></option>
+            <option value="cm">cm</option>
+            <option value="cm2">cm²</option>
+            <option value="m">m</option>
+            <option value="m2">m²</option>
+          </select>
+        </div>
+      </div>
+      <p class="feedback" id="p93q1a-feedback" aria-live="polite"></p>
+    </div>
+    <div class="question" data-item="p93q1b">
+      <p class="q-label">1(b)</p>
+      <div class="answer-row">
+        <div class="control">
+          <label for="p93q1b-value">Area</label>
+          <input id="p93q1b-value" type="text" inputmode="decimal" autocomplete="off" aria-describedby="p93q1b-feedback">
+        </div>
+        <div class="control">
+          <label for="p93q1b-unit">Unit</label>
+          <select id="p93q1b-unit" aria-describedby="p93q1b-feedback">
+            <option value=""></option>
+            <option value="cm">cm</option>
+            <option value="cm2">cm²</option>
+            <option value="m">m</option>
+            <option value="m2">m²</option>
+          </select>
+        </div>
+      </div>
+      <p class="feedback" id="p93q1b-feedback" aria-live="polite"></p>
+    </div></div>
+    </section>
+
+    <section class="page" aria-labelledby="page94">
+      <h2 id="page94">Page 94</h2>
+      <div class="grid">
+    <div class="question" data-item="p94q2">
+      <p class="q-label">2</p>
+      <div class="answer-row">
+        <div class="control">
+          <label for="p94q2-value">Area</label>
+          <input id="p94q2-value" type="text" inputmode="decimal" autocomplete="off" aria-describedby="p94q2-feedback">
+        </div>
+        <div class="control">
+          <label for="p94q2-unit">Unit</label>
+          <select id="p94q2-unit" aria-describedby="p94q2-feedback">
+            <option value=""></option>
+            <option value="cm">cm</option>
+            <option value="cm2">cm²</option>
+            <option value="m">m</option>
+            <option value="m2">m²</option>
+          </select>
+        </div>
+      </div>
+      <p class="feedback" id="p94q2-feedback" aria-live="polite"></p>
+    </div></div>
+    </section>
+
+    <div class="bottom-actions">
+      <button type="button" class="submit" id="submitAll">Submit all</button>
+    </div>
+    <p id="summary" aria-live="polite"></p>
+  </main>
+</div>
+
+<script>
+(() => {
+  "use strict";
+
+  const items = {
+    p93q1a: { value: "7", unit: "cm2" },
+    p93q1b: { value: "99", unit: "cm2" },
+    p94q2: { value: "144", unit: "m2" }
+  };
+
+  const panels = [...document.querySelectorAll(".question")];
+  const summary = document.getElementById("summary");
+
+  function canonicalDecimal(raw) {
+    const s = raw.trim();
+    if (!/^[+-]?(?:0|[1-9]\d*)(?:\.\d+)?$/.test(s)) return null;
+
+    let sign = "";
+    let body = s;
+    if (body[0] === "+" || body[0] === "-") {
+      sign = body[0] === "-" ? "-" : "";
+      body = body.slice(1);
+    }
+
+    let [whole, frac = ""] = body.split(".");
+    frac = frac.replace(/0+$/, "");
+    if (whole === "0" && frac === "") return "0";
+    return sign + whole + (frac ? "." + frac : "");
+  }
+
+  function clearState(panel) {
+    panel.classList.remove("correct-panel", "wrong-panel");
+    panel.querySelectorAll("input, select").forEach(el => {
+      el.classList.remove("correct", "wrong");
+    });
+    const feedback = panel.querySelector(".feedback");
+    feedback.textContent = "";
+    feedback.className = "feedback";
+    summary.textContent = "";
+  }
+
+  function paint(panel, ok) {
+    panel.classList.toggle("correct-panel", ok);
+    panel.classList.toggle("wrong-panel", !ok);
+    panel.querySelectorAll("input, select").forEach(el => {
+      el.classList.toggle("correct", ok);
+      el.classList.toggle("wrong", !ok);
+    });
+    const feedback = panel.querySelector(".feedback");
+    feedback.textContent = ok ? "Correct!" : "Not quite. Try again.";
+    feedback.className = "feedback " + (ok ? "correct-text" : "wrong-text");
+  }
+
+  function checkPanel(panel, force = false) {
+    const answer = items[panel.dataset.item];
+    const input = panel.querySelector("input");
+    const select = panel.querySelector("select");
+    const raw = input.value.trim();
+    const unit = select.value;
+
+    if (!force && (raw === "" || unit === "")) return null;
+
+    const normalized = canonicalDecimal(raw);
+    const ok =
+      raw !== "" &&
+      unit !== "" &&
+      normalized !== null &&
+      normalized === answer.value &&
+      unit === answer.unit;
+
+    paint(panel, ok);
+    return ok;
+  }
+
+  panels.forEach(panel => {
+    const input = panel.querySelector("input");
+    const select = panel.querySelector("select");
+
+    input.addEventListener("input", () => clearState(panel));
+    input.addEventListener("blur", () => checkPanel(panel, false));
+
+    select.addEventListener("change", () => {
+      clearState(panel);
+      checkPanel(panel, false);
+    });
+  });
+
+  document.getElementById("submitAll").addEventListener("click", () => {
+    const results = panels.map(panel => checkPanel(panel, true));
+    summary.textContent = results.every(Boolean)
+      ? "You got it all correct! Good job!"
+      : "Keep going! Check the answers marked in red and try again.";
+  });
+
+  document.getElementById("resetAll").addEventListener("click", () => {
+    panels.forEach(panel => {
+      panel.querySelector("input").value = "";
+      panel.querySelector("select").value = "";
+      clearState(panel);
+    });
+    summary.textContent = "";
+  });
+})();
+</script>
+</body>
+</html>

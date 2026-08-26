@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maths Answer Checker - Page 110</title>
+<style>
+  :root{
+    --bg:#f6fbff;
+    --card:#ffffff;
+    --ink:#17324d;
+    --line:#b9d7ee;
+    --accent:#0b73b9;
+    --accent-dark:#075b93;
+    --ok-bg:#e8f7ea;
+    --ok-border:#2f8f46;
+    --bad-bg:#fdecec;
+    --bad-border:#bf3f3f;
+    --focus:#ffbf47;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.45;
+  }
+  .wrap{
+    width:min(900px, calc(100% - 28px));
+    margin:0 auto;
+    padding:24px 0 40px;
+  }
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+    margin-bottom:22px;
+  }
+  h1{
+    margin:0;
+    font-size:clamp(1.5rem, 3vw, 2.15rem);
+  }
+  button{
+    appearance:none;
+    border:0;
+    border-radius:12px;
+    padding:12px 18px;
+    font:inherit;
+    font-weight:700;
+    cursor:pointer;
+    min-height:46px;
+  }
+  button:focus-visible,
+  input:focus-visible{
+    outline:3px solid var(--focus);
+    outline-offset:2px;
+  }
+  .secondary{
+    background:#e8f2f9;
+    color:var(--accent-dark);
+    border:2px solid #b8d6e9;
+  }
+  .check-btn,
+  .submit{
+    background:var(--accent);
+    color:white;
+  }
+  .check-btn:hover,
+  .submit:hover{background:var(--accent-dark)}
+  .panel{
+    background:var(--card);
+    border:2px solid var(--line);
+    border-radius:18px;
+    padding:20px;
+    margin:18px 0;
+    transition:background .15s ease,border-color .15s ease;
+  }
+  .panel.correct{
+    background:var(--ok-bg);
+    border-color:var(--ok-border);
+  }
+  .panel.incorrect{
+    background:var(--bad-bg);
+    border-color:var(--bad-border);
+  }
+  .panel h2{
+    margin:0 0 14px;
+    font-size:1.25rem;
+    text-transform:capitalize;
+  }
+  .choices{
+    display:grid;
+    grid-template-columns:repeat(7, minmax(58px, 1fr));
+    gap:10px;
+    margin:10px 0 16px;
+  }
+  .choice{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    min-height:52px;
+    padding:8px 10px;
+    border:2px solid #d8e6f1;
+    border-radius:12px;
+    background:#fff;
+    font-weight:700;
+    cursor:pointer;
+    user-select:none;
+  }
+  .choice:hover{border-color:#8dbbda}
+  .choice input{
+    width:21px;
+    height:21px;
+    margin:0;
+    accent-color:var(--accent);
+  }
+  .actions{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .feedback{
+    min-height:1.5em;
+    font-weight:800;
+  }
+  .feedback.ok{color:#216d35}
+  .feedback.bad{color:#9b2f2f}
+  .footer{
+    margin-top:24px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .submit{
+    width:100%;
+    font-size:1.05rem;
+  }
+  #summary{
+    min-height:1.7em;
+    text-align:center;
+    font-weight:800;
+    font-size:1.05rem;
+  }
+  @media (max-width:680px){
+    .choices{grid-template-columns:repeat(4, minmax(58px,1fr))}
+  }
+  @media (max-width:430px){
+    .choices{grid-template-columns:repeat(2, minmax(58px,1fr))}
+    .topbar{align-items:stretch}
+    .secondary{width:100%}
+  }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="topbar">
+    <h1>Checking answers for page 110</h1>
+    <button type="button" class="secondary" id="resetAll">Reset all</button>
+  </div>
+
+  <section class="panel" data-item="prism" aria-labelledby="prism-title">
+    <h2 id="prism-title">Prism</h2>
+    <div class="choices" role="group" aria-label="Select all matching figures for prism">
+      <label class="choice"><input type="checkbox" value="A"> A</label>
+      <label class="choice"><input type="checkbox" value="B"> B</label>
+      <label class="choice"><input type="checkbox" value="C"> C</label>
+      <label class="choice"><input type="checkbox" value="D"> D</label>
+      <label class="choice"><input type="checkbox" value="E"> E</label>
+      <label class="choice"><input type="checkbox" value="F"> F</label>
+      <label class="choice"><input type="checkbox" value="G"> G</label>
+    </div>
+    <div class="actions">
+      <button type="button" class="check-btn">Check</button>
+      <div class="feedback" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="panel" data-item="pyramid" aria-labelledby="pyramid-title">
+    <h2 id="pyramid-title">Pyramid</h2>
+    <div class="choices" role="group" aria-label="Select all matching figures for pyramid">
+      <label class="choice"><input type="checkbox" value="A"> A</label>
+      <label class="choice"><input type="checkbox" value="B"> B</label>
+      <label class="choice"><input type="checkbox" value="C"> C</label>
+      <label class="choice"><input type="checkbox" value="D"> D</label>
+      <label class="choice"><input type="checkbox" value="E"> E</label>
+      <label class="choice"><input type="checkbox" value="F"> F</label>
+      <label class="choice"><input type="checkbox" value="G"> G</label>
+    </div>
+    <div class="actions">
+      <button type="button" class="check-btn">Check</button>
+      <div class="feedback" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <div class="footer">
+    <button type="button" class="submit" id="submitAll">Submit all</button>
+    <div id="summary" aria-live="polite"></div>
+  </div>
+</main>
+
+<script>
+(() => {
+  "use strict";
+
+  const items = {
+    prism: { expected: ["B", "C", "D", "F"] },
+    pyramid: { expected: ["A", "E", "G"] }
+  };
+
+  const panels = [...document.querySelectorAll(".panel")];
+  const summary = document.getElementById("summary");
+  const resetAll = document.getElementById("resetAll");
+  const submitAll = document.getElementById("submitAll");
+
+  function sameSet(actual, expected) {
+    if (actual.length !== expected.length) return false;
+    const a = [...actual].sort();
+    const e = [...expected].sort();
+    return a.every((value, index) => value === e[index]);
+  }
+
+  function selectedValues(panel) {
+    return [...panel.querySelectorAll('input[type="checkbox"]:checked')]
+      .map(input => input.value);
+  }
+
+  function clearResult(panel) {
+    panel.classList.remove("correct", "incorrect");
+    const feedback = panel.querySelector(".feedback");
+    feedback.textContent = "";
+    feedback.className = "feedback";
+  }
+
+  function checkPanel(panel) {
+    const key = panel.dataset.item;
+    const correct = sameSet(selectedValues(panel), items[key].expected);
+    const feedback = panel.querySelector(".feedback");
+
+    panel.classList.toggle("correct", correct);
+    panel.classList.toggle("incorrect", !correct);
+
+    if (correct) {
+      feedback.textContent = "Correct!";
+      feedback.className = "feedback ok";
+    } else {
+      feedback.textContent = "Not quite. Try again.";
+      feedback.className = "feedback bad";
+    }
+    return correct;
+  }
+
+  panels.forEach(panel => {
+    panel.querySelector(".check-btn").addEventListener("click", () => {
+      summary.textContent = "";
+      checkPanel(panel);
+    });
+
+    panel.querySelectorAll('input[type="checkbox"]').forEach(box => {
+      box.addEventListener("change", () => {
+        clearResult(panel);
+        summary.textContent = "";
+      });
+    });
+  });
+
+  submitAll.addEventListener("click", () => {
+    const results = panels.map(checkPanel);
+    summary.textContent = results.every(Boolean)
+      ? "You got it all correct! Good job!"
+      : "Keep going — check each section and try again.";
+  });
+
+  resetAll.addEventListener("click", () => {
+    panels.forEach(panel => {
+      panel.querySelectorAll('input[type="checkbox"]').forEach(box => {
+        box.checked = false;
+      });
+      clearResult(panel);
+    });
+    summary.textContent = "";
+    const first = panels[0].querySelector('input[type="checkbox"]');
+    if (first) first.focus();
+  });
+})();
+</script>
+</body>
+</html>

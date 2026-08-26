@@ -1,0 +1,952 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maths Answer Checker — Pages 101–108</title>
+<style>
+:root {
+  --blue:#0b74b8; --blue-dark:#075783; --text:#172033; --muted:#5b6472;
+  --border:#cbd5e1; --panel:#f8fafc; --green-bg:#dcfce7; --green-border:#16a34a;
+  --red-bg:#fee2e2; --red-border:#dc2626;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0; font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--text); background:#eef5fa; line-height:1.4;
+}
+.app {
+  width:min(1080px,calc(100% - 24px)); margin:24px auto 48px; background:#fff;
+  border-radius:22px; overflow:hidden; box-shadow:0 10px 28px rgba(0,52,88,.10);
+}
+header { background:var(--blue); color:#fff; padding:24px clamp(18px,4vw,36px); }
+h1 { margin:0 0 6px; font-size:clamp(1.45rem,3vw,2rem); }
+header p { margin:0; opacity:.96; }
+.top-actions { padding:18px clamp(18px,4vw,36px) 0; }
+button {
+  min-height:46px; border:0; border-radius:12px; padding:10px 18px; font:inherit;
+  font-weight:800; cursor:pointer;
+}
+button:focus-visible,input:focus-visible,select:focus-visible { outline:3px solid #f59e0b; outline-offset:2px; }
+.reset { background:#e8eef4; color:#263445; }
+main { padding:8px clamp(18px,4vw,36px) 32px; }
+.page { margin-top:24px; }
+.page + .page { border-top:2px solid #dbe7ef; padding-top:30px; margin-top:36px; }
+.page h2 { margin:0 0 18px; color:var(--blue-dark); font-size:1.3rem; }
+.question {
+  background:var(--panel); border:2px solid #e3e9ef; border-radius:16px; padding:18px;
+  margin-bottom:16px;
+}
+.question h3 { margin:0 0 14px; font-size:1.08rem; }
+.grid-2 { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.grid-2.compact { gap:12px; }
+.answer-pair { display:grid; grid-template-columns:1fr minmax(118px,.72fr); gap:10px; align-items:end; }
+.control label,.field-label { display:block; margin-bottom:6px; font-weight:800; color:var(--muted); font-size:.92rem; }
+input,select {
+  width:100%; min-height:50px; background:#fff; border:2px solid var(--border); border-radius:12px;
+  padding:10px 12px; font:inherit; font-size:1rem; color:var(--text);
+}
+.check-group.correct input,.check-group.correct select { background:var(--green-bg); border-color:var(--green-border); }
+.check-group.wrong input,.check-group.wrong select { background:var(--red-bg); border-color:var(--red-border); }
+.check-group.correct { border-radius:12px; }
+.check-group.wrong { border-radius:12px; }
+.feedback { min-height:1.45em; margin:8px 0 0; font-weight:800; font-size:.94rem; }
+.check-group.correct .feedback { color:#15803d; }
+.check-group.wrong .feedback { color:#b91c1c; }
+.fraction {
+  width:92px; display:grid; grid-template-rows:48px 2px 48px; gap:4px; align-items:center;
+}
+.fraction input { min-height:48px; text-align:center; padding:7px; }
+.fraction-bar { height:2px; background:#111827; width:100%; }
+.essential-table-wrap { overflow-x:auto; }
+.essential-table { width:100%; border-collapse:collapse; min-width:720px; }
+.essential-table th,.essential-table td { border:1px solid #9db5c8; padding:10px; text-align:center; vertical-align:top; }
+.essential-table th { background:#e8f0f7; }
+.essential-table .check-group { min-width:105px; }
+.essential-table .control label,.essential-table .field-label { font-size:.8rem; }
+.essential-table .feedback { font-size:.78rem; min-height:1.2em; }
+.pie-task { position:relative; width:min(520px,100%); aspect-ratio:1/1; margin:0 auto; }
+.pie-task svg { width:100%; height:100%; color:#0b74b8; }
+.slice-select { position:absolute; width:145px; }
+.slice-select select { min-height:44px; font-size:.9rem; }
+.slice-select .feedback { text-align:center; font-size:.8rem; }
+.slice-tl { left:12%; top:24%; }
+.slice-tr { right:8%; top:23%; }
+.slice-bl { left:9%; bottom:22%; }
+.slice-br { right:9%; bottom:28%; }
+.bottom-actions { margin-top:34px; display:flex; justify-content:center; }
+.submit { width:min(360px,100%); background:var(--blue); color:#fff; font-size:1.08rem; }
+.submit:hover { background:var(--blue-dark); }
+#summary { min-height:2em; margin:18px 0 0; text-align:center; font-weight:900; font-size:1.05rem; }
+@media(max-width:760px) {
+  .grid-2 { grid-template-columns:1fr; }
+  .answer-pair { grid-template-columns:1fr; }
+  .slice-select { width:122px; }
+}
+@media(max-width:480px) {
+  .app { width:min(100% - 12px,1080px); margin-top:6px; border-radius:14px; }
+  .slice-select { width:108px; }
+  .slice-select select { font-size:.78rem; padding:6px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <h1>Checking answers for pages 101–108</h1>
+  <p>Complete each answer control, then submit when you are ready.</p>
+</header>
+<div class="top-actions"><button type="button" class="reset" id="resetAll">Reset all</button></div>
+<main>
+
+<section class="page" aria-labelledby="page101">
+  <h2 id="page101">Page 101</h2>
+  <div class="question">
+    <h3>A(i)</h3>
+    <div class="grid-2">
+      
+    <div class="check-group" data-check="p101-ai-a">
+      <div class="answer-pair">
+        <div class="control">
+          <label for="p101-ai-a-value">Figure A area</label>
+          <input id="p101-ai-a-value" data-field="value" type="text" inputmode="decimal" autocomplete="off">
+        </div>
+        <div class="control">
+          <label for="p101-ai-a-unit">Unit</label>
+          <select id="p101-ai-a-unit" data-field="unit">
+<option value=""></option>
+<option value="cm">cm</option>
+<option value="cm2">cm²</option>
+<option value="m">m</option>
+<option value="m2">m²</option>
+</select>
+        </div>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    
+      
+    <div class="check-group" data-check="p101-ai-b">
+      <div class="answer-pair">
+        <div class="control">
+          <label for="p101-ai-b-value">Figure B area</label>
+          <input id="p101-ai-b-value" data-field="value" type="text" inputmode="decimal" autocomplete="off">
+        </div>
+        <div class="control">
+          <label for="p101-ai-b-unit">Unit</label>
+          <select id="p101-ai-b-unit" data-field="unit">
+<option value=""></option>
+<option value="cm">cm</option>
+<option value="cm2">cm²</option>
+<option value="m">m</option>
+<option value="m2">m²</option>
+</select>
+        </div>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    
+      
+    <div class="check-group" data-check="p101-ai-c">
+      <div class="answer-pair">
+        <div class="control">
+          <label for="p101-ai-c-value">Figure C area</label>
+          <input id="p101-ai-c-value" data-field="value" type="text" inputmode="decimal" autocomplete="off">
+        </div>
+        <div class="control">
+          <label for="p101-ai-c-unit">Unit</label>
+          <select id="p101-ai-c-unit" data-field="unit">
+<option value=""></option>
+<option value="cm">cm</option>
+<option value="cm2">cm²</option>
+<option value="m">m</option>
+<option value="m2">m²</option>
+</select>
+        </div>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    
+      
+    <div class="check-group" data-check="p101-ai-d">
+      <div class="answer-pair">
+        <div class="control">
+          <label for="p101-ai-d-value">Figure D area</label>
+          <input id="p101-ai-d-value" data-field="value" type="text" inputmode="decimal" autocomplete="off">
+        </div>
+        <div class="control">
+          <label for="p101-ai-d-unit">Unit</label>
+          <select id="p101-ai-d-unit" data-field="unit">
+<option value=""></option>
+<option value="cm">cm</option>
+<option value="cm2">cm²</option>
+<option value="m">m</option>
+<option value="m2">m²</option>
+</select>
+        </div>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    
+    </div>
+  </div>
+  <div class="question">
+    <h3>A(ii)</h3>
+    
+    <div class="check-group" data-check="p101-aii">
+      <div class="control">
+        <label for="p101-aii-choice">Smallest-area figure</label>
+        <select id="p101-aii-choice" data-field="choice"><option value=""></option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option></select>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    
+  </div>
+  <div class="question">
+    <h3>A(iii)</h3>
+    
+    <div class="check-group" data-check="p101-aiii">
+      <div class="answer-pair">
+        <div class="control">
+          <label for="p101-aiii-a">Figure</label>
+          <select id="p101-aiii-a" data-field="a"><option value=""></option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option></select>
+        </div>
+        <div class="control">
+          <label for="p101-aiii-b">Figure</label>
+          <select id="p101-aiii-b" data-field="b"><option value=""></option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option></select>
+        </div>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    
+  </div>
+</section>
+
+<section class="page" aria-labelledby="page102">
+  <h2 id="page102">Page 102</h2>
+  <div class="question">
+    <h3>B(i)</h3>
+    <div class="grid-2">
+      
+    <div class="check-group" data-check="p102-bi-w">
+      <div class="answer-pair">
+        <div class="control">
+          <label for="p102-bi-w-value">Figure W perimeter</label>
+          <input id="p102-bi-w-value" data-field="value" type="text" inputmode="decimal" autocomplete="off">
+        </div>
+        <div class="control">
+          <label for="p102-bi-w-unit">Unit</label>
+          <select id="p102-bi-w-unit" data-field="unit">
+<option value=""></option>
+<option value="cm">cm</option>
+<option value="cm2">cm²</option>
+<option value="m">m</option>
+<option value="m2">m²</option>
+</select>
+        </div>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    
+      
+    <div class="check-group" data-check="p102-bi-x">
+      <div class="answer-pair">
+        <div class="control">
+          <label for="p102-bi-x-value">Figure X perimeter</label>
+          <input id="p102-bi-x-value" data-field="value" type="text" inputmode="decimal" autocomplete="off">
+        </div>
+        <div class="control">
+          <label for="p102-bi-x-unit">Unit</label>
+          <select id="p102-bi-x-unit" data-field="unit">
+<option value=""></option>
+<option value="cm">cm</option>
+<option value="cm2">cm²</option>
+<option value="m">m</option>
+<option value="m2">m²</option>
+</select>
+        </div>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    
+      
+    <div class="check-group" data-check="p102-bi-y">
+      <div class="answer-pair">
+        <div class="control">
+          <label for="p102-bi-y-value">Figure Y perimeter</label>
+          <input id="p102-bi-y-value" data-field="value" type="text" inputmode="decimal" autocomplete="off">
+        </div>
+        <div class="control">
+          <label for="p102-bi-y-unit">Unit</label>
+          <select id="p102-bi-y-unit" data-field="unit">
+<option value=""></option>
+<option value="cm">cm</option>
+<option value="cm2">cm²</option>
+<option value="m">m</option>
+<option value="m2">m²</option>
+</select>
+        </div>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    
+      
+    <div class="check-group" data-check="p102-bi-z">
+      <div class="answer-pair">
+        <div class="control">
+          <label for="p102-bi-z-value">Figure Z perimeter</label>
+          <input id="p102-bi-z-value" data-field="value" type="text" inputmode="decimal" autocomplete="off">
+        </div>
+        <div class="control">
+          <label for="p102-bi-z-unit">Unit</label>
+          <select id="p102-bi-z-unit" data-field="unit">
+<option value=""></option>
+<option value="cm">cm</option>
+<option value="cm2">cm²</option>
+<option value="m">m</option>
+<option value="m2">m²</option>
+</select>
+        </div>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    
+    </div>
+  </div>
+  <div class="question">
+    <h3>B(ii)</h3>
+    
+    <div class="check-group" data-check="p102-bii">
+      <div class="control">
+        <label for="p102-bii-choice">Largest-perimeter figure</label>
+        <select id="p102-bii-choice" data-field="choice"><option value=""></option><option value="W">W</option><option value="X">X</option><option value="Y">Y</option><option value="Z">Z</option></select>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    
+  </div>
+  <div class="question">
+    <h3>B(iii)</h3>
+    
+    <div class="check-group" data-check="p102-biii">
+      <div class="answer-pair">
+        <div class="control">
+          <label for="p102-biii-a">Figure</label>
+          <select id="p102-biii-a" data-field="a"><option value=""></option><option value="W">W</option><option value="X">X</option><option value="Y">Y</option><option value="Z">Z</option></select>
+        </div>
+        <div class="control">
+          <label for="p102-biii-b">Figure</label>
+          <select id="p102-biii-b" data-field="b"><option value=""></option><option value="W">W</option><option value="X">X</option><option value="Y">Y</option><option value="Z">Z</option></select>
+        </div>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    
+  </div>
+</section>
+
+<section class="page" aria-labelledby="page103">
+  <h2 id="page103">Page 103</h2>
+  <div class="grid-2">
+    <div class="question"><h3>C(a)</h3>
+    <div class="check-group" data-check="p103-ca">
+      <div class="control">
+        <label for="p103-ca-value">Number</label>
+        <input id="p103-ca-value" data-field="value" type="text" inputmode="decimal" autocomplete="off">
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </div>
+    <div class="question"><h3>C(b)</h3>
+    <div class="check-group" data-check="p103-cb">
+      <div class="control">
+        <label for="p103-cb-choice">Time</label>
+        <select id="p103-cb-choice" data-field="choice"><option value=""></option><option value="8 am">8 am</option><option value="10 am">10 am</option><option value="12 pm">12 pm</option><option value="2 pm">2 pm</option><option value="4 pm">4 pm</option><option value="6 pm">6 pm</option></select>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </div>
+    <div class="question"><h3>C(c)</h3>
+    <div class="check-group" data-check="p103-cc">
+      <div class="control">
+        <label for="p103-cc-choice">Time</label>
+        <select id="p103-cc-choice" data-field="choice"><option value=""></option><option value="8 am">8 am</option><option value="10 am">10 am</option><option value="12 pm">12 pm</option><option value="2 pm">2 pm</option><option value="4 pm">4 pm</option><option value="6 pm">6 pm</option></select>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </div>
+    <div class="question"><h3>C(d)</h3>
+    <div class="check-group" data-check="p103-cd">
+      <div class="answer-pair">
+        <div class="control">
+          <label for="p103-cd-a">Time</label>
+          <select id="p103-cd-a" data-field="a"><option value=""></option><option value="8 am">8 am</option><option value="10 am">10 am</option><option value="12 pm">12 pm</option><option value="2 pm">2 pm</option><option value="4 pm">4 pm</option><option value="6 pm">6 pm</option></select>
+        </div>
+        <div class="control">
+          <label for="p103-cd-b">Time</label>
+          <select id="p103-cd-b" data-field="b"><option value=""></option><option value="8 am">8 am</option><option value="10 am">10 am</option><option value="12 pm">12 pm</option><option value="2 pm">2 pm</option><option value="4 pm">4 pm</option><option value="6 pm">6 pm</option></select>
+        </div>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </div>
+    <div class="question"><h3>C(e)</h3>
+    <div class="check-group" data-check="p103-ce">
+      <div class="answer-pair">
+        <div class="control">
+          <label for="p103-ce-a">Start time</label>
+          <select id="p103-ce-a" data-field="a"><option value=""></option><option value="8 am">8 am</option><option value="10 am">10 am</option><option value="12 pm">12 pm</option><option value="2 pm">2 pm</option><option value="4 pm">4 pm</option><option value="6 pm">6 pm</option></select>
+        </div>
+        <div class="control">
+          <label for="p103-ce-b">End time</label>
+          <select id="p103-ce-b" data-field="b"><option value=""></option><option value="8 am">8 am</option><option value="10 am">10 am</option><option value="12 pm">12 pm</option><option value="2 pm">2 pm</option><option value="4 pm">4 pm</option><option value="6 pm">6 pm</option></select>
+        </div>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section class="page" aria-labelledby="page104">
+  <h2 id="page104">Page 104</h2>
+  <div class="grid-2">
+    <div class="question"><h3>1(a)</h3>
+    <div class="check-group" data-check="p104-1a">
+      <div class="control">
+        <label for="p104-1a-choice">CCA</label>
+        <select id="p104-1a-choice" data-field="choice"><option value=""></option><option value="Uniformed Groups">Uniformed Groups</option><option value="Physical Sports">Physical Sports</option><option value="Performing Arts">Performing Arts</option><option value="Clubs and Societies">Clubs and Societies</option></select>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </div>
+    <div class="question"><h3>1(b)</h3>
+    <div class="check-group" data-check="p104-1b">
+      <div class="control">
+        <label for="p104-1b-value">Number of students</label>
+        <input id="p104-1b-value" data-field="value" type="text" inputmode="decimal" autocomplete="off">
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </div>
+    <div class="question"><h3>1(c)</h3>
+    <div class="check-group" data-check="p104-1c">
+      <div class="control">
+        <label for="p104-1c-value">Number of students</label>
+        <input id="p104-1c-value" data-field="value" type="text" inputmode="decimal" autocomplete="off">
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </div>
+    <div class="question"><h3>1(d)</h3>
+    <div class="check-group" data-check="p104-1d">
+      <div class="control">
+        <label for="p104-1d-value">Number of students</label>
+        <input id="p104-1d-value" data-field="value" type="text" inputmode="decimal" autocomplete="off">
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </div>
+    <div class="question"><h3>1(e)</h3>
+    <div class="check-group" data-check="p104-1e">
+      <div class="control">
+        <span class="field-label">Fraction</span>
+        <div class="fraction" role="group" aria-label="Fraction">
+          <input id="p104-1e-num" data-field="num" type="text" inputmode="numeric" autocomplete="off" aria-label="Fraction numerator">
+          <span class="fraction-bar" aria-hidden="true"></span>
+          <input id="p104-1e-den" data-field="den" type="text" inputmode="numeric" autocomplete="off" aria-label="Fraction denominator">
+        </div>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section class="page" aria-labelledby="page105">
+  <h2 id="page105">Page 105</h2>
+  <div class="question"><h3>2(a)</h3>
+<div class="essential-table-wrap">
+<table class="essential-table">
+  <thead>
+    <tr><th></th><th>Blouses</th><th>Jeans</th><th>Shirts</th><th>Pants</th><th>Total</th></tr>
+  </thead>
+  <tbody>
+    <tr><th>Number</th><td>15</td><td>45</td><td>25</td><td>15</td><td>100</td></tr>
+    <tr>
+      <th>Fraction</th>
+      <td>
+    <div class="check-group" data-check="p105-2a-blo">
+      <div class="control">
+        <span class="field-label">Blouses fraction</span>
+        <div class="fraction" role="group" aria-label="Blouses fraction">
+          <input id="p105-2a-blo-num" data-field="num" type="text" inputmode="numeric" autocomplete="off" aria-label="Blouses fraction numerator">
+          <span class="fraction-bar" aria-hidden="true"></span>
+          <input id="p105-2a-blo-den" data-field="den" type="text" inputmode="numeric" autocomplete="off" aria-label="Blouses fraction denominator">
+        </div>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </td>
+      <td>
+    <div class="check-group" data-check="p105-2a-jea">
+      <div class="control">
+        <span class="field-label">Jeans fraction</span>
+        <div class="fraction" role="group" aria-label="Jeans fraction">
+          <input id="p105-2a-jea-num" data-field="num" type="text" inputmode="numeric" autocomplete="off" aria-label="Jeans fraction numerator">
+          <span class="fraction-bar" aria-hidden="true"></span>
+          <input id="p105-2a-jea-den" data-field="den" type="text" inputmode="numeric" autocomplete="off" aria-label="Jeans fraction denominator">
+        </div>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </td>
+      <td>
+    <div class="check-group" data-check="p105-2a-shi">
+      <div class="control">
+        <span class="field-label">Shirts fraction</span>
+        <div class="fraction" role="group" aria-label="Shirts fraction">
+          <input id="p105-2a-shi-num" data-field="num" type="text" inputmode="numeric" autocomplete="off" aria-label="Shirts fraction numerator">
+          <span class="fraction-bar" aria-hidden="true"></span>
+          <input id="p105-2a-shi-den" data-field="den" type="text" inputmode="numeric" autocomplete="off" aria-label="Shirts fraction denominator">
+        </div>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </td>
+      <td>
+    <div class="check-group" data-check="p105-2a-pan">
+      <div class="control">
+        <span class="field-label">Pants fraction</span>
+        <div class="fraction" role="group" aria-label="Pants fraction">
+          <input id="p105-2a-pan-num" data-field="num" type="text" inputmode="numeric" autocomplete="off" aria-label="Pants fraction numerator">
+          <span class="fraction-bar" aria-hidden="true"></span>
+          <input id="p105-2a-pan-den" data-field="den" type="text" inputmode="numeric" autocomplete="off" aria-label="Pants fraction denominator">
+        </div>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+  <div class="question"><h3>2(b)</h3>
+<div class="pie-task" aria-label="Four-slice pie with blank category selectors">
+  <svg viewBox="0 0 300 300" role="img" aria-label="Four-slice pie outline">
+    <circle cx="150" cy="150" r="120" fill="none" stroke="currentColor" stroke-width="2"/>
+    <line x1="150" y1="150" x2="150" y2="30" stroke="currentColor" stroke-width="2"/>
+    <line x1="150" y1="150" x2="252" y2="87" stroke="currentColor" stroke-width="2"/>
+    <line x1="150" y1="150" x2="72" y2="246" stroke="currentColor" stroke-width="2"/>
+    <line x1="150" y1="150" x2="53" y2="79" stroke="currentColor" stroke-width="2"/>
+  </svg>
+  <div class="slice-select slice-tl check-group" data-check="p105-2b-tl">
+    <select data-field="choice" aria-label="Top-left slice"><option value=""></option><option value="Blouses">Blouses</option><option value="Jeans">Jeans</option><option value="Shirts">Shirts</option><option value="Pants">Pants</option></select><p class="feedback" aria-live="polite"></p>
+  </div>
+  <div class="slice-select slice-tr check-group" data-check="p105-2b-tr">
+    <select data-field="choice" aria-label="Top-right slice"><option value=""></option><option value="Blouses">Blouses</option><option value="Jeans">Jeans</option><option value="Shirts">Shirts</option><option value="Pants">Pants</option></select><p class="feedback" aria-live="polite"></p>
+  </div>
+  <div class="slice-select slice-bl check-group" data-check="p105-2b-bl">
+    <select data-field="choice" aria-label="Left-lower slice"><option value=""></option><option value="Blouses">Blouses</option><option value="Jeans">Jeans</option><option value="Shirts">Shirts</option><option value="Pants">Pants</option></select><p class="feedback" aria-live="polite"></p>
+  </div>
+  <div class="slice-select slice-br check-group" data-check="p105-2b-br">
+    <select data-field="choice" aria-label="Right-lower slice"><option value=""></option><option value="Blouses">Blouses</option><option value="Jeans">Jeans</option><option value="Shirts">Shirts</option><option value="Pants">Pants</option></select><p class="feedback" aria-live="polite"></p>
+  </div>
+</div>
+</div>
+  <div class="grid-2">
+    <div class="question"><h3>2(c)</h3>
+    <div class="check-group" data-check="p105-2c">
+      <div class="answer-pair">
+        <div class="control">
+          <label for="p105-2c-a">Type</label>
+          <select id="p105-2c-a" data-field="a"><option value=""></option><option value="Blouses">Blouses</option><option value="Jeans">Jeans</option><option value="Shirts">Shirts</option><option value="Pants">Pants</option></select>
+        </div>
+        <div class="control">
+          <label for="p105-2c-b">Type</label>
+          <select id="p105-2c-b" data-field="b"><option value=""></option><option value="Blouses">Blouses</option><option value="Jeans">Jeans</option><option value="Shirts">Shirts</option><option value="Pants">Pants</option></select>
+        </div>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </div>
+    <div class="question"><h3>2(d)</h3>
+    <div class="check-group" data-check="p105-2d">
+      <div class="control">
+        <label for="p105-2d-choice">Type</label>
+        <select id="p105-2d-choice" data-field="choice"><option value=""></option><option value="Blouses">Blouses</option><option value="Jeans">Jeans</option><option value="Shirts">Shirts</option><option value="Pants">Pants</option></select>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </div>
+    <div class="question"><h3>2(e)</h3>
+    <div class="check-group" data-check="p105-2e">
+      <div class="control">
+        <label for="p105-2e-value">Number</label>
+        <input id="p105-2e-value" data-field="value" type="text" inputmode="decimal" autocomplete="off">
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section class="page" aria-labelledby="page106">
+  <h2 id="page106">Page 106</h2>
+  <div class="question"><h3>3(a)</h3>
+<div class="essential-table-wrap">
+<table class="essential-table">
+  <thead><tr><th></th><th>Men</th><th>Women</th><th>Boys</th><th>Girls</th></tr></thead>
+  <tbody>
+    <tr>
+      <th>Number of people</th>
+      <td>
+    <div class="check-group" data-check="p106-3a-men">
+      <div class="control">
+        <label for="p106-3a-men-value">Men</label>
+        <input id="p106-3a-men-value" data-field="value" type="text" inputmode="decimal" autocomplete="off">
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </td>
+      <td>
+    <div class="check-group" data-check="p106-3a-women">
+      <div class="control">
+        <label for="p106-3a-women-value">Women</label>
+        <input id="p106-3a-women-value" data-field="value" type="text" inputmode="decimal" autocomplete="off">
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </td>
+      <td>
+    <div class="check-group" data-check="p106-3a-boys">
+      <div class="control">
+        <label for="p106-3a-boys-value">Boys</label>
+        <input id="p106-3a-boys-value" data-field="value" type="text" inputmode="decimal" autocomplete="off">
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </td>
+      <td>
+    <div class="check-group" data-check="p106-3a-girls">
+      <div class="control">
+        <label for="p106-3a-girls-value">Girls</label>
+        <input id="p106-3a-girls-value" data-field="value" type="text" inputmode="decimal" autocomplete="off">
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </td>
+    </tr>
+    <tr>
+      <th>Fraction</th>
+      <td>
+    <div class="check-group" data-check="p106-3a-menf">
+      <div class="control">
+        <span class="field-label">Men fraction</span>
+        <div class="fraction" role="group" aria-label="Men fraction">
+          <input id="p106-3a-menf-num" data-field="num" type="text" inputmode="numeric" autocomplete="off" aria-label="Men fraction numerator">
+          <span class="fraction-bar" aria-hidden="true"></span>
+          <input id="p106-3a-menf-den" data-field="den" type="text" inputmode="numeric" autocomplete="off" aria-label="Men fraction denominator">
+        </div>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </td>
+      <td>
+    <div class="check-group" data-check="p106-3a-womenf">
+      <div class="control">
+        <span class="field-label">Women fraction</span>
+        <div class="fraction" role="group" aria-label="Women fraction">
+          <input id="p106-3a-womenf-num" data-field="num" type="text" inputmode="numeric" autocomplete="off" aria-label="Women fraction numerator">
+          <span class="fraction-bar" aria-hidden="true"></span>
+          <input id="p106-3a-womenf-den" data-field="den" type="text" inputmode="numeric" autocomplete="off" aria-label="Women fraction denominator">
+        </div>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </td>
+      <td>2/8</td>
+      <td>3/8</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+  <div class="grid-2">
+    <div class="question"><h3>3(b)</h3>
+    <div class="check-group" data-check="p106-3b">
+      <div class="control">
+        <label for="p106-3b-value">Number</label>
+        <input id="p106-3b-value" data-field="value" type="text" inputmode="decimal" autocomplete="off">
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </div>
+    <div class="question"><h3>3(c)</h3>
+    <div class="check-group" data-check="p106-3c">
+      <div class="control">
+        <label for="p106-3c-value">Number</label>
+        <input id="p106-3c-value" data-field="value" type="text" inputmode="decimal" autocomplete="off">
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </div>
+    <div class="question"><h3>3(d)</h3>
+    <div class="check-group" data-check="p106-3d">
+      <div class="control">
+        <label for="p106-3d-value">Number</label>
+        <input id="p106-3d-value" data-field="value" type="text" inputmode="decimal" autocomplete="off">
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </div>
+    <div class="question"><h3>3(e)</h3>
+    <div class="check-group" data-check="p106-3e">
+      <div class="control">
+        <label for="p106-3e-value">Number</label>
+        <input id="p106-3e-value" data-field="value" type="text" inputmode="decimal" autocomplete="off">
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section class="page" aria-labelledby="page107">
+  <h2 id="page107">Page 107</h2>
+  <div class="grid-2">
+    <div class="question"><h3>4(a)</h3>
+    <div class="check-group combined" data-check="p107-4a">
+      <div class="grid-2 compact">
+        <div class="answer-pair">
+          <div class="control">
+            <label for="p107-4a-pval">Perimeter</label>
+            <input id="p107-4a-pval" data-field="pval" type="text" inputmode="decimal" autocomplete="off">
+          </div>
+          <div class="control">
+            <label for="p107-4a-punit">Unit</label>
+            <select id="p107-4a-punit" data-field="punit">
+<option value=""></option>
+<option value="cm">cm</option>
+<option value="cm2">cm²</option>
+<option value="m">m</option>
+<option value="m2">m²</option>
+</select>
+          </div>
+        </div>
+        <div class="answer-pair">
+          <div class="control">
+            <label for="p107-4a-aval">Area</label>
+            <input id="p107-4a-aval" data-field="aval" type="text" inputmode="decimal" autocomplete="off">
+          </div>
+          <div class="control">
+            <label for="p107-4a-aunit">Unit</label>
+            <select id="p107-4a-aunit" data-field="aunit">
+<option value=""></option>
+<option value="cm">cm</option>
+<option value="cm2">cm²</option>
+<option value="m">m</option>
+<option value="m2">m²</option>
+</select>
+          </div>
+        </div>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </div>
+    <div class="question"><h3>4(b)</h3>
+    <div class="check-group combined" data-check="p107-4b">
+      <div class="grid-2 compact">
+        <div class="answer-pair">
+          <div class="control">
+            <label for="p107-4b-pval">Perimeter</label>
+            <input id="p107-4b-pval" data-field="pval" type="text" inputmode="decimal" autocomplete="off">
+          </div>
+          <div class="control">
+            <label for="p107-4b-punit">Unit</label>
+            <select id="p107-4b-punit" data-field="punit">
+<option value=""></option>
+<option value="cm">cm</option>
+<option value="cm2">cm²</option>
+<option value="m">m</option>
+<option value="m2">m²</option>
+</select>
+          </div>
+        </div>
+        <div class="answer-pair">
+          <div class="control">
+            <label for="p107-4b-aval">Area</label>
+            <input id="p107-4b-aval" data-field="aval" type="text" inputmode="decimal" autocomplete="off">
+          </div>
+          <div class="control">
+            <label for="p107-4b-aunit">Unit</label>
+            <select id="p107-4b-aunit" data-field="aunit">
+<option value=""></option>
+<option value="cm">cm</option>
+<option value="cm2">cm²</option>
+<option value="m">m</option>
+<option value="m2">m²</option>
+</select>
+          </div>
+        </div>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section class="page" aria-labelledby="page108">
+  <h2 id="page108">Page 108</h2>
+  <div class="question"><h3>5</h3>
+    <div class="check-group" data-check="p108-5">
+      <div class="answer-pair">
+        <div class="control">
+          <label for="p108-5-value">Uncovered area</label>
+          <input id="p108-5-value" data-field="value" type="text" inputmode="decimal" autocomplete="off">
+        </div>
+        <div class="control">
+          <label for="p108-5-unit">Unit</label>
+          <select id="p108-5-unit" data-field="unit">
+<option value=""></option>
+<option value="cm">cm</option>
+<option value="cm2">cm²</option>
+<option value="m">m</option>
+<option value="m2">m²</option>
+</select>
+        </div>
+      </div>
+      <p class="feedback" aria-live="polite"></p>
+    </div>
+    </div>
+</section>
+
+<div class="bottom-actions"><button type="button" class="submit" id="submitAll">Submit all</button></div>
+<p id="summary" aria-live="polite"></p>
+</main>
+</div>
+<script>
+(() => {
+"use strict";
+const key = {"p101-ai-a":{"type":"unit","value":"6","unit":"cm2"},"p101-ai-b":{"type":"unit","value":"7","unit":"cm2"},"p101-ai-c":{"type":"unit","value":"6","unit":"cm2"},"p101-ai-d":{"type":"unit","value":"5","unit":"cm2"},"p101-aii":{"type":"choice","choice":"D"},"p101-aiii":{"type":"set2","set":["A","C"]},"p102-bi-w":{"type":"unit","value":"12","unit":"m"},"p102-bi-x":{"type":"unit","value":"16","unit":"m"},"p102-bi-y":{"type":"unit","value":"14","unit":"m"},"p102-bi-z":{"type":"unit","value":"12","unit":"m"},"p102-bii":{"type":"choice","choice":"X"},"p102-biii":{"type":"set2","set":["W","Z"]},"p103-ca":{"type":"number","value":"25"},"p103-cb":{"type":"choice","choice":"12 pm"},"p103-cc":{"type":"choice","choice":"6 pm"},"p103-cd":{"type":"set2","set":["8 am","2 pm"]},"p103-ce":{"type":"ordered2","a":"10 am","b":"12 pm"},"p104-1a":{"type":"choice","choice":"Uniformed Groups"},"p104-1b":{"type":"number","value":"50"},"p104-1c":{"type":"number","value":"10"},"p104-1d":{"type":"number","value":"50"},"p104-1e":{"type":"fraction","num":1,"den":4},"p105-2a-blo":{"type":"fraction","num":15,"den":100},"p105-2a-jea":{"type":"fraction","num":45,"den":100},"p105-2a-shi":{"type":"fraction","num":25,"den":100},"p105-2a-pan":{"type":"fraction","num":15,"den":100},"p105-2b-tl":{"type":"choice","choice":"Blouses"},"p105-2b-tr":{"type":"choice","choice":"Pants"},"p105-2b-bl":{"type":"choice","choice":"Shirts"},"p105-2b-br":{"type":"choice","choice":"Jeans"},"p105-2c":{"type":"set2","set":["Blouses","Pants"]},"p105-2d":{"type":"choice","choice":"Jeans"},"p105-2e":{"type":"number","value":"20"},"p106-3a-men":{"type":"number","value":"10"},"p106-3a-women":{"type":"number","value":"20"},"p106-3a-boys":{"type":"number","value":"20"},"p106-3a-girls":{"type":"number","value":"30"},"p106-3a-menf":{"type":"fraction","num":1,"den":8},"p106-3a-womenf":{"type":"fraction","num":2,"den":8},"p106-3b":{"type":"number","value":"20"},"p106-3c":{"type":"number","value":"10"},"p106-3d":{"type":"number","value":"50"},"p106-3e":{"type":"number","value":"30"},"p107-4a":{"type":"perimarea","pval":"104","punit":"m","aval":"416","aunit":"m2"},"p107-4b":{"type":"perimarea","pval":"162","punit":"cm","aval":"972","aunit":"cm2"},"p108-5":{"type":"unit","value":"11340","unit":"cm2"}};
+const groups = [...document.querySelectorAll(".check-group")];
+const summary = document.getElementById("summary");
+
+function canonicalDecimal(raw) {
+  const s = raw.trim();
+  if (!/^[+-]?(?:0|[1-9]\d*)(?:\.\d+)?$/.test(s)) return null;
+  let sign = "", body = s;
+  if (body[0] === "+" || body[0] === "-") {
+    sign = body[0] === "-" ? "-" : "";
+    body = body.slice(1);
+  }
+  let [whole, frac = ""] = body.split(".");
+  frac = frac.replace(/0+$/, "");
+  if (whole === "0" && frac === "") return "0";
+  return sign + whole + (frac ? "." + frac : "");
+}
+
+function canonicalInteger(raw) {
+  const s = raw.trim();
+  if (!/^(?:0|[1-9]\d*)$/.test(s)) return null;
+  return s;
+}
+
+function complete(group, spec) {
+  const f = n => group.querySelector(`[data-field="${n}"]`);
+  if (spec.type === "number") return f("value").value.trim() !== "";
+  if (spec.type === "unit") return f("value").value.trim() !== "" && f("unit").value !== "";
+  if (spec.type === "choice") return f("choice").value !== "";
+  if (spec.type === "set2" || spec.type === "ordered2") return f("a").value !== "" && f("b").value !== "";
+  if (spec.type === "fraction") return f("num").value.trim() !== "" && f("den").value.trim() !== "";
+  if (spec.type === "perimarea") {
+    return ["pval","punit","aval","aunit"].every(n => f(n).value.trim() !== "");
+  }
+  return false;
+}
+
+function evaluate(group, spec) {
+  const f = n => group.querySelector(`[data-field="${n}"]`);
+  if (spec.type === "number") return canonicalDecimal(f("value").value) === spec.value;
+  if (spec.type === "unit") {
+    return canonicalDecimal(f("value").value) === spec.value && f("unit").value === spec.unit;
+  }
+  if (spec.type === "choice") return f("choice").value === spec.choice;
+  if (spec.type === "set2") {
+    const got = [f("a").value, f("b").value].sort();
+    const want = [...spec.set].sort();
+    return got.length === want.length && got.every((v,i) => v === want[i]);
+  }
+  if (spec.type === "ordered2") return f("a").value === spec.a && f("b").value === spec.b;
+  if (spec.type === "fraction") {
+    const n = canonicalInteger(f("num").value), d = canonicalInteger(f("den").value);
+    if (n === null || d === null || d === "0") return false;
+    return BigInt(n) * BigInt(spec.den) === BigInt(spec.num) * BigInt(d);
+  }
+  if (spec.type === "perimarea") {
+    return canonicalDecimal(f("pval").value) === spec.pval &&
+           f("punit").value === spec.punit &&
+           canonicalDecimal(f("aval").value) === spec.aval &&
+           f("aunit").value === spec.aunit;
+  }
+  return false;
+}
+
+function clearState(group) {
+  group.classList.remove("correct","wrong");
+  const fb = group.querySelector(".feedback");
+  if (fb) fb.textContent = "";
+  summary.textContent = "";
+}
+
+function paint(group, ok) {
+  group.classList.toggle("correct", ok);
+  group.classList.toggle("wrong", !ok);
+  const fb = group.querySelector(".feedback");
+  if (fb) fb.textContent = ok ? "Correct!" : "Not quite. Try again.";
+}
+
+function checkGroup(group, force=false) {
+  const id = group.dataset.check;
+  const spec = key[id];
+  if (!spec) return true;
+  if (!force && !complete(group, spec)) return null;
+  const ok = complete(group, spec) && evaluate(group, spec);
+  paint(group, ok);
+  return ok;
+}
+
+groups.forEach(group => {
+  group.querySelectorAll("input").forEach(input => {
+    input.addEventListener("input", () => clearState(group));
+    input.addEventListener("blur", () => checkGroup(group, false));
+  });
+  group.querySelectorAll("select").forEach(select => {
+    select.addEventListener("change", () => {
+      clearState(group);
+      checkGroup(group, false);
+    });
+  });
+});
+
+document.getElementById("submitAll").addEventListener("click", () => {
+  const results = groups.map(group => checkGroup(group, true));
+  summary.textContent = results.every(Boolean)
+    ? "You got it all correct! Good job!"
+    : "Keep going! Check the answers marked in red and try again.";
+});
+
+document.getElementById("resetAll").addEventListener("click", () => {
+  groups.forEach(group => {
+    group.querySelectorAll("input").forEach(el => el.value = "");
+    group.querySelectorAll("select").forEach(el => el.value = "");
+    clearState(group);
+  });
+  summary.textContent = "";
+});
+})();
+</script>
+</body>
+</html>

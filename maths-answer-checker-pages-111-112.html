@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maths Answer Checker - Pages 111-112</title>
+<style>
+  :root{
+    --bg:#f5fbff;
+    --card:#ffffff;
+    --ink:#17324d;
+    --muted:#5d7285;
+    --line:#b9d7ee;
+    --accent:#0b73b9;
+    --accent-dark:#075b93;
+    --draw:#136fae;
+    --dot:#7b8793;
+    --ok-bg:#e8f7ea;
+    --ok-border:#2f8f46;
+    --bad-bg:#fdecec;
+    --bad-border:#bf3f3f;
+    --focus:#ffbf47;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.45;
+  }
+  .wrap{
+    width:min(1040px, calc(100% - 24px));
+    margin:0 auto;
+    padding:22px 0 42px;
+  }
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+  }
+  h1{
+    margin:0;
+    font-size:clamp(1.45rem,3vw,2.1rem);
+  }
+  .page-section{
+    margin:26px 0 34px;
+  }
+  .page-title{
+    margin:0 0 14px;
+    font-size:1.35rem;
+    color:var(--accent-dark);
+  }
+  .panel{
+    background:var(--card);
+    border:2px solid var(--line);
+    border-radius:18px;
+    padding:18px;
+    margin:16px 0;
+    transition:background .15s ease,border-color .15s ease;
+  }
+  .panel.correct{
+    background:var(--ok-bg);
+    border-color:var(--ok-border);
+  }
+  .panel.incorrect{
+    background:var(--bad-bg);
+    border-color:var(--bad-border);
+  }
+  .panel h3{
+    margin:0 0 14px;
+    font-size:1.2rem;
+  }
+  .drawing-layout{
+    display:grid;
+    grid-template-columns:minmax(210px, .72fr) minmax(420px, 1.6fr);
+    gap:18px;
+    align-items:start;
+  }
+  .box-label{
+    font-weight:800;
+    margin:0 0 8px;
+    color:var(--muted);
+  }
+  .reference-box,
+  .drawing-box{
+    border:1.5px solid #d5e5f0;
+    border-radius:14px;
+    background:#fff;
+    padding:10px;
+  }
+  .reference-svg,
+  .drawing-svg{
+    width:100%;
+    height:auto;
+    display:block;
+    touch-action:manipulation;
+  }
+  .ref-line{
+    stroke:var(--draw);
+    stroke-width:3;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    fill:none;
+  }
+  .ref-dot{
+    fill:#a1abb4;
+  }
+  .ref-label{
+    font-size:13px;
+    font-weight:800;
+    fill:var(--ink);
+  }
+  .grid-dot{
+    fill:var(--dot);
+    opacity:.85;
+    pointer-events:none;
+  }
+  .grid-hit{
+    fill:transparent;
+    stroke:transparent;
+    cursor:pointer;
+  }
+  .grid-hit:focus-visible{
+    outline:none;
+    stroke:var(--focus);
+    stroke-width:3;
+    fill:rgba(255,191,71,.14);
+  }
+  .grid-hit.selected{
+    stroke:var(--accent);
+    stroke-width:3;
+    fill:rgba(11,115,185,.12);
+  }
+  .student-line{
+    stroke:var(--draw);
+    stroke-width:4;
+    stroke-linecap:round;
+    fill:none;
+    pointer-events:none;
+  }
+  .controls{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:center;
+    margin-top:12px;
+  }
+  button{
+    appearance:none;
+    border:0;
+    border-radius:11px;
+    min-height:44px;
+    padding:10px 16px;
+    font:inherit;
+    font-weight:800;
+    cursor:pointer;
+  }
+  button:focus-visible{
+    outline:3px solid var(--focus);
+    outline-offset:2px;
+  }
+  .secondary{
+    background:#e8f2f9;
+    color:var(--accent-dark);
+    border:2px solid #b8d6e9;
+  }
+  .secondary:hover{background:#dcecf7}
+  .check-btn,
+  .submit{
+    background:var(--accent);
+    color:white;
+  }
+  .check-btn:hover,
+  .submit:hover{background:var(--accent-dark)}
+  .feedback{
+    min-height:1.5em;
+    font-weight:800;
+    margin-left:2px;
+  }
+  .feedback.ok{color:#216d35}
+  .feedback.bad{color:#9b2f2f}
+  .draw-status{
+    min-height:1.35em;
+    margin-top:8px;
+    font-size:.92rem;
+    color:var(--muted);
+  }
+  .footer{
+    margin-top:24px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .submit{
+    width:100%;
+    font-size:1.05rem;
+  }
+  #summary{
+    min-height:1.7em;
+    text-align:center;
+    font-weight:800;
+    font-size:1.05rem;
+  }
+  @media (max-width:780px){
+    .drawing-layout{grid-template-columns:1fr}
+    .reference-box{max-width:420px}
+  }
+  @media (max-width:500px){
+    .wrap{width:min(100% - 14px,1040px)}
+    .panel{padding:12px}
+    .topbar{align-items:stretch}
+    .topbar .secondary{width:100%}
+  }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="topbar">
+    <h1>Checking answers for pages 111–112</h1>
+    <button type="button" class="secondary" id="resetAll">Reset all</button>
+  </div>
+
+  <section class="page-section" aria-labelledby="page111-title">
+    <h2 class="page-title" id="page111-title">Page 111</h2>
+
+    <section class="panel" data-item="a" aria-labelledby="item-a-title">
+      <h3 id="item-a-title">1(a)</h3>
+      <div class="drawing-layout">
+        <div>
+          <div class="box-label">Reference</div>
+          <div class="reference-box"><svg class="reference-svg" data-ref="a" viewBox="0 0 330 235" aria-label="Reference figure for 1(a)"></svg></div>
+        </div>
+        <div>
+          <div class="box-label">Your drawing</div>
+          <div class="drawing-box"><svg class="drawing-svg" data-grid="a" viewBox="0 0 520 280" aria-label="Interactive isometric grid for 1(a)"></svg></div>
+          <div class="draw-status" aria-live="polite"></div>
+          <div class="controls">
+            <button type="button" class="secondary undo-btn">Undo</button>
+            <button type="button" class="secondary clear-btn">Clear</button>
+            <button type="button" class="check-btn">Check</button>
+            <div class="feedback" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" data-item="b" aria-labelledby="item-b-title">
+      <h3 id="item-b-title">1(b)</h3>
+      <div class="drawing-layout">
+        <div>
+          <div class="box-label">Reference</div>
+          <div class="reference-box"><svg class="reference-svg" data-ref="b" viewBox="0 0 330 260" aria-label="Reference figure for 1(b)"></svg></div>
+        </div>
+        <div>
+          <div class="box-label">Your drawing</div>
+          <div class="drawing-box"><svg class="drawing-svg" data-grid="b" viewBox="0 0 520 280" aria-label="Interactive isometric grid for 1(b)"></svg></div>
+          <div class="draw-status" aria-live="polite"></div>
+          <div class="controls">
+            <button type="button" class="secondary undo-btn">Undo</button>
+            <button type="button" class="secondary clear-btn">Clear</button>
+            <button type="button" class="check-btn">Check</button>
+            <div class="feedback" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <section class="page-section" aria-labelledby="page112-title">
+    <h2 class="page-title" id="page112-title">Page 112</h2>
+
+    <section class="panel" data-item="c" aria-labelledby="item-c-title">
+      <h3 id="item-c-title">1(c)</h3>
+      <div class="drawing-layout">
+        <div>
+          <div class="box-label">Reference</div>
+          <div class="reference-box"><svg class="reference-svg" data-ref="c" viewBox="0 0 330 270" aria-label="Reference figure for 1(c)"></svg></div>
+        </div>
+        <div>
+          <div class="box-label">Your drawing</div>
+          <div class="drawing-box"><svg class="drawing-svg" data-grid="c" viewBox="0 0 520 280" aria-label="Interactive isometric grid for 1(c)"></svg></div>
+          <div class="draw-status" aria-live="polite"></div>
+          <div class="controls">
+            <button type="button" class="secondary undo-btn">Undo</button>
+            <button type="button" class="secondary clear-btn">Clear</button>
+            <button type="button" class="check-btn">Check</button>
+            <div class="feedback" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" data-item="d" aria-labelledby="item-d-title">
+      <h3 id="item-d-title">1(d)</h3>
+      <div class="drawing-layout">
+        <div>
+          <div class="box-label">Reference</div>
+          <div class="reference-box"><svg class="reference-svg" data-ref="d" viewBox="0 0 330 300" aria-label="Reference figure for 1(d)"></svg></div>
+        </div>
+        <div>
+          <div class="box-label">Your drawing</div>
+          <div class="drawing-box"><svg class="drawing-svg" data-grid="d" viewBox="0 0 520 280" aria-label="Interactive isometric grid for 1(d)"></svg></div>
+          <div class="draw-status" aria-live="polite"></div>
+          <div class="controls">
+            <button type="button" class="secondary undo-btn">Undo</button>
+            <button type="button" class="secondary clear-btn">Clear</button>
+            <button type="button" class="check-btn">Check</button>
+            <div class="feedback" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <div class="footer">
+    <button type="button" class="submit" id="submitAll">Submit all</button>
+    <div id="summary" aria-live="polite"></div>
+  </div>
+</main>
+
+<script>
+(() => {
+  "use strict";
+
+  const NS = "http://www.w3.org/2000/svg";
+  const grid = { xStep: 26, yStep: 15, padX: 26, padY: 25, maxX2: 18, maxRow: 15 };
+
+  const items = {
+    a: {
+      segments: [
+        [[0,0],[10,0]], [[0,0],[0,4]], [[10,0],[10,4]], [[5,5],[5,9]],
+        [[0,0],[5,5]], [[10,0],[5,5]], [[0,4],[5,9]], [[10,4],[5,9]]
+      ],
+      refGrid: true
+    },
+    b: {
+      segments: [
+        [[0,0],[-3,3]], [[0,0],[3,3]], [[-3,3],[0,6]], [[3,3],[0,6]],
+        [[-3,3],[-3,11]], [[0,6],[0,14]], [[3,3],[3,11]],
+        [[-3,11],[0,14]], [[0,14],[3,11]]
+      ],
+      refGrid: true
+    },
+    c: {
+      segments: [
+        [[0,0],[-3,3]], [[0,0],[3,3]], [[-3,3],[0,6]], [[3,3],[0,6]],
+        [[-3,3],[-3,9]], [[0,6],[0,12]], [[3,3],[3,9]],
+        [[-3,9],[0,12]], [[0,12],[3,9]]
+      ],
+      labels: [
+        {text:"3 units", x:42, y:235},
+        {text:"3 units", x:220, y:235},
+        {text:"3 units", x:250, y:145}
+      ]
+    },
+    d: {
+      segments: [
+        [[0,0],[0,12]], [[0,0],[-3,9]], [[0,0],[3,9]],
+        [[-3,9],[0,12]], [[0,12],[3,9]]
+      ],
+      labels: [
+        {text:"3 units", x:46, y:250},
+        {text:"3 units", x:215, y:250},
+        {text:"6 units", x:205, y:145}
+      ]
+    }
+  };
+
+  const state = {};
+  Object.keys(items).forEach(key => state[key] = { segments: [], selected: null });
+
+  function mod2(n){ return ((n % 2) + 2) % 2; }
+  function validLatticePoint(x, y){ return mod2(x - y) === 0; }
+
+  function pointToPixel(p){
+    return [grid.padX + p[0] * grid.xStep, grid.padY + p[1] * grid.yStep];
+  }
+
+  function edgeKey(a,b){
+    const first = (a[0] < b[0] || (a[0] === b[0] && a[1] <= b[1])) ? a : b;
+    const second = first === a ? b : a;
+    return `${first[0]},${first[1]}|${second[0]},${second[1]}`;
+  }
+
+  function pointsOnSegment(a,b){
+    const pts = [];
+    const minX = Math.min(a[0],b[0]), maxX = Math.max(a[0],b[0]);
+    const minY = Math.min(a[1],b[1]), maxY = Math.max(a[1],b[1]);
+    const dx = b[0]-a[0], dy = b[1]-a[1];
+    for(let y=minY; y<=maxY; y++){
+      for(let x=minX; x<=maxX; x++){
+        if(!validLatticePoint(x,y)) continue;
+        if((x-a[0])*dy !== (y-a[1])*dx) continue;
+        pts.push([x,y]);
+      }
+    }
+    pts.sort((p,q) => {
+      if(Math.abs(dx) >= Math.abs(dy)){
+        return dx >= 0 ? p[0]-q[0] : q[0]-p[0];
+      }
+      return dy >= 0 ? p[1]-q[1] : q[1]-p[1];
+    });
+    return pts;
+  }
+
+  function atomicEdges(segments){
+    const edges = new Set();
+    segments.forEach(seg => {
+      const pts = pointsOnSegment(seg[0],seg[1]);
+      for(let i=0;i<pts.length-1;i++) edges.add(edgeKey(pts[i],pts[i+1]));
+    });
+    return [...edges].map(k => k.split("|").map(part => part.split(",").map(Number)));
+  }
+
+  function canonical(segments){
+    const edges = atomicEdges(segments);
+    if(edges.length === 0) return "";
+    const pts = edges.flat();
+    const minX = Math.min(...pts.map(p=>p[0]));
+    const minY = Math.min(...pts.map(p=>p[1]));
+    const keys = edges.map(([a,b]) => {
+      const aa=[a[0]-minX,a[1]-minY], bb=[b[0]-minX,b[1]-minY];
+      return edgeKey(aa,bb);
+    });
+    keys.sort();
+    return keys.join(";");
+  }
+
+  Object.keys(items).forEach(key => items[key].signature = canonical(items[key].segments));
+
+  function allowedDirection(a,b){
+    const dx = Math.abs(b[0]-a[0]);
+    const dy = Math.abs(b[1]-a[1]);
+    if(dx === 0 || dy === 0) return true;
+    if(dx === dy) return true;
+    if(dy === 3*dx) return true;
+    return false;
+  }
+
+  function setPanelNeutral(panel){
+    panel.classList.remove("correct","incorrect");
+    const feedback = panel.querySelector(".feedback");
+    feedback.textContent = "";
+    feedback.className = "feedback";
+  }
+
+  function clearSelectedVisual(svg){
+    svg.querySelectorAll(".grid-hit.selected").forEach(el => el.classList.remove("selected"));
+  }
+
+  function renderStudentLines(key){
+    const svg = document.querySelector(`.drawing-svg[data-grid="${key}"]`);
+    svg.querySelectorAll(".student-line").forEach(el => el.remove());
+    const firstHit = svg.querySelector(".grid-hit");
+    state[key].segments.forEach(seg => {
+      const [x1,y1] = pointToPixel(seg[0]);
+      const [x2,y2] = pointToPixel(seg[1]);
+      const line = document.createElementNS(NS,"line");
+      line.setAttribute("x1",x1); line.setAttribute("y1",y1);
+      line.setAttribute("x2",x2); line.setAttribute("y2",y2);
+      line.setAttribute("class","student-line");
+      if(firstHit) svg.insertBefore(line, firstHit);
+      else svg.appendChild(line);
+    });
+  }
+
+  function selectPoint(key, point, hit){
+    const panel = document.querySelector(`.panel[data-item="${key}"]`);
+    const svg = panel.querySelector(".drawing-svg");
+    const status = panel.querySelector(".draw-status");
+    setPanelNeutral(panel);
+    document.getElementById("summary").textContent = "";
+
+    if(state[key].selected === null){
+      state[key].selected = point;
+      clearSelectedVisual(svg);
+      hit.classList.add("selected");
+      status.textContent = "First point selected.";
+      return;
+    }
+
+    const start = state[key].selected;
+    state[key].selected = null;
+    clearSelectedVisual(svg);
+
+    if(start[0] === point[0] && start[1] === point[1]){
+      status.textContent = "";
+      return;
+    }
+
+    if(!allowedDirection(start,point)){
+      status.textContent = "Choose a horizontal, vertical, or grid-aligned diagonal.";
+      return;
+    }
+
+    const k = edgeKey(start,point);
+    const already = state[key].segments.some(seg => edgeKey(seg[0],seg[1]) === k);
+    if(!already) state[key].segments.push([start,point]);
+    renderStudentLines(key);
+    status.textContent = "";
+  }
+
+  function buildGrid(key){
+    const svg = document.querySelector(`.drawing-svg[data-grid="${key}"]`);
+    for(let row=0; row<=grid.maxRow; row++){
+      const startX = row % 2;
+      for(let x2=startX; x2<=grid.maxX2; x2+=2){
+        const [cx,cy] = pointToPixel([x2,row]);
+
+        const dot = document.createElementNS(NS,"circle");
+        dot.setAttribute("cx",cx); dot.setAttribute("cy",cy);
+        dot.setAttribute("r","2.5"); dot.setAttribute("class","grid-dot");
+        svg.appendChild(dot);
+
+        const hit = document.createElementNS(NS,"circle");
+        hit.setAttribute("cx",cx); hit.setAttribute("cy",cy);
+        hit.setAttribute("r","10"); hit.setAttribute("class","grid-hit");
+        hit.setAttribute("tabindex","0");
+        hit.setAttribute("role","button");
+        hit.setAttribute("aria-label",`Grid point row ${row+1}`);
+        hit.addEventListener("click",() => selectPoint(key,[x2,row],hit));
+        hit.addEventListener("keydown",e => {
+          if(e.key === "Enter" || e.key === " "){
+            e.preventDefault();
+            selectPoint(key,[x2,row],hit);
+          }
+        });
+        svg.appendChild(hit);
+      }
+    }
+  }
+
+  function referenceBounds(segments){
+    const pts = segments.flat();
+    return {
+      minX:Math.min(...pts.map(p=>p[0])),
+      maxX:Math.max(...pts.map(p=>p[0])),
+      minY:Math.min(...pts.map(p=>p[1])),
+      maxY:Math.max(...pts.map(p=>p[1]))
+    };
+  }
+
+  function buildReference(key){
+    const svg = document.querySelector(`.reference-svg[data-ref="${key}"]`);
+    const item = items[key];
+    const b = referenceBounds(item.segments);
+    const width = 330, height = key === "d" ? 300 : (key === "c" ? 270 : (key === "b" ? 260 : 235));
+    const sx = 18, sy = 10.4;
+    const shapeW = (b.maxX-b.minX)*sx;
+    const shapeH = (b.maxY-b.minY)*sy;
+    const ox = (width-shapeW)/2 - b.minX*sx;
+    const oy = 35 - b.minY*sy;
+
+    const toPx = p => [ox+p[0]*sx, oy+p[1]*sy];
+
+    if(item.refGrid){
+      for(let row=b.minY-2; row<=b.maxY+2; row++){
+        for(let x=b.minX-4; x<=b.maxX+4; x++){
+          if(!validLatticePoint(x,row)) continue;
+          const [cx,cy] = toPx([x,row]);
+          if(cx<10 || cx>width-10 || cy<10 || cy>height-15) continue;
+          const dot=document.createElementNS(NS,"circle");
+          dot.setAttribute("cx",cx); dot.setAttribute("cy",cy);
+          dot.setAttribute("r","1.8"); dot.setAttribute("class","ref-dot");
+          svg.appendChild(dot);
+        }
+      }
+    }
+
+    item.segments.forEach(seg => {
+      const [x1,y1]=toPx(seg[0]), [x2,y2]=toPx(seg[1]);
+      const line=document.createElementNS(NS,"line");
+      line.setAttribute("x1",x1); line.setAttribute("y1",y1);
+      line.setAttribute("x2",x2); line.setAttribute("y2",y2);
+      line.setAttribute("class","ref-line");
+      svg.appendChild(line);
+    });
+
+    (item.labels || []).forEach(label => {
+      const text=document.createElementNS(NS,"text");
+      text.setAttribute("x",label.x); text.setAttribute("y",label.y);
+      text.setAttribute("class","ref-label");
+      text.textContent=label.text;
+      svg.appendChild(text);
+    });
+  }
+
+  function checkPanel(panel){
+    const key = panel.dataset.item;
+    const correct = canonical(state[key].segments) === items[key].signature;
+    const feedback = panel.querySelector(".feedback");
+    state[key].selected = null;
+    clearSelectedVisual(panel.querySelector(".drawing-svg"));
+    panel.querySelector(".draw-status").textContent = "";
+
+    panel.classList.toggle("correct",correct);
+    panel.classList.toggle("incorrect",!correct);
+    feedback.textContent = correct ? "Correct!" : "Not quite. Try again.";
+    feedback.className = correct ? "feedback ok" : "feedback bad";
+    return correct;
+  }
+
+  function undo(key){
+    const panel = document.querySelector(`.panel[data-item="${key}"]`);
+    state[key].selected = null;
+    clearSelectedVisual(panel.querySelector(".drawing-svg"));
+    if(state[key].segments.length) state[key].segments.pop();
+    renderStudentLines(key);
+    panel.querySelector(".draw-status").textContent = "";
+    setPanelNeutral(panel);
+    document.getElementById("summary").textContent = "";
+  }
+
+  function clearDrawing(key){
+    const panel = document.querySelector(`.panel[data-item="${key}"]`);
+    state[key].segments = [];
+    state[key].selected = null;
+    clearSelectedVisual(panel.querySelector(".drawing-svg"));
+    renderStudentLines(key);
+    panel.querySelector(".draw-status").textContent = "";
+    setPanelNeutral(panel);
+    document.getElementById("summary").textContent = "";
+  }
+
+  Object.keys(items).forEach(key => {
+    buildReference(key);
+    buildGrid(key);
+    const panel = document.querySelector(`.panel[data-item="${key}"]`);
+    panel.querySelector(".undo-btn").addEventListener("click",() => undo(key));
+    panel.querySelector(".clear-btn").addEventListener("click",() => clearDrawing(key));
+    panel.querySelector(".check-btn").addEventListener("click",() => {
+      document.getElementById("summary").textContent = "";
+      checkPanel(panel);
+    });
+  });
+
+  document.getElementById("submitAll").addEventListener("click",() => {
+    const results = [...document.querySelectorAll(".panel")].map(checkPanel);
+    document.getElementById("summary").textContent = results.every(Boolean)
+      ? "You got it all correct! Good job!"
+      : "Keep going — try the drawings again.";
+  });
+
+  document.getElementById("resetAll").addEventListener("click",() => {
+    Object.keys(items).forEach(key => {
+      const panel = document.querySelector(`.panel[data-item="${key}"]`);
+      state[key].segments = [];
+      state[key].selected = null;
+      renderStudentLines(key);
+      clearSelectedVisual(panel.querySelector(".drawing-svg"));
+      panel.querySelector(".draw-status").textContent = "";
+      setPanelNeutral(panel);
+    });
+    document.getElementById("summary").textContent = "";
+    const firstPoint = document.querySelector(".grid-hit");
+    if(firstPoint) firstPoint.focus();
+  });
+})();
+</script>
+</body>
+</html>

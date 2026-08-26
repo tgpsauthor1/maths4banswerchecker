@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maths Answer Checker – Pages 85–86</title>
+<style>
+  :root {
+    --ink: #17324d;
+    --muted: #5b6b7a;
+    --blue: #0b73b9;
+    --blue-dark: #07598f;
+    --line: #d9e3ec;
+    --panel: #f7fbfe;
+    --good-bg: #e8f7ec;
+    --good-border: #2e7d32;
+    --bad-bg: #fdecec;
+    --bad-border: #c62828;
+    --focus: #ffbf47;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: var(--ink);
+    background: #ffffff;
+    line-height: 1.45;
+  }
+
+  .wrap {
+    width: min(920px, calc(100% - 28px));
+    margin: 0 auto;
+    padding: 24px 0 48px;
+  }
+
+  header {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(1.45rem, 4vw, 2rem);
+    color: var(--blue-dark);
+  }
+
+  .page {
+    border-top: 5px solid var(--blue);
+    padding-top: 16px;
+    margin-top: 28px;
+  }
+
+  .page h2 {
+    margin: 0 0 14px;
+    font-size: 1.3rem;
+  }
+
+  .question {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 16px;
+    margin: 14px 0;
+    background: var(--panel);
+  }
+
+  .question-title {
+    font-weight: 800;
+    font-size: 1.05rem;
+    margin-bottom: 12px;
+  }
+
+  .response {
+    display: grid;
+    grid-template-columns: minmax(90px, 1fr) minmax(110px, 180px) minmax(115px, 150px);
+    gap: 10px;
+    align-items: center;
+    padding: 10px;
+    border-radius: 12px;
+    background: #ffffff;
+    border: 2px solid transparent;
+  }
+
+  .response + .response { margin-top: 8px; }
+
+  .response.correct {
+    background: var(--good-bg);
+    border-color: var(--good-border);
+  }
+
+  .response.incorrect {
+    background: var(--bad-bg);
+    border-color: var(--bad-border);
+  }
+
+  .response-label {
+    font-weight: 700;
+  }
+
+  input[type="text"],
+  select {
+    width: 100%;
+    min-height: 48px;
+    border: 2px solid #9fb3c7;
+    border-radius: 10px;
+    padding: 8px 10px;
+    font: inherit;
+    font-size: 1.05rem;
+    background: white;
+    color: var(--ink);
+  }
+
+  input[type="text"]:focus,
+  select:focus,
+  button:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+  }
+
+  .fixed-unit {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 0 6px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .status {
+    grid-column: 1 / -1;
+    min-height: 1.4em;
+    font-weight: 800;
+    margin-top: -2px;
+  }
+
+  .correct .status { color: var(--good-border); }
+  .incorrect .status { color: var(--bad-border); }
+
+  button {
+    min-height: 48px;
+    border: 0;
+    border-radius: 12px;
+    padding: 10px 18px;
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  #resetAll {
+    background: #eef4f8;
+    color: var(--blue-dark);
+    border: 2px solid #b9ccda;
+  }
+
+  #submitAll {
+    display: block;
+    width: min(100%, 420px);
+    margin: 28px auto 0;
+    background: var(--blue);
+    color: white;
+  }
+
+  #submitAll:hover { background: var(--blue-dark); }
+
+  #summary {
+    width: min(100%, 680px);
+    margin: 18px auto 0;
+    min-height: 1.5em;
+    text-align: center;
+    font-weight: 900;
+    font-size: 1.1rem;
+  }
+
+  #summary.success {
+    padding: 14px;
+    border-radius: 12px;
+    background: var(--good-bg);
+    color: var(--good-border);
+    border: 2px solid var(--good-border);
+  }
+
+  #summary.try-again {
+    padding: 14px;
+    border-radius: 12px;
+    background: #fff7e8;
+    color: #7a4b00;
+    border: 2px solid #c88a19;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @media (max-width: 620px) {
+    .response {
+      grid-template-columns: 1fr;
+      gap: 7px;
+    }
+
+    .status { grid-column: 1; }
+
+    header { align-items: stretch; }
+
+    #resetAll { width: 100%; }
+  }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>Checking answers for pages 85–86</h1>
+    <button id="resetAll" type="button">Reset all</button>
+  </header>
+
+  <section class="page" aria-labelledby="page85">
+    <h2 id="page85">Page 85</h2>
+
+    <div class="question answer-group" data-group="p85-1a">
+      <div class="question-title">1(a)</div>
+      <div class="response" data-item="p85-1a">
+        <label class="response-label" for="p85-1a-value">Answer</label>
+        <input id="p85-1a-value" type="text" inputmode="decimal" autocomplete="off" data-role="value">
+        <div class="fixed-unit" aria-label="unit">square units</div>
+        <div class="status" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <div class="question answer-group" data-group="p85-1b">
+      <div class="question-title">1(b)</div>
+      <div class="response" data-item="p85-1b">
+        <label class="response-label" for="p85-1b-value">Answer</label>
+        <input id="p85-1b-value" type="text" inputmode="decimal" autocomplete="off" data-role="value">
+        <div class="fixed-unit" aria-label="unit">square units</div>
+        <div class="status" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <div class="question answer-group" data-group="p85-1c">
+      <div class="question-title">1(c)</div>
+      <div class="response" data-item="p85-1c">
+        <label class="response-label" for="p85-1c-value">Answer</label>
+        <input id="p85-1c-value" type="text" inputmode="decimal" autocomplete="off" data-role="value">
+        <label class="sr-only" for="p85-1c-unit">Unit</label>
+        <select id="p85-1c-unit" data-role="unit">
+          <option value=""></option>
+          <option value="cm">cm</option>
+          <option value="cm2">cm²</option>
+          <option value="m">m</option>
+          <option value="m2">m²</option>
+        </select>
+        <div class="status" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <div class="question answer-group" data-group="p85-1d">
+      <div class="question-title">1(d)</div>
+      <div class="response" data-item="p85-1d">
+        <label class="response-label" for="p85-1d-value">Answer</label>
+        <input id="p85-1d-value" type="text" inputmode="decimal" autocomplete="off" data-role="value">
+        <label class="sr-only" for="p85-1d-unit">Unit</label>
+        <select id="p85-1d-unit" data-role="unit">
+          <option value=""></option>
+          <option value="cm">cm</option>
+          <option value="cm2">cm²</option>
+          <option value="m">m</option>
+          <option value="m2">m²</option>
+        </select>
+        <div class="status" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <div class="question answer-group" data-group="p85-1e">
+      <div class="question-title">1(e)</div>
+      <div class="response" data-item="p85-1e">
+        <label class="response-label" for="p85-1e-value">Answer</label>
+        <input id="p85-1e-value" type="text" inputmode="decimal" autocomplete="off" data-role="value">
+        <label class="sr-only" for="p85-1e-unit">Unit</label>
+        <select id="p85-1e-unit" data-role="unit">
+          <option value=""></option>
+          <option value="cm">cm</option>
+          <option value="cm2">cm²</option>
+          <option value="m">m</option>
+          <option value="m2">m²</option>
+        </select>
+        <div class="status" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <div class="question answer-group" data-group="p85-1f">
+      <div class="question-title">1(f)</div>
+      <div class="response" data-item="p85-1f">
+        <label class="response-label" for="p85-1f-value">Answer</label>
+        <input id="p85-1f-value" type="text" inputmode="decimal" autocomplete="off" data-role="value">
+        <label class="sr-only" for="p85-1f-unit">Unit</label>
+        <select id="p85-1f-unit" data-role="unit">
+          <option value=""></option>
+          <option value="cm">cm</option>
+          <option value="cm2">cm²</option>
+          <option value="m">m</option>
+          <option value="m2">m²</option>
+        </select>
+        <div class="status" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" aria-labelledby="page86">
+    <h2 id="page86">Page 86</h2>
+
+    <div class="question answer-group" data-group="p86-2a">
+      <div class="question-title">2(a)</div>
+      <div class="response" data-item="p86-2a">
+        <label class="response-label" for="p86-2a-value">Answer</label>
+        <input id="p86-2a-value" type="text" inputmode="decimal" autocomplete="off" data-role="value">
+        <label class="sr-only" for="p86-2a-unit">Unit</label>
+        <select id="p86-2a-unit" data-role="unit">
+          <option value=""></option>
+          <option value="cm">cm</option>
+          <option value="cm2">cm²</option>
+          <option value="m">m</option>
+          <option value="m2">m²</option>
+        </select>
+        <div class="status" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <div class="question answer-group" data-group="p86-2b">
+      <div class="question-title">2(b)</div>
+      <div class="response" data-item="p86-2b">
+        <label class="response-label" for="p86-2b-value">Answer</label>
+        <input id="p86-2b-value" type="text" inputmode="decimal" autocomplete="off" data-role="value">
+        <label class="sr-only" for="p86-2b-unit">Unit</label>
+        <select id="p86-2b-unit" data-role="unit">
+          <option value=""></option>
+          <option value="cm">cm</option>
+          <option value="cm2">cm²</option>
+          <option value="m">m</option>
+          <option value="m2">m²</option>
+        </select>
+        <div class="status" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <div class="question answer-group" data-group="p86-3a">
+      <div class="question-title">3(a)</div>
+      <div class="response" data-item="p86-3a-area">
+        <label class="response-label" for="p86-3a-area-value">(i) Area</label>
+        <input id="p86-3a-area-value" type="text" inputmode="decimal" autocomplete="off" data-role="value">
+        <label class="sr-only" for="p86-3a-area-unit">Unit</label>
+        <select id="p86-3a-area-unit" data-role="unit">
+          <option value=""></option>
+          <option value="cm">cm</option>
+          <option value="cm2">cm²</option>
+          <option value="m">m</option>
+          <option value="m2">m²</option>
+        </select>
+        <div class="status" aria-live="polite"></div>
+      </div>
+      <div class="response" data-item="p86-3a-perimeter">
+        <label class="response-label" for="p86-3a-perimeter-value">(ii) Perimeter</label>
+        <input id="p86-3a-perimeter-value" type="text" inputmode="decimal" autocomplete="off" data-role="value">
+        <label class="sr-only" for="p86-3a-perimeter-unit">Unit</label>
+        <select id="p86-3a-perimeter-unit" data-role="unit">
+          <option value=""></option>
+          <option value="cm">cm</option>
+          <option value="cm2">cm²</option>
+          <option value="m">m</option>
+          <option value="m2">m²</option>
+        </select>
+        <div class="status" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <div class="question answer-group" data-group="p86-3b">
+      <div class="question-title">3(b)</div>
+      <div class="response" data-item="p86-3b-area">
+        <label class="response-label" for="p86-3b-area-value">(i) Area</label>
+        <input id="p86-3b-area-value" type="text" inputmode="decimal" autocomplete="off" data-role="value">
+        <label class="sr-only" for="p86-3b-area-unit">Unit</label>
+        <select id="p86-3b-area-unit" data-role="unit">
+          <option value=""></option>
+          <option value="cm">cm</option>
+          <option value="cm2">cm²</option>
+          <option value="m">m</option>
+          <option value="m2">m²</option>
+        </select>
+        <div class="status" aria-live="polite"></div>
+      </div>
+      <div class="response" data-item="p86-3b-perimeter">
+        <label class="response-label" for="p86-3b-perimeter-value">(ii) Perimeter</label>
+        <input id="p86-3b-perimeter-value" type="text" inputmode="decimal" autocomplete="off" data-role="value">
+        <label class="sr-only" for="p86-3b-perimeter-unit">Unit</label>
+        <select id="p86-3b-perimeter-unit" data-role="unit">
+          <option value=""></option>
+          <option value="cm">cm</option>
+          <option value="cm2">cm²</option>
+          <option value="m">m</option>
+          <option value="m2">m²</option>
+        </select>
+        <div class="status" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <div class="question answer-group" data-group="p86-4y">
+      <div class="question-title">4(i)–(ii)</div>
+      <div class="response" data-item="p86-4i">
+        <label class="response-label" for="p86-4i-value">(i) Y area</label>
+        <input id="p86-4i-value" type="text" inputmode="decimal" autocomplete="off" data-role="value">
+        <label class="sr-only" for="p86-4i-unit">Unit</label>
+        <select id="p86-4i-unit" data-role="unit">
+          <option value=""></option>
+          <option value="cm">cm</option>
+          <option value="cm2">cm²</option>
+          <option value="m">m</option>
+          <option value="m2">m²</option>
+        </select>
+        <div class="status" aria-live="polite"></div>
+      </div>
+
+      <div class="response" data-item="p86-4ii">
+        <label class="response-label" for="p86-4ii-value">(ii) Y perimeter</label>
+        <input id="p86-4ii-value" type="text" inputmode="decimal" autocomplete="off" data-role="value">
+        <label class="sr-only" for="p86-4ii-unit">Unit</label>
+        <select id="p86-4ii-unit" data-role="unit">
+          <option value=""></option>
+          <option value="cm">cm</option>
+          <option value="cm2">cm²</option>
+          <option value="m">m</option>
+          <option value="m2">m²</option>
+        </select>
+        <div class="status" aria-live="polite"></div>
+      </div>
+
+    </div>
+
+    <div class="question answer-group" data-group="p86-4z">
+      <div class="question-title">4(iii)–(iv)</div>
+      <div class="response" data-item="p86-4iii">
+        <label class="response-label" for="p86-4iii-value">(iii) Z area</label>
+        <input id="p86-4iii-value" type="text" inputmode="decimal" autocomplete="off" data-role="value">
+        <label class="sr-only" for="p86-4iii-unit">Unit</label>
+        <select id="p86-4iii-unit" data-role="unit">
+          <option value=""></option>
+          <option value="cm">cm</option>
+          <option value="cm2">cm²</option>
+          <option value="m">m</option>
+          <option value="m2">m²</option>
+        </select>
+        <div class="status" aria-live="polite"></div>
+      </div>
+
+      <div class="response" data-item="p86-4iv">
+        <label class="response-label" for="p86-4iv-value">(iv) Z perimeter</label>
+        <input id="p86-4iv-value" type="text" inputmode="decimal" autocomplete="off" data-role="value">
+        <label class="sr-only" for="p86-4iv-unit">Unit</label>
+        <select id="p86-4iv-unit" data-role="unit">
+          <option value=""></option>
+          <option value="cm">cm</option>
+          <option value="cm2">cm²</option>
+          <option value="m">m</option>
+          <option value="m2">m²</option>
+        </select>
+        <div class="status" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <div class="question answer-group" data-group="p86-4compare">
+      <div class="question-title">4(v)–(vi)</div>
+      <div class="response" data-item="p86-4v">
+        <label class="response-label" for="p86-4v-choice">(v)</label>
+        <select id="p86-4v-choice" data-role="choice">
+          <option value=""></option>
+          <option value="area">area</option>
+          <option value="perimeter">perimeter</option>
+        </select>
+        <div aria-hidden="true"></div>
+        <div class="status" aria-live="polite"></div>
+      </div>
+      <div class="response" data-item="p86-4vi">
+        <label class="response-label" for="p86-4vi-choice">(vi)</label>
+        <select id="p86-4vi-choice" data-role="choice">
+          <option value=""></option>
+          <option value="area">area</option>
+          <option value="perimeter">perimeter</option>
+        </select>
+        <div aria-hidden="true"></div>
+        <div class="status" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <button id="submitAll" type="button">Submit all</button>
+  <div id="summary" role="status" aria-live="polite"></div>
+</main>
+
+<script>
+(() => {
+  "use strict";
+
+  const key = {
+    "p85-1a": { kind: "number", value: "5" },
+    "p85-1b": { kind: "number", value: "6" },
+    "p85-1c": { kind: "numberUnit", value: "7", unit: "cm2" },
+    "p85-1d": { kind: "numberUnit", value: "7", unit: "cm2" },
+    "p85-1e": { kind: "numberUnit", value: "5", unit: "m2" },
+    "p85-1f": { kind: "numberUnit", value: "6", unit: "m2" },
+
+    "p86-2a": { kind: "numberUnit", value: "14", unit: "cm" },
+    "p86-2b": { kind: "numberUnit", value: "14", unit: "m" },
+
+    "p86-3a-area": { kind: "numberUnit", value: "81", unit: "cm2" },
+    "p86-3a-perimeter": { kind: "numberUnit", value: "36", unit: "cm" },
+    "p86-3b-area": { kind: "numberUnit", value: "36", unit: "cm2" },
+    "p86-3b-perimeter": { kind: "numberUnit", value: "24", unit: "cm" },
+
+    "p86-4i": { kind: "numberUnit", value: "18", unit: "cm2" },
+    "p86-4ii": { kind: "numberUnit", value: "18", unit: "cm" },
+    "p86-4iii": { kind: "numberUnit", value: "18", unit: "cm2" },
+    "p86-4iv": { kind: "numberUnit", value: "22", unit: "cm" },
+
+    "p86-4v": { kind: "choice", value: "area" },
+    "p86-4vi": { kind: "choice", value: "perimeter" }
+  };
+
+  const groups = [...document.querySelectorAll(".answer-group")];
+  const summary = document.getElementById("summary");
+
+  function canonicalDecimal(raw) {
+    const s = raw.trim();
+    if (!/^[+-]?(?:0|[1-9]\d*)(?:\.\d+)?$/.test(s)) return null;
+
+    const sign = s[0] === "-" ? "-" : "";
+    const unsigned = (s[0] === "+" || s[0] === "-") ? s.slice(1) : s;
+    const [whole, fraction = ""] = unsigned.split(".");
+    const trimmedFraction = fraction.replace(/0+$/, "");
+
+    let normalized = trimmedFraction ? `${whole}.${trimmedFraction}` : whole;
+    if (normalized === "0" && sign === "-") normalized = "0";
+    else if (sign) normalized = sign + normalized;
+
+    return normalized;
+  }
+
+  function isFilled(control) {
+    return control.value.trim() !== "";
+  }
+
+  function responseControls(response) {
+    return [...response.querySelectorAll("input[data-role], select[data-role]")];
+  }
+
+  function responseComplete(response) {
+    return responseControls(response).every(isFilled);
+  }
+
+  function clearResponse(response) {
+    response.classList.remove("correct", "incorrect");
+    const status = response.querySelector(".status");
+    if (status) status.textContent = "";
+  }
+
+  function clearGroup(group) {
+    group.querySelectorAll(".response").forEach(clearResponse);
+    summary.textContent = "";
+    summary.className = "";
+  }
+
+  function validateResponse(response) {
+    const itemId = response.dataset.item;
+    const rule = key[itemId];
+
+    if (!rule) return false;
+
+    if (rule.kind === "choice") {
+      const choice = response.querySelector('[data-role="choice"]');
+      return choice.value === rule.value;
+    }
+
+    const valueControl = response.querySelector('[data-role="value"]');
+    const normalized = canonicalDecimal(valueControl.value);
+    if (normalized === null || normalized !== rule.value) return false;
+
+    if (rule.kind === "numberUnit") {
+      const unitControl = response.querySelector('[data-role="unit"]');
+      return unitControl.value === rule.unit;
+    }
+
+    return true;
+  }
+
+  function markResponse(response, correct) {
+    response.classList.toggle("correct", correct);
+    response.classList.toggle("incorrect", !correct);
+    const status = response.querySelector(".status");
+    status.textContent = correct ? "Correct!" : "Not quite. Try again.";
+  }
+
+  function groupComplete(group) {
+    return [...group.querySelectorAll(".response")].every(responseComplete);
+  }
+
+  function checkGroup(group, force) {
+    const responses = [...group.querySelectorAll(".response")];
+
+    if (!force && !groupComplete(group)) return null;
+
+    let allCorrect = true;
+
+    responses.forEach(response => {
+      if (!responseComplete(response)) {
+        if (force) markResponse(response, false);
+        allCorrect = false;
+        return;
+      }
+
+      const correct = validateResponse(response);
+      markResponse(response, correct);
+      if (!correct) allCorrect = false;
+    });
+
+    return allCorrect;
+  }
+
+  groups.forEach(group => {
+    group.querySelectorAll('input[type="text"]').forEach(input => {
+      input.addEventListener("input", () => clearGroup(group));
+      input.addEventListener("blur", () => checkGroup(group, false));
+    });
+
+    group.querySelectorAll("select").forEach(select => {
+      select.addEventListener("change", () => {
+        clearGroup(group);
+        checkGroup(group, false);
+      });
+    });
+  });
+
+  document.getElementById("resetAll").addEventListener("click", () => {
+    document.querySelectorAll('input[type="text"]').forEach(input => {
+      input.value = "";
+    });
+    document.querySelectorAll("select").forEach(select => {
+      select.value = "";
+    });
+    groups.forEach(group => group.querySelectorAll(".response").forEach(clearResponse));
+    summary.textContent = "";
+    summary.className = "";
+  });
+
+  document.getElementById("submitAll").addEventListener("click", () => {
+    let allCorrect = true;
+    groups.forEach(group => {
+      const result = checkGroup(group, true);
+      if (result !== true) allCorrect = false;
+    });
+
+    if (allCorrect) {
+      summary.textContent = "You got it all correct! Good job!";
+      summary.className = "success";
+    } else {
+      summary.textContent = "Keep going — check the red items and try again.";
+      summary.className = "try-again";
+    }
+  });
+})();
+</script>
+</body>
+</html>

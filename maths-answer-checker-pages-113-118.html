@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maths Answer Checker - Pages 113-118</title>
+<style>
+:root{
+  --bg:#f6fbff; --card:#fff; --ink:#17324d; --muted:#5d7285; --line:#bdd8ea;
+  --accent:#0b73b9; --accent-dark:#075b93; --ok:#2f8f46; --okbg:#e8f7ea;
+  --bad:#bf3f3f; --badbg:#fdecec; --focus:#ffbf47; --shape:#0b73b9;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:var(--bg); color:var(--ink); line-height:1.45;
+}
+.wrap{width:min(1080px,calc(100% - 24px));margin:auto;padding:22px 0 42px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+h1{margin:0;font-size:clamp(1.45rem,3vw,2.05rem)}
+h2{margin:30px 0 12px;color:var(--accent-dark);font-size:1.35rem}
+h3{margin:0 0 12px;font-size:1.12rem}
+button{
+  appearance:none;border:0;border-radius:11px;min-height:44px;padding:10px 16px;
+  font:inherit;font-weight:800;cursor:pointer
+}
+button:focus-visible,select:focus-visible,input:focus-visible{
+  outline:3px solid var(--focus);outline-offset:2px
+}
+.secondary{background:#e8f2f9;color:var(--accent-dark);border:2px solid #b8d6e9}
+.primary{background:var(--accent);color:#fff}
+.primary:hover{background:var(--accent-dark)}
+.panel{
+  background:var(--card);border:2px solid var(--line);border-radius:18px;
+  padding:16px;margin:14px 0;transition:.15s
+}
+.panel.correct{background:var(--okbg);border-color:var(--ok)}
+.panel.incorrect{background:var(--badbg);border-color:var(--bad)}
+.row{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.net-card{
+  background:#fff;border:1.5px solid #d5e5f0;border-radius:14px;padding:10px;
+  display:flex;align-items:center;justify-content:center
+}
+.net-card svg{display:block;width:100%;height:auto}
+.q1-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.q1-item{display:grid;grid-template-columns:minmax(170px,1fr) minmax(170px,.8fr);gap:14px;align-items:center}
+select,input[type="text"]{
+  width:100%;min-height:46px;border:2px solid #b7cddd;border-radius:11px;background:#fff;
+  padding:8px 12px;font:inherit;color:var(--ink)
+}
+.control-wrap.correct select,.control-wrap.correct input[type="text"]{background:var(--okbg);border-color:var(--ok)}
+.control-wrap.incorrect select,.control-wrap.incorrect input[type="text"]{background:var(--badbg);border-color:var(--bad)}
+.feedback{min-height:1.4em;font-weight:800;margin-top:6px}
+.feedback.ok{color:#216d35}.feedback.bad{color:#9b2f2f}
+.checkbox-grid{display:grid;grid-template-columns:repeat(7,minmax(58px,1fr));gap:9px;margin:10px 0 14px}
+.choice{
+  display:flex;align-items:center;justify-content:center;gap:7px;min-height:48px;
+  border:2px solid #d8e6f1;border-radius:11px;background:#fff;font-weight:800;cursor:pointer
+}
+.choice input{width:20px;height:20px;accent-color:var(--accent)}
+.letter-nets{display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));gap:12px;margin-bottom:16px}
+.letter-net{text-align:center}
+.letter{font-weight:900;margin-top:5px}
+.combined{display:grid;grid-template-columns:minmax(190px,.8fr) minmax(0,1.6fr);gap:18px;align-items:start}
+.solid-box{max-width:270px}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.option-card{
+  border:2px solid #d5e5f0;border-radius:14px;background:#fff;padding:10px;cursor:pointer
+}
+.option-card label{display:block;cursor:pointer}
+.option-head{display:flex;justify-content:center;align-items:center;gap:8px;font-weight:900;margin-bottom:8px}
+.option-head input{width:22px;height:22px;accent-color:var(--accent)}
+.name-area{margin-bottom:14px}
+.actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px}
+.submit{width:100%;font-size:1.05rem}
+#summary{text-align:center;min-height:1.6em;font-weight:900;font-size:1.05rem;margin-top:10px}
+.shape{fill:none;stroke:var(--shape);stroke-width:2.3;stroke-linejoin:round;stroke-linecap:round}
+.dash{stroke-dasharray:5 5}
+@media(max-width:800px){
+  .q1-grid{grid-template-columns:1fr}
+  .combined{grid-template-columns:1fr}
+  .solid-box{max-width:360px}
+  .letter-nets{grid-template-columns:repeat(2,minmax(120px,1fr))}
+}
+@media(max-width:560px){
+  .q1-item{grid-template-columns:1fr}
+  .options{grid-template-columns:1fr}
+  .checkbox-grid{grid-template-columns:repeat(4,minmax(58px,1fr))}
+}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="topbar">
+    <h1>Checking answers for pages 113–118</h1>
+    <button type="button" id="resetAll" class="secondary">Reset all</button>
+  </div>
+
+  <section aria-labelledby="p113">
+    <h2 id="p113">Page 113</h2>
+    <div class="panel">
+      <h3>1</h3>
+      <div class="q1-grid">
+        <div class="q1-item">
+          <div class="net-card">
+            <svg viewBox="0 0 250 170" aria-label="Net 1">
+              <path class="shape" d="M70 35 H185 V75 H70 Z M70 75 H185 V115 H70 Z M70 115 H185 V155 H70 Z M70 35 L40 55 L70 75 M185 75 L218 95 L185 115"/>
+            </svg>
+          </div>
+          <div class="control-wrap" data-dd="q1a">
+            <label><span class="sr-only">1(i)</span>
+              <select aria-label="1(i)">
+                <option value=""></option>
+                <option>cube</option><option>cuboid</option><option>prism</option><option>pyramid</option>
+              </select>
+            </label>
+            <div class="feedback" aria-live="polite"></div>
+          </div>
+        </div>
+        <div class="q1-item">
+          <div class="net-card">
+            <svg viewBox="0 0 250 170" aria-label="Net 2">
+              <path class="shape" d="M105 10 H145 V50 H105 Z M105 50 H145 V90 H105 Z M105 90 H145 V130 H105 Z M105 130 H145 V170 H105 Z M65 90 H105 V130 H65 Z M145 130 H185 V170 H145 Z"/>
+            </svg>
+          </div>
+          <div class="control-wrap" data-dd="q1b">
+            <label><span class="sr-only">1(ii)</span>
+              <select aria-label="1(ii)">
+                <option value=""></option>
+                <option>cube</option><option>cuboid</option><option>prism</option><option>pyramid</option>
+              </select>
+            </label>
+            <div class="feedback" aria-live="polite"></div>
+          </div>
+        </div>
+        <div class="q1-item">
+          <div class="net-card">
+            <svg viewBox="0 0 250 170" aria-label="Net 3">
+              <path class="shape" d="M95 65 H155 V105 H95 Z M95 65 L48 38 L78 88 Z M95 105 L48 125 L78 88 Z M155 65 L202 45 L178 88 Z M155 105 L210 138 L178 88 Z"/>
+            </svg>
+          </div>
+          <div class="control-wrap" data-dd="q1c">
+            <label><span class="sr-only">1(iii)</span>
+              <select aria-label="1(iii)">
+                <option value=""></option>
+                <option>cube</option><option>cuboid</option><option>prism</option><option>pyramid</option>
+              </select>
+            </label>
+            <div class="feedback" aria-live="polite"></div>
+          </div>
+        </div>
+        <div class="q1-item">
+          <div class="net-card">
+            <svg viewBox="0 0 250 170" aria-label="Net 4">
+              <path class="shape" d="M35 65 H85 V125 H35 Z M85 65 H130 V125 H85 Z M130 65 H180 V125 H130 Z M180 65 H225 V125 H180 Z M35 35 H85 V65 H35 Z M130 125 H180 V155 H130 Z"/>
+            </svg>
+          </div>
+          <div class="control-wrap" data-dd="q1d">
+            <label><span class="sr-only">1(iv)</span>
+              <select aria-label="1(iv)">
+                <option value=""></option>
+                <option>cube</option><option>cuboid</option><option>prism</option><option>pyramid</option>
+              </select>
+            </label>
+            <div class="feedback" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="p114">
+    <h2 id="p114">Page 114</h2>
+    <div class="panel">
+      <h3>2</h3>
+      <div class="letter-nets" aria-label="Nets A to G">
+        <div class="letter-net"><div class="net-card"><svg viewBox="0 0 180 130"><path class="shape" d="M30 100 L90 20 L150 100 Z M60 60 H120 L90 100 Z"/></svg></div><div class="letter">A</div></div>
+        <div class="letter-net"><div class="net-card"><svg viewBox="0 0 180 130"><path class="shape" d="M55 20 H95 V60 H55 Z M95 20 H135 V60 H95 Z M135 20 H175 V60 H135 Z M95 60 H135 V100 H95 Z M95 100 H135 V140 H95 Z M95 140 H135 V180 H95 Z" transform="translate(-25,-35) scale(.9)"/></svg></div><div class="letter">B</div></div>
+        <div class="letter-net"><div class="net-card"><svg viewBox="0 0 180 130"><path class="shape" d="M70 45 H110 V85 H70 Z M70 45 L90 12 L110 45 M110 45 L145 65 L110 85 M70 85 L90 118 L110 85 M70 45 L35 65 L70 85"/></svg></div><div class="letter">C</div></div>
+        <div class="letter-net"><div class="net-card"><svg viewBox="0 0 180 130"><path class="shape" d="M28 88 H63 V118 H28 Z M63 88 L90 68 L113 88 L90 108 Z M113 88 L140 68 L160 82 L140 102 Z M140 68 H168 V96 H140 Z"/></svg></div><div class="letter">D</div></div>
+        <div class="letter-net"><div class="net-card"><svg viewBox="0 0 180 130"><path class="shape" d="M75 88 H115 V120 H75 Z M75 88 L45 63 L70 30 L90 66 Z M90 66 L115 24 L140 64 L115 88 Z M90 66 L115 24 L62 12 L70 30 Z M115 24 L160 55 L140 64 Z"/></svg></div><div class="letter">E</div></div>
+        <div class="letter-net"><div class="net-card"><svg viewBox="0 0 180 130"><path class="shape" d="M18 55 H58 V90 H18 Z M58 55 H98 V90 H58 Z M98 55 H138 V90 H98 Z M138 55 H178 V90 H138 Z M98 20 H138 V55 H98 Z M98 90 H138 V125 H98 Z"/></svg></div><div class="letter">F</div></div>
+        <div class="letter-net"><div class="net-card"><svg viewBox="0 0 180 130"><path class="shape" d="M42 45 H85 V108 H42 Z M85 45 H128 V108 H85 Z M128 45 H171 V108 H128 Z M85 45 L106 10 L128 45 M85 108 L106 138 L128 108"/></svg></div><div class="letter">G</div></div>
+      </div>
+
+      <div class="panel set-panel" data-set="prism">
+        <h3>2(i) Prism</h3>
+        <div class="checkbox-grid"></div>
+        <div class="actions"><button type="button" class="primary set-check">Check</button><div class="feedback" aria-live="polite"></div></div>
+      </div>
+      <div class="panel set-panel" data-set="pyramid">
+        <h3>2(ii) Pyramid</h3>
+        <div class="checkbox-grid"></div>
+        <div class="actions"><button type="button" class="primary set-check">Check</button><div class="feedback" aria-live="polite"></div></div>
+      </div>
+      <div class="panel set-panel" data-set="cube">
+        <h3>2(iii) Cube</h3>
+        <div class="checkbox-grid"></div>
+        <div class="actions"><button type="button" class="primary set-check">Check</button><div class="feedback" aria-live="polite"></div></div>
+      </div>
+      <div class="panel set-panel" data-set="cuboid">
+        <h3>2(iv) Cuboid</h3>
+        <div class="checkbox-grid"></div>
+        <div class="actions"><button type="button" class="primary set-check">Check</button><div class="feedback" aria-live="polite"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="p115">
+    <h2 id="p115">Page 115</h2>
+    <section class="panel combined-panel" data-combined="q3">
+      <h3>3</h3>
+      <div class="combined">
+        <div>
+          <div class="net-card solid-box">
+            <svg viewBox="0 0 260 130" aria-label="Solid for question 3">
+              <path class="shape" d="M35 55 H195 V90 H35 Z M35 55 L60 35 H220 L195 55 M195 55 L220 35 V70 L195 90 M60 35 V55 M60 70 H195" />
+              <path class="shape dash" d="M35 90 L60 70 V35 M60 70 H220"/>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <div class="name-area control-wrap">
+            <label for="q3name">3(i)</label>
+            <input id="q3name" type="text" autocomplete="off">
+          </div>
+          <div class="options">
+            <div class="option-card"><label><div class="option-head"><input type="radio" name="q3net" value="A"> A</div><svg viewBox="0 0 240 160"><path class="shape" d="M30 55 H75 V120 H30 Z M75 55 H120 V120 H75 Z M120 55 H165 V120 H120 Z M165 55 H210 V120 H165 Z M75 30 H120 V55 H75 Z M120 120 H165 V145 H120 Z"/></svg></label></div>
+            <div class="option-card"><label><div class="option-head"><input type="radio" name="q3net" value="B"> B</div><svg viewBox="0 0 240 160"><path class="shape" d="M25 60 H70 V120 H25 Z M70 60 H125 V120 H70 Z M125 60 H175 V120 H125 Z M175 60 H225 V120 H175 Z M70 30 H125 V60 H70 Z M125 120 H175 V148 H125 Z"/></svg></label></div>
+          </div>
+          <div class="feedback" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <section aria-labelledby="p116">
+    <h2 id="p116">Page 116</h2>
+    <section class="panel combined-panel" data-combined="q4">
+      <h3>4</h3>
+      <div class="combined">
+        <div><div class="net-card solid-box"><svg viewBox="0 0 240 170" aria-label="Solid for question 4"><path class="shape" d="M50 125 V55 L105 25 V85 L50 125 M105 85 H175 L120 125 H50 M105 25 L175 85 M50 55 L120 125"/><path class="shape dash" d="M50 125 L105 85"/></svg></div></div>
+        <div>
+          <div class="name-area control-wrap"><label for="q4name">4(i)</label><input id="q4name" type="text" autocomplete="off"></div>
+          <div class="options">
+            <div class="option-card"><label><div class="option-head"><input type="radio" name="q4net" value="A"> A</div><svg viewBox="0 0 240 180"><path class="shape" d="M80 35 H160 V85 H80 Z M80 85 H160 V135 H80 Z M80 135 H160 V175 H80 Z M80 35 L35 85 H80 M160 35 L205 85 H160"/></svg></label></div>
+            <div class="option-card"><label><div class="option-head"><input type="radio" name="q4net" value="B"> B</div><svg viewBox="0 0 240 180"><path class="shape" d="M75 30 H160 V80 H75 Z M75 80 H160 V130 H75 Z M75 130 H160 V175 H75 Z M160 30 L205 80 H160 M75 130 L28 80 H75"/></svg></label></div>
+          </div>
+          <div class="feedback" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <section aria-labelledby="p117">
+    <h2 id="p117">Page 117</h2>
+    <section class="panel combined-panel" data-combined="q5">
+      <h3>5</h3>
+      <div class="combined">
+        <div><div class="net-card solid-box"><svg viewBox="0 0 240 160" aria-label="Solid for question 5"><path class="shape" d="M120 20 L50 125 L190 125 Z M120 20 L120 92 M50 125 L120 92 L190 125"/><path class="shape dash" d="M120 20 L120 92"/></svg></div></div>
+        <div>
+          <div class="name-area control-wrap"><label for="q5name">5(i)</label><input id="q5name" type="text" autocomplete="off"></div>
+          <div class="options">
+            <div class="option-card"><label><div class="option-head"><input type="radio" name="q5net" value="A"> A</div><svg viewBox="0 0 240 180"><path class="shape" d="M120 30 L75 105 H165 Z M75 105 L30 30 H120 M165 105 L210 30 H120 M75 105 L120 170 L165 105"/></svg></label></div>
+            <div class="option-card"><label><div class="option-head"><input type="radio" name="q5net" value="B"> B</div><svg viewBox="0 0 240 180"><path class="shape" d="M85 30 L120 90 L155 30 Z M120 90 L185 90 L155 30 M120 90 L155 150 L185 90 M120 90 L55 150 H155"/></svg></label></div>
+          </div>
+          <div class="feedback" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <section aria-labelledby="p118">
+    <h2 id="p118">Page 118</h2>
+    <section class="panel combined-panel" data-combined="q6">
+      <h3>6</h3>
+      <div class="combined">
+        <div><div class="net-card solid-box"><svg viewBox="0 0 220 150" aria-label="Solid for question 6"><path class="shape" d="M55 45 H125 V115 H55 Z M55 45 L80 25 H150 L125 45 M125 45 L150 25 V95 L125 115 M55 115 L80 95 H150"/><path class="shape dash" d="M80 25 V95 H150"/></svg></div></div>
+        <div>
+          <div class="name-area control-wrap"><label for="q6name">6(i)</label><input id="q6name" type="text" autocomplete="off"></div>
+          <div class="options">
+            <div class="option-card"><label><div class="option-head"><input type="radio" name="q6net" value="A"> A</div><svg viewBox="0 0 220 200"><path class="shape" d="M90 20 H140 V70 H90 Z M90 70 H140 V120 H90 Z M90 120 H140 V170 H90 Z M40 120 H90 V170 H40 Z M140 70 H190 V120 H140 Z M40 170 H90 V220 H40 Z" transform="translate(0,-18)"/></svg></label></div>
+            <div class="option-card"><label><div class="option-head"><input type="radio" name="q6net" value="B"> B</div><svg viewBox="0 0 240 180"><path class="shape" d="M35 20 H85 V70 H35 Z M35 70 H85 V120 H35 Z M85 70 H135 V120 H85 Z M85 120 H135 V170 H85 Z M135 120 H185 V170 H135 Z M185 120 H235 V170 H185 Z"/></svg></label></div>
+          </div>
+          <div class="feedback" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <button type="button" id="submitAll" class="primary submit">Submit all</button>
+  <div id="summary" aria-live="polite"></div>
+</main>
+
+<script>
+(() => {
+  "use strict";
+
+  const keys = {
+    dropdowns: { q1a:"prism", q1b:"cube", q1c:"pyramid", q1d:"cuboid" },
+    sets: {
+      prism:["D","G"], pyramid:["A","C","E"], cube:["B"], cuboid:["F"]
+    },
+    combined: {
+      q3:{name:"cuboid", net:"A"},
+      q4:{name:"prism", net:"A"},
+      q5:{name:"pyramid", net:"A"},
+      q6:{name:"cube", net:"A"}
+    }
+  };
+
+  function setFeedback(el, ok){
+    el.textContent = ok ? "Correct!" : "Not quite. Try again.";
+    el.className = ok ? "feedback ok" : "feedback bad";
+  }
+
+  function clearFeedback(el){
+    el.textContent = "";
+    el.className = "feedback";
+  }
+
+  function normalizeText(value){
+    return value.trim().replace(/\s+/g," ").toLowerCase();
+  }
+
+  function sameSet(actual, expected){
+    if(actual.length !== expected.length) return false;
+    const a=[...actual].sort(), e=[...expected].sort();
+    return a.every((v,i)=>v===e[i]);
+  }
+
+  function checkDropdown(wrap, final=false){
+    const key=wrap.dataset.dd;
+    const select=wrap.querySelector("select");
+    const fb=wrap.querySelector(".feedback");
+    if(!select.value){
+      wrap.classList.remove("correct");
+      if(final){ wrap.classList.add("incorrect"); setFeedback(fb,false); }
+      else { wrap.classList.remove("incorrect"); clearFeedback(fb); }
+      return false;
+    }
+    const ok=select.value===keys.dropdowns[key];
+    wrap.classList.toggle("correct",ok);
+    wrap.classList.toggle("incorrect",!ok);
+    setFeedback(fb,ok);
+    return ok;
+  }
+
+  document.querySelectorAll("[data-dd]").forEach(wrap=>{
+    const select=wrap.querySelector("select");
+    select.addEventListener("change",()=>checkDropdown(wrap,false));
+  });
+
+  function buildSetChoices(panel){
+    const grid=panel.querySelector(".checkbox-grid");
+    "ABCDEFG".split("").forEach(letter=>{
+      const label=document.createElement("label");
+      label.className="choice";
+      const input=document.createElement("input");
+      input.type="checkbox"; input.value=letter;
+      label.append(input,document.createTextNode(" "+letter));
+      grid.appendChild(label);
+      input.addEventListener("change",()=>{
+        panel.classList.remove("correct","incorrect");
+        clearFeedback(panel.querySelector(".feedback"));
+        document.getElementById("summary").textContent="";
+      });
+    });
+  }
+
+  function checkSet(panel){
+    const expected=keys.sets[panel.dataset.set];
+    const actual=[...panel.querySelectorAll('input[type="checkbox"]:checked')].map(i=>i.value);
+    const ok=sameSet(actual,expected);
+    panel.classList.toggle("correct",ok);
+    panel.classList.toggle("incorrect",!ok);
+    setFeedback(panel.querySelector(".feedback"),ok);
+    return ok;
+  }
+
+  document.querySelectorAll(".set-panel").forEach(panel=>{
+    buildSetChoices(panel);
+    panel.querySelector(".set-check").addEventListener("click",()=>{
+      document.getElementById("summary").textContent="";
+      checkSet(panel);
+    });
+  });
+
+  function combinedParts(panel){
+    const input=panel.querySelector('input[type="text"]');
+    const radio=panel.querySelector('input[type="radio"]:checked');
+    return {input, radio, hasName:normalizeText(input.value)!=="", hasRadio:!!radio};
+  }
+
+  function clearCombined(panel){
+    panel.classList.remove("correct","incorrect");
+    panel.querySelector(".control-wrap").classList.remove("correct","incorrect");
+    clearFeedback(panel.querySelector(".feedback"));
+    document.getElementById("summary").textContent="";
+  }
+
+  function checkCombined(panel, final=false){
+    const key=panel.dataset.combined;
+    const expected=keys.combined[key];
+    const parts=combinedParts(panel);
+    const nameWrap=panel.querySelector(".control-wrap");
+    const fb=panel.querySelector(".feedback");
+
+    if(!(parts.hasName && parts.hasRadio)){
+      panel.classList.remove("correct");
+      nameWrap.classList.remove("correct");
+      if(final){
+        panel.classList.add("incorrect");
+        nameWrap.classList.toggle("incorrect",!parts.hasName);
+        setFeedback(fb,false);
+      } else {
+        panel.classList.remove("incorrect");
+        nameWrap.classList.remove("incorrect");
+        clearFeedback(fb);
+      }
+      return false;
+    }
+
+    const okName=normalizeText(parts.input.value)===expected.name;
+    const okNet=parts.radio.value===expected.net;
+    const ok=okName && okNet;
+
+    panel.classList.toggle("correct",ok);
+    panel.classList.toggle("incorrect",!ok);
+    nameWrap.classList.toggle("correct",ok);
+    nameWrap.classList.toggle("incorrect",!ok);
+    setFeedback(fb,ok);
+    return ok;
+  }
+
+  document.querySelectorAll(".combined-panel").forEach(panel=>{
+    const input=panel.querySelector('input[type="text"]');
+    input.addEventListener("input",()=>clearCombined(panel));
+    input.addEventListener("blur",()=>checkCombined(panel,false));
+    panel.querySelectorAll('input[type="radio"]').forEach(r=>{
+      r.addEventListener("change",()=>checkCombined(panel,false));
+    });
+  });
+
+  document.getElementById("submitAll").addEventListener("click",()=>{
+    const results=[];
+    document.querySelectorAll("[data-dd]").forEach(w=>results.push(checkDropdown(w,true)));
+    document.querySelectorAll(".set-panel").forEach(p=>results.push(checkSet(p)));
+    document.querySelectorAll(".combined-panel").forEach(p=>results.push(checkCombined(p,true)));
+    document.getElementById("summary").textContent = results.every(Boolean)
+      ? "You got it all correct! Good job!"
+      : "Keep going — check your answers and try again.";
+  });
+
+  document.getElementById("resetAll").addEventListener("click",()=>{
+    document.querySelectorAll("select").forEach(s=>s.value="");
+    document.querySelectorAll('input[type="checkbox"],input[type="radio"]').forEach(i=>i.checked=false);
+    document.querySelectorAll('input[type="text"]').forEach(i=>i.value="");
+    document.querySelectorAll(".panel,.control-wrap").forEach(el=>el.classList.remove("correct","incorrect"));
+    document.querySelectorAll(".feedback").forEach(clearFeedback);
+    document.getElementById("summary").textContent="";
+    const first=document.querySelector("select");
+    if(first) first.focus();
+  });
+})();
+</script>
+</body>
+</html>
