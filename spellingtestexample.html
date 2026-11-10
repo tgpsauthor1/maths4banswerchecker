@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spelling test</title>
+<style>
+:root { color-scheme: light; font-family: Arial, sans-serif; font-size: 24px; color: #183247; background: #edf4f8; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 24px 16px 48px; }
+button, input { font: inherit; }
+#app { max-width: 900px; margin: 0 auto; }
+header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 24px; margin: 0 0 20px; }
+.list-name { font-weight: 700; overflow-wrap: anywhere; }
+.progress { color: #476479; }
+.card { background: white; border: 2px solid #d5e3ec; border-radius: 20px; padding: clamp(20px, 4vw, 44px); box-shadow: 0 8px 26px #1832470b; }
+h1 { margin: 0 0 24px; font-size: 1.5rem; line-height: 1.25; overflow-wrap: anywhere; }
+p { line-height: 1.65; margin: 0 0 24px; }
+label { display: block; margin-bottom: 14px; font-weight: 700; }
+input { color: #12334d; border: 3px solid #3678ac; border-radius: 9px; background: #f5faff; min-height: 56px; padding: 10px 12px; max-width: 100%; }
+input:focus { outline: 4px solid #f7b942; outline-offset: 3px; }
+.name-input { width: 100%; }
+.answer-input { display: inline-block; width: min(15rem, 100%); vertical-align: baseline; margin: 8px 5px; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 24px; }
+button { cursor: pointer; border: 2px solid #185484; border-radius: 10px; background: #185484; color: white; padding: 13px 20px; min-height: 54px; max-width: 100%; }
+button.secondary { color: #185484; background: #eef6fc; }
+button:focus-visible { outline: 4px solid #f7b942; outline-offset: 3px; }
+button:hover { filter: brightness(.96); }
+.message { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.65; }
+.error { color: #a12624; }
+.success { color: #176148; }
+.note { color: #476479; line-height: 1.6; margin-top: 20px; }
+.eyebrow { color: #476479; margin-bottom: 14px; }
+.chunks { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; }
+.chunk { font-size: 1.3rem; font-weight: 700; border-bottom: 4px solid #4a8bad; padding: 5px 10px; background: #edf6fc; border-radius: 6px; }
+.chunk:nth-child(even) { background: #fff4de; border-color: #c88a22; }
+.letters { line-height: 1.8; overflow-wrap: anywhere; letter-spacing: .06em; }
+.sentence { line-height: 2; }
+.tap-keyboard { margin-top: 24px; padding: 12px; border-radius: 14px; background: #e7eff5; }
+.keyboard-hint { margin: 0 0 12px; line-height: 1.4; }
+.key-row { display: flex; justify-content: center; gap: 6px; margin: 7px auto 0; }
+.key-row.home-row { width: 90%; }
+.key-row button { flex: 1 1 0; min-width: 0; min-height: 54px; padding: 4px 0; border: 2px solid #728b9f; border-bottom-width: 4px; border-radius: 8px; background: white; color: #183247; font-size: 24px; line-height: 1.15; touch-action: manipulation; user-select: none; -webkit-user-select: none; }
+.key-row button:active { background: #d3e7f6; transform: translateY(1px); }
+.key-row button[aria-pressed="true"] { color: white; background: #185484; border-color: #185484; }
+.key-row .key-space { flex: 4 1 0; }
+.key-row .key-clear { flex: 2 1 0; }
+input[readonly] { cursor: default; caret-color: #185484; }
+@media (max-width: 520px) { body { padding: 16px 10px 32px; } .actions button { width: 100%; } h1 { font-size: 1.25rem; } header { display: block; } .progress { margin-top: 8px; } }
+@media (max-width: 520px) { .tap-keyboard { padding: 8px; } .key-row { gap: 3px; } .key-row button { min-height: 50px; } }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script type="application/json" id="spelling-config">{"listName": "Light Spelling", "words": [{"word": "light", "chunks": ["li", "ght"], "sentence": "Light is a form of energy.", "sentenceParts": ["", " is a form of energy."]}, {"word": "shadow", "chunks": ["sha", "dow"], "sentence": "A shadow is formed when light is blocked.", "sentenceParts": ["A ", " is formed when light is blocked."]}, {"word": "source", "chunks": ["sou", "rce"], "sentence": "The sun is our main source of light.", "sentenceParts": ["The sun is our main ", " of light."]}, {"word": "reflect", "chunks": ["re", "flect"], "sentence": "We can see because objects reflect light into our eyes.", "sentenceParts": ["We can see because objects ", " light into our eyes."]}, {"word": "opaque", "chunks": ["opa", "que"], "sentence": "Opaque objects do not allow any light to pass through them.", "sentenceParts": ["", " objects do not allow any light to pass through them."]}], "version": 1}</script>
+<script id="spelling-engine">
+'use strict';
+function normalizeSpelling(value) { return String(value).normalize('NFKC').toLowerCase().replace(/[\s\u0085]/gu, ''); }
+function makeCorrectionSteps(item) {
+  const steps = [];
+  const add = (kind, chunks, whole = false) => steps.push({ kind, chunks: [...chunks], answer: chunks.join(''), whole });
+  if (item.chunks.length > 1) {
+    item.chunks.forEach((chunk, index) => {
+      add('teach', [chunk]);
+      add('recall', [chunk]);
+      if (index > 0 && index < item.chunks.length - 1) {
+        add('teach', item.chunks.slice(0, index + 1));
+        add('recall', item.chunks.slice(0, index + 1));
+      }
+    });
+  }
+  add('teach', item.chunks, true);
+  add('final', item.chunks, true);
+  return steps;
+}
+class SpellingSession {
+  constructor(words, random = Math.random) {
+    if (!Array.isArray(words) || !words.length) throw new Error('The spelling list is empty.');
+    this.words = words;
+    this.random = random;
+    this.records = words.map(() => ({ tested: false, firstCorrect: null, cleared: false, laterCorrect: 0, mistakes: 0 }));
+    this.initialQueue = words.map((_, index) => index);
+    this.laterQueue = [];
+    this.current = null;
+    this.mode = null;
+    this.lastTested = null;
+    this.name = '';
+    this.state = 'welcome';
+    this.feedback = null;
+    this.correction = null;
+  }
+  get item() { return this.words[this.current]; }
+  get clearedCount() { return this.records.filter(record => record.cleared).length; }
+  start(name) {
+    if (this.state !== 'welcome' || !String(name).trim()) return false;
+    this.name = String(name).trim();
+    this.nextQuestion();
+    return true;
+  }
+  nextQuestion() {
+    this.feedback = null;
+    if (this.correction) throw new Error('Finish corrections before continuing.');
+    if (this.initialQueue.length) {
+      this.current = this.initialQueue.shift();
+      this.mode = 'initial';
+    } else {
+      this.laterQueue = this.laterQueue.filter(index => !this.records[index].cleared);
+      if (!this.laterQueue.length) {
+        this.laterQueue = this.records.flatMap((record, index) => record.cleared ? [] : [index]);
+        for (let i = this.laterQueue.length - 1; i > 0; i--) {
+          const j = Math.floor(this.random() * (i + 1));
+          [this.laterQueue[i], this.laterQueue[j]] = [this.laterQueue[j], this.laterQueue[i]];
+        }
+        if (this.laterQueue.length > 1 && this.laterQueue[0] === this.lastTested) {
+          [this.laterQueue[0], this.laterQueue[1]] = [this.laterQueue[1], this.laterQueue[0]];
+        }
+      }
+      if (!this.laterQueue.length) {
+        if (!this.records.every(record => record.tested && record.cleared)) throw new Error('Incomplete spelling session.');
+        this.current = null;
+        this.state = 'complete';
+        return;
+      }
+      this.current = this.laterQueue.shift();
+      this.mode = 'retest';
+    }
+    this.state = 'test';
+  }
+  submitTest(attempt) {
+    if (this.state !== 'test' || !normalizeSpelling(attempt)) return false;
+    const correct = normalizeSpelling(attempt) === normalizeSpelling(this.item.word);
+    const record = this.records[this.current];
+    if (this.mode === 'initial') {
+      record.tested = true;
+      record.firstCorrect = correct;
+      record.cleared = correct;
+    } else if (correct) {
+      record.laterCorrect++;
+      record.cleared = record.laterCorrect >= 2;
+    }
+    if (!correct) {
+      record.cleared = false;
+      record.laterCorrect = 0;
+      record.mistakes++;
+    }
+    this.lastTested = this.current;
+    this.feedback = { correct, attempt: String(attempt) };
+    this.state = 'feedback';
+    return true;
+  }
+  continueFeedback() {
+    if (this.state !== 'feedback') return false;
+    if (this.feedback.correct) this.nextQuestion();
+    else {
+      this.correction = { steps: makeCorrectionSteps(this.item), index: 0, streak: 0, required: 1, error: null };
+      this.state = 'correction-intro';
+    }
+    return true;
+  }
+  startCorrections() {
+    if (this.state !== 'correction-intro') return false;
+    this.state = 'correction';
+    return true;
+  }
+  get correctionStep() { return this.correction && this.correction.steps[this.correction.index]; }
+  submitCorrection(attempt) {
+    if (this.state !== 'correction' || !normalizeSpelling(attempt)) return false;
+    const c = this.correction;
+    const step = this.correctionStep;
+    if (normalizeSpelling(attempt) !== normalizeSpelling(step.answer)) {
+      c.streak = 0;
+      if (step.kind !== 'teach') c.required = 3;
+      c.error = { expected: step.answer, attempt: String(attempt) };
+      this.state = 'correction-error';
+      return true;
+    }
+    c.streak++;
+    if (step.kind === 'teach' || c.streak >= c.required) {
+      c.index++;
+      c.streak = 0;
+      c.error = null;
+      if (c.index >= c.steps.length) this.state = 'correction-done';
+      else c.required = this.correctionStep.kind === 'final' ? 3 : 1;
+    }
+    return true;
+  }
+  retryCorrection() {
+    if (this.state !== 'correction-error') return false;
+    this.correction.error = null;
+    this.state = 'correction';
+    return true;
+  }
+  finishCorrections() {
+    if (this.state !== 'correction-done') return false;
+    this.correction = null;
+    this.nextQuestion();
+    return true;
+  }
+}
+</script>
+<script id="spelling-ui">
+'use strict';
+const config = JSON.parse(document.getElementById('spelling-config').textContent);
+const session = new SpellingSession(config.words);
+const root = document.getElementById('app');
+document.title = config.listName + ' — Spelling test';
+function el(tag, text, className) {
+  const node = document.createElement(tag);
+  if (text !== undefined) node.textContent = text;
+  if (className) node.className = className;
+  return node;
+}
+function button(text, action, secondary = false) {
+  const node = el('button', text, secondary ? 'secondary' : '');
+  node.type = 'button';
+  node.addEventListener('click', action);
+  return node;
+}
+let speechRun = 0;
+let activeUtterances = [];
+function stopSpeech() {
+  speechRun++;
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  activeUtterances = [];
+}
+function correctionSpeech(chunks) {
+  return chunks.flatMap(chunk => [
+    chunk,
+    ...[...chunk].map(letter => letter === "'" ? 'apostrophe' : letter === '-' ? 'hyphen' : letter.toUpperCase()),
+    chunk
+  ]);
+}
+function speak(text, status) {
+  stopSpeech();
+  if (!('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)) {
+    status.textContent = 'Sound is unavailable here. Ask your teacher to read the word aloud.';
+    return;
+  }
+  status.textContent = '';
+  const run = speechRun;
+  const parts = Array.isArray(text) ? text : [text];
+  const voices = speechSynthesis.getVoices();
+  const voice = voices.find(v => /^en-SG/i.test(v.lang)) || voices.find(v => /^en-GB/i.test(v.lang)) || voices.find(v => /^en/i.test(v.lang)) || null;
+  const showError = () => {
+    if (run !== speechRun) return;
+    stopSpeech();
+    status.textContent = 'Sound could not play. Tap Listen to try again, or ask your teacher to read the word aloud.';
+  };
+  // Separate utterances make the voice say each letter instead of guessing an acronym.
+  // Retain them until replay or navigation so device voices can finish the queue.
+  activeUtterances = parts.map(part => {
+    const utterance = new SpeechSynthesisUtterance(part);
+    utterance.voice = voice;
+    utterance.lang = voice ? voice.lang : 'en-GB';
+    utterance.rate = 0.8;
+    utterance.onerror = event => {
+      if (!['interrupted', 'canceled'].includes(event.error)) showError();
+    };
+    return utterance;
+  });
+  try {
+    for (const utterance of activeUtterances) {
+      if (run !== speechRun) break;
+      speechSynthesis.speak(utterance);
+    }
+  } catch { showError(); }
+}
+function speechControls(text) {
+  const group = el('div', undefined, 'actions');
+  const status = el('div', '', 'note');
+  status.setAttribute('role', 'status');
+  group.append(button('Listen', () => speak(text(), status), true));
+  return { group, status };
+}
+function spellingInput() {
+  const input = el('input', undefined, 'answer-input');
+  input.type = 'text';
+  input.name = 'spelling-answer';
+  input.setAttribute('aria-label', 'Spelling answer');
+  input.setAttribute('autocomplete', 'off');
+  input.setAttribute('autocorrect', 'off');
+  input.setAttribute('autocapitalize', 'none');
+  input.setAttribute('spellcheck', 'false');
+  input.inputMode = 'none';
+  input.readOnly = true;
+  return input;
+}
+function tapKeyboard(input) {
+  input.readOnly = true;
+  input.inputMode = 'none';
+  input.setAttribute('autocomplete', 'off');
+  input.setAttribute('autocorrect', 'off');
+  input.setAttribute('autocapitalize', 'none');
+  input.setAttribute('spellcheck', 'false');
+  input.setAttribute('aria-description', 'Use the letter buttons below.');
+  let acceptedValue = input.value;
+  let shifted = false;
+  const blockEntry = event => event.preventDefault();
+  for (const eventName of ['beforeinput', 'paste', 'drop']) input.addEventListener(eventName, blockEntry);
+  input.addEventListener('keydown', event => {
+    if (!['Tab', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) event.preventDefault();
+  });
+  const restoreTappedValue = () => { input.value = acceptedValue; };
+  input.addEventListener('input', restoreTappedValue);
+  input.addEventListener('change', restoreTappedValue);
+  const keyboard = el('div', undefined, 'tap-keyboard');
+  keyboard.setAttribute('role', 'group');
+  keyboard.setAttribute('aria-label', 'On-screen QWERTY keyboard');
+  keyboard.append(el('p', 'Tap the letters below.', 'keyboard-hint'));
+  const letterKeys = [];
+  let shiftKey;
+  function refreshShift() {
+    shiftKey.setAttribute('aria-pressed', String(shifted));
+    for (const key of letterKeys) key.textContent = shifted ? key.dataset.key.toUpperCase() : key.dataset.key;
+  }
+  function tap(key) {
+    if (key === 'shift') { shifted = !shifted; refreshShift(); return; }
+    let start = input.selectionStart ?? input.value.length;
+    const end = input.selectionEnd ?? start;
+    let nextValue;
+    let nextCaret;
+    if (key === 'clear') { nextValue = ''; nextCaret = 0; }
+    else if (key === 'backspace') {
+      if (start === end && start > 0) start -= 1;
+      nextValue = input.value.slice(0, start) + input.value.slice(end);
+      nextCaret = start;
+    } else {
+      const letters = shifted ? key.toUpperCase() : key;
+      nextValue = input.value.slice(0, start) + letters + input.value.slice(end);
+      nextCaret = start + letters.length;
+      if (input.maxLength >= 0 && nextValue.length > input.maxLength) return;
+      if (/^[a-z]$/.test(key) && shifted) { shifted = false; refreshShift(); }
+    }
+    acceptedValue = nextValue;
+    input.value = acceptedValue;
+    input.focus({ preventScroll: true });
+    input.setSelectionRange(nextCaret, nextCaret);
+  }
+  function addKey(row, key, label, className = '') {
+    const keyButton = button(label, () => tap(key));
+    keyButton.className = className;
+    keyButton.dataset.key = key;
+    if (/^[a-z]$/.test(key)) letterKeys.push(keyButton);
+    if (key === 'shift') { shiftKey = keyButton; keyButton.setAttribute('aria-label', 'Shift'); keyButton.setAttribute('aria-pressed', 'false'); }
+    if (key === 'backspace') keyButton.setAttribute('aria-label', 'Backspace');
+    if (key === ' ') keyButton.setAttribute('aria-label', 'Space');
+    if (key === "'") keyButton.setAttribute('aria-label', 'Apostrophe');
+    if (key === '-') keyButton.setAttribute('aria-label', 'Hyphen');
+    row.append(keyButton);
+  }
+  for (const [index, letters] of ['qwertyuiop', 'asdfghjkl', 'zxcvbnm'].entries()) {
+    const row = el('div', undefined, 'key-row' + (index === 1 ? ' home-row' : ''));
+    if (index === 2) addKey(row, 'shift', '⇧');
+    for (const letter of letters) addKey(row, letter, letter);
+    if (index === 2) addKey(row, 'backspace', '⌫');
+    keyboard.append(row);
+  }
+  const bottomRow = el('div', undefined, 'key-row');
+  addKey(bottomRow, 'clear', 'Clear', 'key-clear');
+  addKey(bottomRow, ' ', 'Space', 'key-space');
+  addKey(bottomRow, "'", "'");
+  addKey(bottomRow, '-', '-');
+  keyboard.append(bottomRow);
+  return keyboard;
+}
+function focusInput(input) { requestAnimationFrame(() => input.focus({ preventScroll: true })); }
+function actionThenRender(action) { action(); render(); }
+function feedbackMessage(correctWord, attempt, correct = false) {
+  const text = el('p', undefined, 'message ' + (correct ? 'success' : 'error'));
+  text.setAttribute('role', 'status');
+  text.append(document.createTextNode(correct ? 'You spelled ' : 'The word is '), el('strong', correctWord));
+  if (correct) text.append(document.createTextNode(' correctly.'));
+  else text.append(document.createTextNode(', but you spelled it as '), el('strong', attempt), document.createTextNode('.'));
+  return text;
+}
+function chunksView(chunks) {
+  const node = el('div', undefined, 'chunks');
+  for (const chunk of chunks) node.append(el('span', chunk, 'chunk'));
+  return node;
+}
+function render() {
+  stopSpeech();
+  const showListName = session.state === 'welcome' || session.state === 'complete';
+  document.title = showListName ? config.listName + ' — Spelling test' : 'Spelling test';
+  root.replaceChildren();
+  const header = el('header');
+  header.append(el('div', showListName ? config.listName : 'Spelling test', 'list-name'));
+  if (session.state !== 'welcome' && session.state !== 'complete') header.append(el('div', 'Words finished: ' + session.clearedCount + ' / ' + config.words.length, 'progress'));
+  const card = el('main', undefined, 'card');
+  root.append(header, card);
+  if (session.state === 'welcome') {
+    card.append(el('h1', 'Ready for spelling?'));
+    const form = el('form');
+    const label = el('label', 'What is your name?');
+    label.htmlFor = 'pupil-name';
+    const input = el('input', undefined, 'name-input');
+    input.id = 'pupil-name'; input.name = 'pupil-name'; input.autocomplete = 'off'; input.maxLength = 120;
+    const message = el('div', '', 'note'); message.setAttribute('role', 'status');
+    const start = el('button', 'Start'); start.type = 'submit';
+    const actions = el('div', undefined, 'actions'); actions.append(start);
+    form.append(label, input, tapKeyboard(input), actions, message);
+    form.addEventListener('submit', event => { event.preventDefault(); if (!session.start(input.value)) { message.textContent = 'Tap the letters in your name first.'; input.focus(); } else render(); });
+    card.append(form); focusInput(input);
+    return;
+  }
+  if (session.state === 'test') {
+    card.append(el('h1', 'Listen, then spell'));
+    const form = el('form');
+    const input = spellingInput();
+    const sentence = el('p', undefined, 'sentence');
+    session.item.sentenceParts.forEach((part, index) => {
+      sentence.append(document.createTextNode(part));
+      if (index < session.item.sentenceParts.length - 1) sentence.append(index === 0 ? input : document.createTextNode('_____'));
+    });
+    const audio = speechControls(() => session.item.word + '. ' + session.item.word + '. ' + session.item.sentence);
+    const submit = el('button', 'Submit'); submit.type = 'submit';
+    const actions = el('div', undefined, 'actions'); actions.append(submit);
+    const message = el('div', '', 'note'); message.setAttribute('role', 'status');
+    form.append(sentence, audio.group, audio.status, tapKeyboard(input), actions, message);
+    form.addEventListener('submit', event => { event.preventDefault(); if (!session.submitTest(input.value)) { message.textContent = 'Tap the letters to spell the word first.'; input.focus(); } else render(); });
+    card.append(form); focusInput(input);
+    return;
+  }
+  if (session.state === 'feedback') {
+    card.append(el('h1', session.feedback.correct ? 'Well done!' : 'Let’s practise this word'));
+    card.append(feedbackMessage(session.item.word, session.feedback.attempt, session.feedback.correct));
+    card.append(button(session.feedback.correct ? 'Continue' : 'Start corrections', () => actionThenRender(() => session.continueFeedback())));
+    return;
+  }
+  if (session.state === 'correction-intro') {
+    card.append(el('div', 'Corrections', 'eyebrow'), el('h1', 'Let’s learn this word'));
+    card.append(chunksView(session.item.chunks), el('p', [...session.item.word].join(' · '), 'letters'));
+    const audio = speechControls(() => correctionSpeech(session.item.chunks));
+    audio.group.append(button('Start training', () => actionThenRender(() => session.startCorrections())));
+    card.append(audio.group, audio.status);
+    return;
+  }
+  if (session.state === 'correction-error') {
+    card.append(el('div', 'Corrections', 'eyebrow'), el('h1', 'Look at the spelling'));
+    card.append(feedbackMessage(session.correction.error.expected, session.correction.error.attempt));
+    card.append(button('Try again', () => actionThenRender(() => session.retryCorrection())));
+    return;
+  }
+  if (session.state === 'correction') {
+    const step = session.correctionStep;
+    card.append(el('div', 'Corrections', 'eyebrow'));
+    card.append(el('h1', step.kind === 'teach' ? (step.whole ? 'Spell the whole word' : 'Spell this part') : (step.whole ? 'Spell the whole word' : 'Spell that part again')));
+    if (step.kind === 'teach') {
+      card.append(chunksView(step.chunks));
+      if (step.whole || step.chunks.length === 1) card.append(el('p', [...step.answer].join(' · '), 'letters'));
+    } else if (session.correction.required === 3) {
+      card.append(el('p', 'Correct in a row: ' + session.correction.streak + ' / 3', 'progress'));
+    }
+    const form = el('form');
+    const input = spellingInput(); input.setAttribute('aria-label', 'Spelling answer');
+    const audio = speechControls(() => step.kind === 'teach' ? correctionSpeech(step.chunks) : step.answer + '. ' + step.answer);
+    const submit = el('button', 'Check'); submit.type = 'submit';
+    const actions = el('div', undefined, 'actions'); actions.append(submit);
+    const message = el('div', '', 'note'); message.setAttribute('role', 'status');
+    form.append(input, audio.group, audio.status, tapKeyboard(input), actions, message);
+    form.addEventListener('submit', event => { event.preventDefault(); if (!session.submitCorrection(input.value)) { message.textContent = 'Tap the letters first.'; input.focus(); } else render(); });
+    card.append(form); focusInput(input);
+    return;
+  }
+  if (session.state === 'correction-done') {
+    card.append(el('h1', 'Corrections finished'), el('p', 'You will practise this word again later.'));
+    card.append(button('Continue spelling test', () => actionThenRender(() => session.finishCorrections())));
+    return;
+  }
+  if (session.state === 'complete') {
+    card.append(el('h1', session.name + ' has completed the ' + config.listName + ' spelling test'));
+    card.append(el('p', 'Every word is finished. Well done!', 'success'));
+  }
+}
+window.addEventListener('pagehide', stopSpeech);
+render();
+</script>
+</body>
+</html>
