@@ -1,0 +1,902 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spelling test</title>
+<style>
+:root { color-scheme: light; font-family: Arial, sans-serif; font-size: 24px; color: #183247; background: #edf4f8; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 24px 16px 48px; }
+button, input { font: inherit; }
+#app { max-width: 900px; margin: 0 auto; }
+header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 24px; margin: 0 0 20px; }
+.list-name { font-weight: 700; overflow-wrap: anywhere; }
+.progress { color: #476479; }
+.card { background: white; border: 2px solid #d5e3ec; border-radius: 20px; padding: clamp(20px, 4vw, 44px); box-shadow: 0 8px 26px #1832470b; }
+h1 { margin: 0 0 24px; font-size: 1.5rem; line-height: 1.25; overflow-wrap: anywhere; }
+p { line-height: 1.65; margin: 0 0 24px; }
+label { display: block; margin-bottom: 14px; font-weight: 700; }
+input { color: #12334d; border: 3px solid #3678ac; border-radius: 9px; background: #f5faff; min-height: 56px; padding: 10px 12px; max-width: 100%; }
+input:focus { outline: 4px solid #f7b942; outline-offset: 3px; }
+.name-input { width: 100%; }
+.answer-input { display: inline-block; width: min(15rem, 100%); vertical-align: baseline; margin: 8px 5px; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 24px; }
+button { cursor: pointer; border: 2px solid #185484; border-radius: 10px; background: #185484; color: white; padding: 13px 20px; min-height: 54px; max-width: 100%; }
+button.secondary { color: #185484; background: #eef6fc; }
+button:focus-visible { outline: 4px solid #f7b942; outline-offset: 3px; }
+button:hover { filter: brightness(.96); }
+.message { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.65; }
+.error { color: #a12624; }
+.success { color: #176148; }
+.note { color: #476479; line-height: 1.6; margin-top: 20px; }
+.eyebrow { color: #476479; margin-bottom: 14px; }
+.chunks { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; }
+.chunk { font-size: 1.3rem; font-weight: 700; border-bottom: 4px solid #4a8bad; padding: 5px 10px; background: #edf6fc; border-radius: 6px; }
+.chunk:nth-child(even) { background: #fff4de; border-color: #c88a22; }
+.letters { line-height: 1.8; overflow-wrap: anywhere; letter-spacing: .06em; }
+.sentence { line-height: 2; }
+.tap-keyboard { margin-top: 24px; padding: 12px; border-radius: 14px; background: #e7eff5; }
+.keyboard-hint { margin: 0 0 12px; line-height: 1.4; }
+.key-row { display: flex; justify-content: center; gap: 6px; margin: 7px auto 0; }
+.key-row.home-row { width: 90%; }
+.key-row button { flex: 1 1 0; min-width: 0; min-height: 54px; padding: 4px 0; border: 2px solid #728b9f; border-bottom-width: 4px; border-radius: 8px; background: white; color: #183247; font-size: 24px; line-height: 1.15; touch-action: manipulation; user-select: none; -webkit-user-select: none; }
+.key-row button:active { background: #d3e7f6; transform: translateY(1px); }
+.key-row button[aria-pressed="true"] { color: white; background: #185484; border-color: #185484; }
+.key-row .key-space { flex: 4 1 0; }
+.key-row .key-clear { flex: 2 1 0; }
+input[readonly] { cursor: default; caret-color: #185484; }
+@media (max-width: 520px) { body { padding: 16px 10px 32px; } .actions button { width: 100%; } h1 { font-size: 1.25rem; } header { display: block; } .progress { margin-top: 8px; } }
+@media (max-width: 520px) { .tap-keyboard { padding: 8px; } .key-row { gap: 3px; } .key-row button { min-height: 50px; } }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script type="application/json" id="spelling-config">{"listName": "Light Spelling", "words": [{"word": "light", "chunks": ["li", "ght"], "sentence": "Light is a form of energy.", "sentenceParts": ["", " is a form of energy."]}, {"word": "shadow", "chunks": ["sha", "dow"], "sentence": "A shadow is formed when light is blocked.", "sentenceParts": ["A ", " is formed when light is blocked."]}, {"word": "source", "chunks": ["sou", "rce"], "sentence": "The sun is our main source of light.", "sentenceParts": ["The sun is our main ", " of light."]}, {"word": "reflect", "chunks": ["re", "flect"], "sentence": "We can see because objects reflect light into our eyes.", "sentenceParts": ["We can see because objects ", " light into our eyes."]}, {"word": "opaque", "chunks": ["opa", "que"], "sentence": "Opaque objects do not allow any light to pass through them.", "sentenceParts": ["", " objects do not allow any light to pass through them."]}], "version": 1}</script>
+<script id="spelling-engine">
+'use strict';
+function normalizeSpelling(value) { return String(value).normalize('NFKC').toLowerCase().replace(/[\s\u0085]/gu, ''); }
+function makeCorrectionSteps(item) {
+  const steps = [];
+  const add = (kind, chunks, whole = false) => steps.push({ kind, chunks: [...chunks], answer: chunks.join(''), whole });
+  if (item.chunks.length > 1) {
+    item.chunks.forEach((chunk, index) => {
+      add('teach', [chunk]);
+      add('recall', [chunk]);
+      if (index > 0 && index < item.chunks.length - 1) {
+        add('teach', item.chunks.slice(0, index + 1));
+        add('recall', item.chunks.slice(0, index + 1));
+      }
+    });
+  }
+  add('teach', item.chunks, true);
+  add('final', item.chunks, true);
+  return steps;
+}
+class SpellingSession {
+  constructor(words, random = Math.random) {
+    if (!Array.isArray(words) || !words.length) throw new Error('The spelling list is empty.');
+    this.words = words;
+    this.random = random;
+    this.records = words.map(() => ({ tested: false, firstCorrect: null, cleared: false, laterCorrect: 0, mistakes: 0 }));
+    this.initialQueue = words.map((_, index) => index);
+    this.laterQueue = [];
+    this.current = null;
+    this.mode = null;
+    this.lastTested = null;
+    this.name = '';
+    this.state = 'welcome';
+    this.feedback = null;
+    this.correction = null;
+  }
+  get item() { return this.words[this.current]; }
+  get clearedCount() { return this.records.filter(record => record.cleared).length; }
+  start(name) {
+    if (this.state !== 'welcome' || !String(name).trim()) return false;
+    this.name = String(name).trim();
+    this.nextQuestion();
+    return true;
+  }
+  nextQuestion() {
+    this.feedback = null;
+    if (this.correction) throw new Error('Finish corrections before continuing.');
+    if (this.initialQueue.length) {
+      this.current = this.initialQueue.shift();
+      this.mode = 'initial';
+    } else {
+      this.laterQueue = this.laterQueue.filter(index => !this.records[index].cleared);
+      if (!this.laterQueue.length) {
+        this.laterQueue = this.records.flatMap((record, index) => record.cleared ? [] : [index]);
+        for (let i = this.laterQueue.length - 1; i > 0; i--) {
+          const j = Math.floor(this.random() * (i + 1));
+          [this.laterQueue[i], this.laterQueue[j]] = [this.laterQueue[j], this.laterQueue[i]];
+        }
+        if (this.laterQueue.length > 1 && this.laterQueue[0] === this.lastTested) {
+          [this.laterQueue[0], this.laterQueue[1]] = [this.laterQueue[1], this.laterQueue[0]];
+        }
+      }
+      if (!this.laterQueue.length) {
+        if (!this.records.every(record => record.tested && record.cleared)) throw new Error('Incomplete spelling session.');
+        this.current = null;
+        this.state = 'complete';
+        return;
+      }
+      this.current = this.laterQueue.shift();
+      this.mode = 'retest';
+    }
+    this.state = 'test';
+  }
+  submitTest(attempt) {
+    if (this.state !== 'test' || !normalizeSpelling(attempt)) return false;
+    const correct = normalizeSpelling(attempt) === normalizeSpelling(this.item.word);
+    const record = this.records[this.current];
+    if (this.mode === 'initial') {
+      record.tested = true;
+      record.firstCorrect = correct;
+      record.cleared = correct;
+    } else if (correct) {
+      record.laterCorrect++;
+      record.cleared = record.laterCorrect >= 2;
+    }
+    if (!correct) {
+      record.cleared = false;
+      record.laterCorrect = 0;
+      record.mistakes++;
+    }
+    this.lastTested = this.current;
+    this.feedback = { correct, attempt: String(attempt) };
+    this.state = 'feedback';
+    return true;
+  }
+  continueFeedback() {
+    if (this.state !== 'feedback') return false;
+    if (this.feedback.correct) this.nextQuestion();
+    else {
+      this.correction = { steps: makeCorrectionSteps(this.item), index: 0, streak: 0, required: 1, error: null };
+      this.state = 'correction-intro';
+    }
+    return true;
+  }
+  startCorrections() {
+    if (this.state !== 'correction-intro') return false;
+    this.state = 'correction';
+    return true;
+  }
+  get correctionStep() { return this.correction && this.correction.steps[this.correction.index]; }
+  submitCorrection(attempt) {
+    if (this.state !== 'correction' || !normalizeSpelling(attempt)) return false;
+    const c = this.correction;
+    const step = this.correctionStep;
+    if (normalizeSpelling(attempt) !== normalizeSpelling(step.answer)) {
+      c.streak = 0;
+      if (step.kind !== 'teach') c.required = 3;
+      c.error = { expected: step.answer, attempt: String(attempt) };
+      this.state = 'correction-error';
+      return true;
+    }
+    c.streak++;
+    if (step.kind === 'teach' || c.streak >= c.required) {
+      c.index++;
+      c.streak = 0;
+      c.error = null;
+      if (c.index >= c.steps.length) this.state = 'correction-done';
+      else c.required = this.correctionStep.kind === 'final' ? 3 : 1;
+    }
+    return true;
+  }
+  retryCorrection() {
+    if (this.state !== 'correction-error') return false;
+    this.correction.error = null;
+    this.state = 'correction';
+    return true;
+  }
+  finishCorrections() {
+    if (this.state !== 'correction-done') return false;
+    this.correction = null;
+    this.nextQuestion();
+    return true;
+  }
+}
+</script>
+<script id="spelling-ui">
+'use strict';
+const config = JSON.parse(document.getElementById('spelling-config').textContent);
+const session = new SpellingSession(config.words);
+const root = document.getElementById('app');
+document.title = config.listName + ' \u2014 Spelling test';
+function el(tag, text, className) {
+  const node = document.createElement(tag);
+  if (text !== undefined) node.textContent = text;
+  if (className) node.className = className;
+  return node;
+}
+function button(text, action, secondary = false) {
+  const node = el('button', text, secondary ? 'secondary' : '');
+  node.type = 'button';
+  node.addEventListener('click', action);
+  return node;
+}
+let speechRun = 0;
+let activeUtterances = [];
+function stopSpeech() {
+  speechRun++;
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  activeUtterances = [];
+}
+function correctionSpeech(chunks) {
+  return chunks.flatMap(chunk => [
+    chunk,
+    ...[...chunk].map(letter => letter === "'" ? 'apostrophe' : letter === '-' ? 'hyphen' : letter.toUpperCase()),
+    chunk
+  ]);
+}
+function speak(text, status) {
+  stopSpeech();
+  if (!('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)) {
+    status.textContent = 'Sound is unavailable here. Ask your teacher to read the word aloud.';
+    return;
+  }
+  status.textContent = '';
+  const run = speechRun;
+  const parts = Array.isArray(text) ? text : [text];
+  const voices = speechSynthesis.getVoices();
+  const voice = voices.find(v => /^en-SG/i.test(v.lang)) || voices.find(v => /^en-GB/i.test(v.lang)) || voices.find(v => /^en/i.test(v.lang)) || null;
+  const showError = () => {
+    if (run !== speechRun) return;
+    stopSpeech();
+    status.textContent = 'Sound could not play. Tap Listen to try again, or ask your teacher to read the word aloud.';
+  };
+  // Separate utterances make the voice say each letter instead of guessing an acronym.
+  // Retain them until replay or navigation so device voices can finish the queue.
+  activeUtterances = parts.map(part => {
+    const utterance = new SpeechSynthesisUtterance(part);
+    utterance.voice = voice;
+    utterance.lang = voice ? voice.lang : 'en-GB';
+    utterance.rate = 0.8;
+    utterance.onerror = event => {
+      if (!['interrupted', 'canceled'].includes(event.error)) showError();
+    };
+    return utterance;
+  });
+  try {
+    for (const utterance of activeUtterances) {
+      if (run !== speechRun) break;
+      speechSynthesis.speak(utterance);
+    }
+  } catch { showError(); }
+}
+function speechControls(text) {
+  const group = el('div', undefined, 'actions');
+  const status = el('div', '', 'note');
+  status.setAttribute('role', 'status');
+  group.append(button('Listen', () => speak(text(), status), true));
+  return { group, status };
+}
+function spellingInput() {
+  const input = el('input', undefined, 'answer-input');
+  input.type = 'text';
+  input.name = 'spelling-answer';
+  input.setAttribute('aria-label', 'Spelling answer');
+  input.setAttribute('autocomplete', 'off');
+  input.setAttribute('autocorrect', 'off');
+  input.setAttribute('autocapitalize', 'none');
+  input.setAttribute('spellcheck', 'false');
+  input.inputMode = 'none';
+  input.readOnly = true;
+  return input;
+}
+function tapKeyboard(input) {
+  input.readOnly = true;
+  input.inputMode = 'none';
+  input.setAttribute('autocomplete', 'off');
+  input.setAttribute('autocorrect', 'off');
+  input.setAttribute('autocapitalize', 'none');
+  input.setAttribute('spellcheck', 'false');
+  input.setAttribute('aria-description', 'Use the letter buttons below.');
+  let acceptedValue = input.value;
+  let shifted = false;
+  const blockEntry = event => event.preventDefault();
+  for (const eventName of ['beforeinput', 'paste', 'drop']) input.addEventListener(eventName, blockEntry);
+  input.addEventListener('keydown', event => {
+    if (!['Tab', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) event.preventDefault();
+  });
+  const restoreTappedValue = () => { input.value = acceptedValue; };
+  input.addEventListener('input', restoreTappedValue);
+  input.addEventListener('change', restoreTappedValue);
+  const keyboard = el('div', undefined, 'tap-keyboard');
+  keyboard.setAttribute('role', 'group');
+  keyboard.setAttribute('aria-label', 'On-screen QWERTY keyboard');
+  keyboard.append(el('p', 'Tap the letters below.', 'keyboard-hint'));
+  const letterKeys = [];
+  let shiftKey;
+  function refreshShift() {
+    shiftKey.setAttribute('aria-pressed', String(shifted));
+    for (const key of letterKeys) key.textContent = shifted ? key.dataset.key.toUpperCase() : key.dataset.key;
+  }
+  function tap(key) {
+    if (key === 'shift') { shifted = !shifted; refreshShift(); return; }
+    let start = input.selectionStart ?? input.value.length;
+    const end = input.selectionEnd ?? start;
+    let nextValue;
+    let nextCaret;
+    if (key === 'clear') { nextValue = ''; nextCaret = 0; }
+    else if (key === 'backspace') {
+      if (start === end && start > 0) start -= 1;
+      nextValue = input.value.slice(0, start) + input.value.slice(end);
+      nextCaret = start;
+    } else {
+      const letters = shifted ? key.toUpperCase() : key;
+      nextValue = input.value.slice(0, start) + letters + input.value.slice(end);
+      nextCaret = start + letters.length;
+      if (input.maxLength >= 0 && nextValue.length > input.maxLength) return;
+      if (/^[a-z]$/.test(key) && shifted) { shifted = false; refreshShift(); }
+    }
+    acceptedValue = nextValue;
+    input.value = acceptedValue;
+    input.focus({ preventScroll: true });
+    input.setSelectionRange(nextCaret, nextCaret);
+  }
+  function addKey(row, key, label, className = '') {
+    const keyButton = button(label, () => tap(key));
+    keyButton.className = className;
+    keyButton.dataset.key = key;
+    if (/^[a-z]$/.test(key)) letterKeys.push(keyButton);
+    if (key === 'shift') { shiftKey = keyButton; keyButton.setAttribute('aria-label', 'Shift'); keyButton.setAttribute('aria-pressed', 'false'); }
+    if (key === 'backspace') keyButton.setAttribute('aria-label', 'Backspace');
+    if (key === ' ') keyButton.setAttribute('aria-label', 'Space');
+    if (key === "'") keyButton.setAttribute('aria-label', 'Apostrophe');
+    if (key === '-') keyButton.setAttribute('aria-label', 'Hyphen');
+    row.append(keyButton);
+  }
+  for (const [index, letters] of ['qwertyuiop', 'asdfghjkl', 'zxcvbnm'].entries()) {
+    const row = el('div', undefined, 'key-row' + (index === 1 ? ' home-row' : ''));
+    if (index === 2) addKey(row, 'shift', '\u21e7');
+    for (const letter of letters) addKey(row, letter, letter);
+    if (index === 2) addKey(row, 'backspace', '\u232b');
+    keyboard.append(row);
+  }
+  const bottomRow = el('div', undefined, 'key-row');
+  addKey(bottomRow, 'clear', 'Clear', 'key-clear');
+  addKey(bottomRow, ' ', 'Space', 'key-space');
+  addKey(bottomRow, "'", "'");
+  addKey(bottomRow, '-', '-');
+  keyboard.append(bottomRow);
+  return keyboard;
+}
+function focusInput(input) { requestAnimationFrame(() => input.focus({ preventScroll: true })); }
+function actionThenRender(action) { action(); render(); }
+function feedbackMessage(correctWord, attempt, correct = false) {
+  const text = el('p', undefined, 'message ' + (correct ? 'success' : 'error'));
+  text.setAttribute('role', 'status');
+  text.append(document.createTextNode(correct ? 'You spelled ' : 'The word is '), el('strong', correctWord));
+  if (correct) text.append(document.createTextNode(' correctly.'));
+  else text.append(document.createTextNode(', but you spelled it as '), el('strong', attempt), document.createTextNode('.'));
+  return text;
+}
+function chunksView(chunks) {
+  const node = el('div', undefined, 'chunks');
+  for (const chunk of chunks) node.append(el('span', chunk, 'chunk'));
+  return node;
+}
+function render() {
+  stopSpeech();
+  const showListName = session.state === 'welcome' || session.state === 'complete';
+  document.title = showListName ? config.listName + ' \u2014 Spelling test' : 'Spelling test';
+  root.replaceChildren();
+  const header = el('header');
+  header.append(el('div', showListName ? config.listName : 'Spelling test', 'list-name'));
+  if (session.state !== 'welcome' && session.state !== 'complete') header.append(el('div', 'Words finished: ' + session.clearedCount + ' / ' + config.words.length, 'progress'));
+  const card = el('main', undefined, 'card');
+  root.append(header, card);
+  if (session.state === 'welcome') {
+    card.append(el('h1', 'Ready for spelling?'));
+    const form = el('form');
+    const label = el('label', 'What is your name?');
+    label.htmlFor = 'pupil-name';
+    const input = el('input', undefined, 'name-input');
+    input.id = 'pupil-name'; input.name = 'pupil-name'; input.autocomplete = 'off'; input.maxLength = 120;
+    const message = el('div', '', 'note'); message.setAttribute('role', 'status');
+    const start = el('button', 'Start'); start.type = 'submit';
+    const actions = el('div', undefined, 'actions'); actions.append(start);
+    form.append(label, input, tapKeyboard(input), actions, message);
+    form.addEventListener('submit', event => { event.preventDefault(); if (!session.start(input.value)) { message.textContent = 'Tap the letters in your name first.'; input.focus(); } else render(); });
+    card.append(form); focusInput(input);
+    return;
+  }
+  if (session.state === 'test') {
+    card.append(el('h1', 'Listen, then spell'));
+    const form = el('form');
+    const input = spellingInput();
+    const sentence = el('p', undefined, 'sentence');
+    session.item.sentenceParts.forEach((part, index) => {
+      sentence.append(document.createTextNode(part));
+      if (index < session.item.sentenceParts.length - 1) sentence.append(index === 0 ? input : document.createTextNode('_____'));
+    });
+    const audio = speechControls(() => session.item.word + '. ' + session.item.word + '. ' + session.item.sentence);
+    const submit = el('button', 'Submit'); submit.type = 'submit';
+    const actions = el('div', undefined, 'actions'); actions.append(submit);
+    const message = el('div', '', 'note'); message.setAttribute('role', 'status');
+    form.append(sentence, audio.group, audio.status, tapKeyboard(input), actions, message);
+    form.addEventListener('submit', event => { event.preventDefault(); if (!session.submitTest(input.value)) { message.textContent = 'Tap the letters to spell the word first.'; input.focus(); } else render(); });
+    card.append(form); focusInput(input);
+    return;
+  }
+  if (session.state === 'feedback') {
+    card.append(el('h1', session.feedback.correct ? 'Well done!' : 'Let\u2019s practise this word'));
+    card.append(feedbackMessage(session.item.word, session.feedback.attempt, session.feedback.correct));
+    card.append(button(session.feedback.correct ? 'Continue' : 'Start corrections', () => actionThenRender(() => session.continueFeedback())));
+    return;
+  }
+  if (session.state === 'correction-intro') {
+    card.append(el('div', 'Corrections', 'eyebrow'), el('h1', 'Let\u2019s learn this word'));
+    card.append(chunksView(session.item.chunks), el('p', [...session.item.word].join(' \u00b7 '), 'letters'));
+    const audio = speechControls(() => correctionSpeech(session.item.chunks));
+    audio.group.append(button('Start training', () => actionThenRender(() => session.startCorrections())));
+    card.append(audio.group, audio.status);
+    return;
+  }
+  if (session.state === 'correction-error') {
+    card.append(el('div', 'Corrections', 'eyebrow'), el('h1', 'Look at the spelling'));
+    card.append(feedbackMessage(session.correction.error.expected, session.correction.error.attempt));
+    card.append(button('Try again', () => actionThenRender(() => session.retryCorrection())));
+    return;
+  }
+  if (session.state === 'correction') {
+    const step = session.correctionStep;
+    card.append(el('div', 'Corrections', 'eyebrow'));
+    card.append(el('h1', step.kind === 'teach' ? (step.whole ? 'Spell the whole word' : 'Spell this part') : (step.whole ? 'Spell the whole word' : 'Spell that part again')));
+    if (step.kind === 'teach') {
+      card.append(chunksView(step.chunks));
+      if (step.whole || step.chunks.length === 1) card.append(el('p', [...step.answer].join(' \u00b7 '), 'letters'));
+    } else if (session.correction.required === 3) {
+      card.append(el('p', 'Correct in a row: ' + session.correction.streak + ' / 3', 'progress'));
+    }
+    const form = el('form');
+    const input = spellingInput(); input.setAttribute('aria-label', 'Spelling answer');
+    const audio = speechControls(() => step.kind === 'teach' ? correctionSpeech(step.chunks) : step.answer + '. ' + step.answer);
+    const submit = el('button', 'Check'); submit.type = 'submit';
+    const actions = el('div', undefined, 'actions'); actions.append(submit);
+    const message = el('div', '', 'note'); message.setAttribute('role', 'status');
+    form.append(input, audio.group, audio.status, tapKeyboard(input), actions, message);
+    form.addEventListener('submit', event => { event.preventDefault(); if (!session.submitCorrection(input.value)) { message.textContent = 'Tap the letters first.'; input.focus(); } else render(); });
+    card.append(form); focusInput(input);
+    return;
+  }
+  if (session.state === 'correction-done') {
+    card.append(el('h1', 'Corrections finished'), el('p', 'You will practise this word again later.'));
+    card.append(button('Continue spelling test', () => actionThenRender(() => session.finishCorrections())));
+    return;
+  }
+  if (session.state === 'complete') {
+    card.append(el('h1', session.name + ' has completed the ' + config.listName + ' spelling test'));
+    card.append(el('p', 'Every word is finished. Well done!', 'success'));
+  }
+}
+window.addEventListener('pagehide', stopSpeech);
+render();
+</script>
+
+<!-- ============================================================
+     ADDED COMPONENT: Ice Hockey Shootout arcade reward (Library game #54)
+     This module is purely additive. It does not modify, wrap or replace any
+     original spelling-test variable, function, event handler, style or DOM node.
+     All markup and CSS live inside a closed-off shadow root; all state is
+     private to the IIFE below. Deleting this one script restores the original.
+     ============================================================ -->
+<div id="hockey-reward-host"></div>
+<script id="hockey-reward-module">
+(function () {
+  'use strict';
+  var host = document.getElementById('hockey-reward-host');
+  if (!host || !host.attachShadow) return;
+  var sr = host.attachShadow({ mode: 'open' });
+
+  /* ---------- arcade state (completely separate from academic records) ---------- */
+  var arcade = { points: 0, shots: 0, goals: 0, saves: 0, wide: 0, noShot: 0, best: 0 };
+  var musicOn = true, sfxOn = true, roundActive = false, pendingTimer = null;
+
+  /* ---------- shadow DOM styles (cannot leak to the original page) ---------- */
+  var css = document.createElement('style');
+  css.textContent = [
+    ':host{all:initial}',
+    '*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}',
+    '.bar{max-width:900px;margin:18px auto 0;display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;',
+    'background:#0d2b45;color:#fff;border-radius:16px;padding:12px 16px;font-size:17px}',
+    '.bar .ttl{font-weight:700;letter-spacing:.02em}',
+    '.bar .pts{background:#f7b942;color:#1b2a16;font-weight:700;border-radius:999px;padding:5px 14px}',
+    '.bar .sp{flex:1 1 auto}',
+    '.bar button{cursor:pointer;font:inherit;font-size:15px;min-height:44px;padding:8px 14px;border-radius:10px;',
+    'border:2px solid #7fb4dc;background:#143a5c;color:#fff}',
+    '.bar button[aria-pressed="false"]{background:#5d6a74;border-color:#93a1ab;text-decoration:line-through}',
+    '.bar button:focus-visible{outline:4px solid #f7b942;outline-offset:2px}',
+    '.sum{max-width:900px;margin:10px auto 0;background:#eaf3fa;border:2px solid #b9d3e6;border-radius:16px;',
+    'padding:14px 18px;color:#143a5c;font-size:17px;line-height:1.6}',
+    '.sum b{display:block;font-size:19px;margin-bottom:6px}',
+    '.wrap{position:fixed;inset:0;z-index:2147483000;display:none;align-items:center;justify-content:center;',
+    'background:rgba(6,20,34,.82);padding:12px;touch-action:none}',
+    '.wrap.on{display:flex}',
+    '.panel{width:min(96vw,520px);background:#0d2b45;border:3px solid #7fb4dc;border-radius:20px;padding:12px;',
+    'box-shadow:0 18px 50px rgba(0,0,0,.5)}',
+    '.head{display:flex;align-items:center;gap:10px;color:#fff;font-size:16px;margin:0 2px 8px}',
+    '.head .hint{font-weight:700}',
+    '.head .sc{margin-left:auto;background:#f7b942;color:#1b2a16;font-weight:700;border-radius:999px;padding:4px 12px}',
+    'canvas{display:block;width:100%;height:auto;border-radius:14px;background:#eaf6ff;touch-action:none}',
+    '.tb{height:10px;border-radius:999px;background:#174268;margin-top:9px;overflow:hidden}',
+    '.tb i{display:block;height:100%;width:100%;background:#6fe3a6;border-radius:999px}',
+    '.res{color:#fff;text-align:center;font-size:20px;font-weight:700;margin-top:9px;min-height:28px}',
+    '@media (max-width:520px){.bar{margin:14px 8px 0}.sum{margin:10px 8px 0}}'
+  ].join('');
+  sr.appendChild(css);
+
+  /* ---------- persistent bar (sits below the activity, obstructs nothing) ---------- */
+  var bar = document.createElement('div');
+  bar.className = 'bar';
+  bar.innerHTML = '<span class="ttl">&#127954; Ice Hockey Shootout</span>' +
+    '<span class="pts" id="hk-pts">0 arcade points</span><span class="sp"></span>';
+  var mBtn = document.createElement('button');
+  var sBtn = document.createElement('button');
+  mBtn.type = sBtn.type = 'button';
+  mBtn.textContent = 'Music'; sBtn.textContent = 'Sound effects';
+  mBtn.setAttribute('aria-pressed', 'true'); sBtn.setAttribute('aria-pressed', 'true');
+  mBtn.addEventListener('click', function () { musicOn = !musicOn; mBtn.setAttribute('aria-pressed', String(musicOn)); if (!musicOn) stopMusic(); });
+  sBtn.addEventListener('click', function () { sfxOn = !sfxOn; sBtn.setAttribute('aria-pressed', String(sfxOn)); });
+  bar.append(mBtn, sBtn);
+  sr.appendChild(bar);
+  var ptsEl = bar.querySelector('#hk-pts');
+  var summary = document.createElement('div');
+  summary.className = 'sum';
+  summary.style.display = 'none';
+  sr.appendChild(summary);
+
+  /* ---------- overlay ---------- */
+  var wrap = document.createElement('div');
+  wrap.className = 'wrap';
+  wrap.setAttribute('role', 'dialog');
+  wrap.setAttribute('aria-label', 'Ice hockey bonus shot');
+  wrap.innerHTML =
+    '<div class="panel">' +
+      '<div class="head"><span class="hint" id="hk-hint">Drag to aim \u2014 let go to shoot!</span>' +
+      '<span class="sc" id="hk-sc">0</span></div>' +
+      '<canvas id="hk-cv" width="480" height="360" aria-label="Ice rink"></canvas>' +
+      '<div class="tb"><i id="hk-tb"></i></div>' +
+      '<div class="res" id="hk-res" role="status"></div>' +
+    '</div>';
+  sr.appendChild(wrap);
+  var cv = wrap.querySelector('#hk-cv'), ctx = cv.getContext('2d');
+  var hintEl = wrap.querySelector('#hk-hint'), scEl = wrap.querySelector('#hk-sc');
+  var tbEl = wrap.querySelector('#hk-tb'), resEl = wrap.querySelector('#hk-res');
+
+  function refreshBar() {
+    ptsEl.textContent = arcade.points + (arcade.points === 1 ? ' arcade point' : ' arcade points');
+  }
+  refreshBar();
+
+  /* ================= MIDI-style audio engine (Web Audio, no files) ================= */
+  var AC = window.AudioContext || window.webkitAudioContext, ac = null, musicGain = null, musicTimer = null;
+  function audio() {
+    if (!AC) return null;
+    if (!ac) { ac = new AC(); }
+    if (ac.state === 'suspended') ac.resume();
+    return ac;
+  }
+  function tone(freq, at, dur, type, vol, dest) {
+    var a = audio(); if (!a) return;
+    var o = a.createOscillator(), g = a.createGain();
+    o.type = type || 'square'; o.frequency.setValueAtTime(freq, at);
+    g.gain.setValueAtTime(0.0001, at);
+    g.gain.exponentialRampToValueAtTime(vol, at + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, at + dur);
+    o.connect(g); g.connect(dest || a.destination);
+    o.start(at); o.stop(at + dur + 0.03);
+  }
+  function noise(at, dur, vol, hp) {
+    var a = audio(); if (!a) return;
+    var len = Math.max(1, Math.floor(a.sampleRate * dur));
+    var buf = a.createBuffer(1, len, a.sampleRate), d = buf.getChannelData(0);
+    for (var i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len);
+    var src = a.createBufferSource(); src.buffer = buf;
+    var f = a.createBiquadFilter(); f.type = 'highpass'; f.frequency.value = hp || 900;
+    var g = a.createGain(); g.gain.setValueAtTime(vol, at);
+    src.connect(f); f.connect(g); g.connect(a.destination);
+    src.start(at); src.stop(at + dur);
+  }
+  /* original 2-bar arena march, loops seamlessly */
+  var BAR = 1.92;
+  var LEAD = [[0,.24,392],[.24,.24,523],[.48,.24,587],[.72,.24,523],[.96,.48,659],[1.44,.24,587],[1.68,.24,523],
+              [1.92,.24,440],[2.16,.24,523],[2.40,.24,659],[2.64,.24,587],[2.88,.48,523],[3.36,.48,392]];
+  var BASS = [[0,.44,131],[.48,.44,196],[.96,.44,165],[1.44,.44,196],
+              [1.92,.44,147],[2.40,.44,196],[2.88,.44,131],[3.36,.44,196]];
+  function scheduleBars(t0) {
+    var a = audio(); if (!a || !musicGain) return;
+    LEAD.forEach(function (n) { tone(n[2], t0 + n[0], n[1], 'square', 0.085, musicGain); });
+    BASS.forEach(function (n) { tone(n[2], t0 + n[0], n[1], 'triangle', 0.13, musicGain); });
+    for (var i = 0; i < 16; i++) noiseTick(t0 + i * 0.24);
+  }
+  function noiseTick(at) {
+    var a = audio(); if (!a || !musicGain) return;
+    var len = Math.floor(a.sampleRate * 0.03), buf = a.createBuffer(1, len, a.sampleRate), d = buf.getChannelData(0);
+    for (var i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len);
+    var s = a.createBufferSource(); s.buffer = buf;
+    var g = a.createGain(); g.gain.setValueAtTime(0.05, at);
+    s.connect(g); g.connect(musicGain); s.start(at); s.stop(at + 0.03);
+  }
+  function startMusic() {
+    if (!musicOn) return;
+    var a = audio(); if (!a) return;
+    musicGain = a.createGain(); musicGain.gain.value = 0.5; musicGain.connect(a.destination);
+    scheduleBars(a.currentTime + 0.05);
+    musicTimer = setInterval(function () { if (musicGain) scheduleBars(ac.currentTime + 0.05); }, BAR * 2 * 1000);
+  }
+  function stopMusic() {
+    if (musicTimer) { clearInterval(musicTimer); musicTimer = null; }
+    if (musicGain && ac) {
+      try { musicGain.gain.setTargetAtTime(0.0001, ac.currentTime, 0.04); } catch (e) {}
+      var g = musicGain; musicGain = null;
+      setTimeout(function () { try { g.disconnect(); } catch (e) {} }, 400);
+    }
+  }
+  var sfx = {
+    shoot: function () { if (!sfxOn || !audio()) return; var t = ac.currentTime; noise(t, 0.07, 0.3, 1600); tone(220, t, 0.09, 'sawtooth', 0.18); },
+    save:  function () { if (!sfxOn || !audio()) return; var t = ac.currentTime; tone(150, t, 0.16, 'square', 0.22); noise(t, 0.12, 0.22, 400); },
+    post:  function () { if (!sfxOn || !audio()) return; var t = ac.currentTime; tone(1480, t, 0.22, 'triangle', 0.2); },
+    wide:  function () { if (!sfxOn || !audio()) return; var t = ac.currentTime; tone(300, t, 0.18, 'sine', 0.16); tone(220, t + 0.14, 0.24, 'sine', 0.14); },
+    goal:  function () { if (!sfxOn || !audio()) return; var t = ac.currentTime;
+             [523, 659, 784, 1047].forEach(function (f, i) { tone(f, t + i * 0.07, 0.3, 'square', 0.2); });
+             noise(t + 0.05, 0.5, 0.12, 500); },
+    whistle: function () { if (!sfxOn || !audio()) return; var t = ac.currentTime; tone(1760, t, 0.14, 'sine', 0.14); }
+  };
+
+  /* ---------- GAMEPLAY ---------- */
+
+  var W = 480, H = 360;
+  var ROUND_MS = 7000;           /* hard cap for the whole reward, incl. result */
+  var AIM_MS = 3200;             /* time allowed to aim before auto-end */
+  var g = null, raf = 0, roundStart = 0;
+
+  function resizeCanvas() {
+    var max = Math.min(window.innerWidth - 46, 496);
+    cv.style.width = Math.max(240, max) + 'px';
+  }
+
+  function newRound() {
+    g = {
+      phase: 'aim',                     /* aim -> fly -> done */
+      puck: { x: W / 2, y: H - 54, vx: 0, vy: 0 },
+      drag: null,                       /* {x,y} current pointer while aiming */
+      goalie: { x: W / 2, dir: (Math.random() < 0.5 ? -1 : 1), sp: 1.5 + Math.random() * 1.1 },
+      dive: null, result: null, pts: 0, flash: 0, t0: performance.now()
+    };
+  }
+
+  /* goal mouth geometry */
+  var GL = W / 2 - 86, GR = W / 2 + 86, GY = 56, GH = 72;
+
+  function draw() {
+    /* ice */
+    ctx.fillStyle = '#eaf6ff'; ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = '#c3dcef'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.arc(W / 2, GY + GH + 70, 56, 0, Math.PI * 2); ctx.stroke();
+    ctx.strokeStyle = '#e06a6a'; ctx.lineWidth = 4;
+    ctx.beginPath(); ctx.moveTo(0, GY + GH + 6); ctx.lineTo(W, GY + GH + 6); ctx.stroke();
+    ctx.fillStyle = '#dceefb';
+    ctx.beginPath(); ctx.arc(W / 2, GY + GH + 6, 70, Math.PI, 0); ctx.fill();
+
+    /* crowd band */
+    ctx.fillStyle = '#123a5e'; ctx.fillRect(0, 0, W, GY - 16);
+    for (var i = 0; i < 46; i++) {
+      ctx.fillStyle = ['#2f6f9e', '#f7b942', '#e2eef7', '#6fe3a6'][i % 4];
+      ctx.beginPath(); ctx.arc(10 + (i * 103) % (W - 14), 10 + ((i * 37) % 22), 5, 0, Math.PI * 2); ctx.fill();
+    }
+
+    /* net */
+    ctx.fillStyle = 'rgba(255,255,255,.92)'; ctx.fillRect(GL, GY, GR - GL, GH);
+    ctx.strokeStyle = '#9fc2d8'; ctx.lineWidth = 1;
+    for (var x = GL + 10; x < GR; x += 10) { ctx.beginPath(); ctx.moveTo(x, GY); ctx.lineTo(x, GY + GH); ctx.stroke(); }
+    for (var y = GY + 10; y < GY + GH; y += 10) { ctx.beginPath(); ctx.moveTo(GL, y); ctx.lineTo(GR, y); ctx.stroke(); }
+    ctx.strokeStyle = '#d33b3b'; ctx.lineWidth = 7;
+    ctx.beginPath(); ctx.moveTo(GL, GY + GH); ctx.lineTo(GL, GY); ctx.lineTo(GR, GY); ctx.lineTo(GR, GY + GH); ctx.stroke();
+
+    /* goalie */
+    var gx = g.dive ? g.dive.x : g.goalie.x, gy = GY + GH - 26, lean = g.dive ? g.dive.lean : 0;
+    ctx.save(); ctx.translate(gx, gy); ctx.rotate(lean);
+    ctx.fillStyle = '#1f4f86';
+    ctx.beginPath(); ctx.roundRect(-17, -32, 34, 46, 9); ctx.fill();
+    ctx.fillStyle = '#f2d6b8';
+    ctx.beginPath(); ctx.arc(0, -42, 12, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#1f4f86';
+    ctx.beginPath(); ctx.arc(0, -45, 13, Math.PI, 0); ctx.fill();
+    ctx.fillStyle = '#7fb4dc';                       /* pads */
+    ctx.beginPath(); ctx.roundRect(-34, -20, 16, 34, 6); ctx.fill();
+    ctx.beginPath(); ctx.roundRect(18, -20, 16, 34, 6); ctx.fill();
+    ctx.fillStyle = '#c9402f';                       /* blocker */
+    ctx.beginPath(); ctx.roundRect(-44, -8, 13, 20, 4); ctx.fill();
+    ctx.restore();
+
+    /* aim guide */
+    if (g.phase === 'aim' && g.drag) {
+      var a = aimVector();
+      ctx.strokeStyle = 'rgba(23,66,104,.55)'; ctx.lineWidth = 4; ctx.setLineDash([9, 8]);
+      ctx.beginPath(); ctx.moveTo(g.puck.x, g.puck.y);
+      ctx.lineTo(g.puck.x + a.dx * 2.6, g.puck.y + a.dy * 2.6); ctx.stroke();
+      ctx.setLineDash([]);
+      /* power pip */
+      ctx.fillStyle = '#f7b942';
+      ctx.beginPath(); ctx.arc(g.puck.x + a.dx * 2.6, g.puck.y + a.dy * 2.6, 7, 0, Math.PI * 2); ctx.fill();
+    }
+
+    /* stick + puck */
+    if (g.phase === 'aim') {
+      ctx.strokeStyle = '#8a5a2b'; ctx.lineWidth = 7; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(g.puck.x - 34, g.puck.y + 30); ctx.lineTo(g.puck.x - 8, g.puck.y + 4); ctx.stroke();
+    }
+    ctx.fillStyle = '#10222e';
+    ctx.beginPath(); ctx.ellipse(g.puck.x, g.puck.y, 11, 8, 0, 0, Math.PI * 2); ctx.fill();
+
+    if (g.flash > 0) {
+      ctx.fillStyle = 'rgba(255,255,255,' + (g.flash * 0.5) + ')';
+      ctx.fillRect(0, 0, W, H); g.flash -= 0.06;
+    }
+    if (g.result) {
+      ctx.fillStyle = 'rgba(13,43,69,.78)'; ctx.fillRect(0, H / 2 - 42, W, 84);
+      ctx.fillStyle = g.result === 'GOAL!' ? '#ffd864' : '#ffffff';
+      ctx.font = 'bold 40px Arial'; ctx.textAlign = 'center';
+      ctx.fillText(g.result, W / 2, H / 2 + 6);
+      ctx.font = 'bold 20px Arial'; ctx.fillStyle = '#cfe6f7';
+      ctx.fillText('+' + g.pts + (g.pts === 1 ? ' point' : ' points'), W / 2, H / 2 + 32);
+    }
+  }
+
+  function aimVector() {
+    var dx = g.drag.x - g.puck.x, dy = g.drag.y - g.puck.y;
+    if (dy > -24) dy = -24;                       /* always forward, toward the net */
+    var len = Math.hypot(dx, dy) || 1;
+    var power = Math.min(len, 150) / 150;
+    var speed = 7.5 + power * 7.5;
+    return { dx: dx / len * 46, dy: dy / len * 46, vx: dx / len * speed, vy: dy / len * speed };
+  }
+
+  function shoot() {
+    if (g.phase !== 'aim' || !g.drag) return;
+    var a = aimVector();
+    g.puck.vx = a.vx; g.puck.vy = a.vy;
+    g.phase = 'fly';
+    hintEl.textContent = 'Shot away!';
+    sfx.shoot();
+    /* goalie commits to a dive once the puck is on its way */
+    var guess = g.goalie.x + (Math.random() * 150 - 75);
+    g.dive = { x: g.goalie.x, to: Math.max(GL + 18, Math.min(GR - 18, guess)), lean: 0 };
+  }
+
+  function finish(result, pts) {
+    if (g.phase === 'done') return;
+    g.phase = 'done'; g.result = result; g.pts = pts; g.flash = 1;
+    arcade.shots++; arcade.points += pts;
+    if (pts > arcade.best) arcade.best = pts;
+    if (result === 'GOAL!') { arcade.goals++; sfx.goal(); }
+    else if (result === 'SAVED!') { arcade.saves++; sfx.save(); }
+    else if (result === 'NO SHOT') { arcade.noShot++; sfx.whistle(); }
+    else { arcade.wide++; sfx.wide(); }
+    scEl.textContent = String(arcade.points);
+    hintEl.textContent = result === 'GOAL!' ? 'Top shelf!' : 'Next word coming up';
+    refreshBar();
+    setTimeout(closeRound, 1150);
+  }
+
+  function step(now) {
+    if (!roundActive) return;
+    var elapsed = now - roundStart;
+    tbEl.style.width = Math.max(0, 100 - elapsed / ROUND_MS * 100) + '%';
+
+    if (g.phase === 'aim') {
+      g.goalie.x += g.goalie.dir * g.goalie.sp;
+      if (g.goalie.x < GL + 24) { g.goalie.x = GL + 24; g.goalie.dir = 1; }
+      if (g.goalie.x > GR - 24) { g.goalie.x = GR - 24; g.goalie.dir = -1; }
+      if (elapsed > AIM_MS) finish('NO SHOT', 0);
+    } else if (g.phase === 'fly') {
+      g.puck.x += g.puck.vx; g.puck.y += g.puck.vy;
+      if (g.dive) {
+        g.dive.x += (g.dive.to - g.dive.x) * 0.22;
+        g.dive.lean = Math.max(-0.5, Math.min(0.5, (g.dive.to - g.goalie.x) / 180));
+      }
+      if (g.puck.x < 10 || g.puck.x > W - 10) g.puck.vx *= -1;   /* board bounce */
+
+      var gx = g.dive ? g.dive.x : g.goalie.x;
+      /* goalie body line */
+      if (g.puck.y <= GY + GH - 4 && g.puck.y >= GY + GH - 34 && Math.abs(g.puck.x - gx) < 34) {
+        finish('SAVED!', 0); return;
+      }
+      if (g.puck.y <= GY + 10) {
+        if (g.puck.x > GL + 6 && g.puck.x < GR - 6) {
+          var edge = Math.min(g.puck.x - GL, GR - g.puck.x);
+          finish('GOAL!', edge < 30 ? 5 : 3);                     /* corners worth more */
+        } else if (g.puck.x > GL - 14 && g.puck.x < GR + 14) {
+          sfx.post(); finish('OFF THE POST', 1);
+        } else finish('WIDE!', 0);
+        return;
+      }
+      if (g.puck.y < -20 || elapsed > ROUND_MS - 1200) { finish('WIDE!', 0); return; }
+    }
+    draw();
+    raf = requestAnimationFrame(step);
+  }
+
+  /* pointer handling: works for mouse and touch, never scrolls the page */
+  function pos(ev) {
+    var r = cv.getBoundingClientRect();
+    var p = ev.touches && ev.touches[0] ? ev.touches[0] : ev;
+    return { x: (p.clientX - r.left) * (W / r.width), y: (p.clientY - r.top) * (H / r.height) };
+  }
+  function down(ev) { if (!roundActive || g.phase !== 'aim') return; ev.preventDefault(); g.drag = pos(ev); }
+  function move(ev) { if (!roundActive || g.phase !== 'aim' || !g.drag) return; ev.preventDefault(); g.drag = pos(ev); }
+  function up(ev)   { if (!roundActive || g.phase !== 'aim') return; ev.preventDefault(); shoot(); }
+  cv.addEventListener('mousedown', down); cv.addEventListener('mousemove', move);
+  cv.addEventListener('mouseup', up); cv.addEventListener('mouseleave', function () { if (roundActive && g && g.phase === 'aim' && g.drag) shoot(); });
+  cv.addEventListener('touchstart', down, { passive: false });
+  cv.addEventListener('touchmove', move, { passive: false });
+  cv.addEventListener('touchend', up, { passive: false });
+  cv.addEventListener('touchcancel', up, { passive: false });
+
+  function openRound() {
+    if (roundActive) return;                     /* never two rounds at once */
+    roundActive = true;
+    newRound();
+    resizeCanvas();
+    resEl.textContent = '';
+    hintEl.textContent = 'Drag to aim \u2014 let go to shoot!';
+    scEl.textContent = String(arcade.points);
+    tbEl.style.width = '100%';
+    wrap.classList.add('on');
+    startMusic();
+    roundStart = performance.now();
+    raf = requestAnimationFrame(step);
+  }
+  function closeRound() {
+    if (!roundActive) return;
+    roundActive = false;
+    cancelAnimationFrame(raf);
+    stopMusic();
+    wrap.classList.remove('on');
+  }
+  window.addEventListener('resize', function () { if (roundActive) resizeCanvas(); });
+
+
+  /* ================= non-invasive correctness detection ================= */
+  /* The original engine exposes a read-only state machine. We only READ it.
+     A reward is granted exactly once per correct TEST submission (session.feedback
+     is a brand-new object per submitTest call, so object identity de-duplicates).
+     Correction-stage answers never grant a reward. */
+  var seenFeedback = null, lastState = null;
+  function poll() {
+    if (typeof session === 'undefined' || !session) return;
+    var st = session.state;
+    if (st === 'feedback' && session.feedback && session.feedback !== seenFeedback) {
+      seenFeedback = session.feedback;
+      if (session.feedback.correct === true) {
+        if (pendingTimer) clearTimeout(pendingTimer);
+        pendingTimer = setTimeout(function () { pendingTimer = null; openRound(); }, 900);
+      }
+    }
+    if (st !== lastState) {
+      lastState = st;
+      if (st === 'complete') showSummary(); else summary.style.display = 'none';
+    }
+  }
+  function showSummary() {
+    summary.style.display = '';
+    summary.innerHTML = '<b>Arcade results (separate from the spelling result)</b>' +
+      'Bonus shots taken: ' + arcade.shots + '<br>' +
+      'Goals: ' + arcade.goals + ' &nbsp;|&nbsp; Saved: ' + arcade.saves +
+      ' &nbsp;|&nbsp; Missed the net: ' + arcade.wide +
+      (arcade.noShot ? ' &nbsp;|&nbsp; No shot in time: ' + arcade.noShot : '') + '<br>' +
+      'Best single shot: ' + arcade.best + ' &nbsp;|&nbsp; <strong>Total arcade points: ' + arcade.points + '</strong>';
+  }
+  var appRoot = document.getElementById('app');
+  if (appRoot && window.MutationObserver) {
+    new MutationObserver(poll).observe(appRoot, { childList: true, subtree: true });
+  }
+  setInterval(poll, 400);
+  poll();
+})();
+</script>
+</body>
+</html>
